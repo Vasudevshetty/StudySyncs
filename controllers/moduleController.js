@@ -1,5 +1,5 @@
-const Module = require("../models/Module");
-const Subject = require("../models/Subject");
+const Module = require("../models/ModuleModel");
+const Subject = require("../models/SubjectModel");
 
 exports.getModules = async (req, res) => {
   try {

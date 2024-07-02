@@ -1,5 +1,5 @@
-const Subject = require("../models/Subject");
-const Semester = require("../models/Semester");
+const Subject = require("../models/SubjectModel");
+const Semester = require("../models/SemesterModel");
 
 exports.getSubjects = async (req, res) => {
   try {

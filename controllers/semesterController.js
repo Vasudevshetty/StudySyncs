@@ -1,5 +1,5 @@
-const Semester = require("../models/Semester");
-const Course = require("../models/Course");
+const Semester = require("../models/SemesterModel");
+const Course = require("../models/CourseModel");
 
 exports.getSemesters = async (req, res) => {
   try {

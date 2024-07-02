@@ -1,4 +1,4 @@
-const College = require("../models/College");
+const College = require("../models/CollegeModel");
 
 exports.getColleges = async (req, res) => {
   try {
