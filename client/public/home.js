@@ -226,50 +226,15 @@ document
     document.getElementById("root").style.display = "block";
     closeModal();
     history.pushState(null, "", "/app");
-    removeHomePageStylesAndScripts();
   });
-
-function removeHomePageStylesAndScripts() {
-  // Remove home page CSS
-  const homeCss = document.querySelector('link[href="/home.css"]');
-  if (homeCss) {
-    homeCss.parentNode.removeChild(homeCss);
-  }
-
-  // Remove home page JS
-  const homeJs = document.querySelector('script[src="/home.js"]');
-  if (homeJs) {
-    homeJs.parentNode.removeChild(homeJs);
-  }
-}
 
 // Listen for popstate event (back/forward navigation)
 window.addEventListener("popstate", function (e) {
   e.preventDefault();
   // Check if we are on the home page (/)
   if (location.pathname === "/") {
-    // Create a new link element
-    const link = document.createElement("link");
-    link.rel = "preload";
-    link.href = "/home.css";
-    link.as = "style";
-
-    // Define onload handler to change rel attribute once loaded
-    link.onload = function () {
-      this.onload = null; // Prevent memory leaks
-      this.rel = "stylesheet";
-    };
-
-    // Append the link element to the document head
-    document.head.appendChild(link);
-    // Restore home page JavaScript
-    const homeJs = document.createElement("script");
-    homeJs.src = "/home.js";
-    document.body.appendChild(homeJs);
-
     document.getElementById("home-page").style.display = "block";
     document.getElementById("root").style.display = "none";
-    // Reload or rerender your vanilla home page here as needed
     location.reload(); // This reloads the page, you can customize this logic
   }
 });
