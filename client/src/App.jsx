@@ -1,7 +1,7 @@
 import AppPage from "./components/AppPage";
 
-const App = () => {
+function App() {
   return <AppPage />;
-};
+}
 
 export default App;
