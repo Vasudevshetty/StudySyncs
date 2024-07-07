@@ -1,13 +1,13 @@
-function Header() {
+function Header({ toggleModal }) {
   return (
     <header className="header">
-      <Navbar />
+      <Navbar toggleModal={toggleModal} />
       <Title />
     </header>
   );
 }
 
-function Navbar() {
+function Navbar({ toggleModal }) {
   return (
     <nav className="nav">
       <a href="/">
@@ -29,7 +29,11 @@ function Navbar() {
           );
         })}
         <li className="nav__item">
-          <a href="#" className="nav__link nav__link--btn btn--show-modal">
+          <a
+            href="#"
+            className="nav__link nav__link--btn btn--show-modal"
+            onClick={toggleModal}
+          >
             Explore more
           </a>
         </li>
