@@ -6,12 +6,12 @@ function Modal({ isModalOpen, toggleModal }) {
       if (e.key === "Escape") toggleModal();
     };
 
-    document.addEventListener("keydown", handleEsc);
+    if (isModalOpen) document.addEventListener("keydown", handleEsc);
 
     return () => {
       document.removeEventListener("keydown", handleEsc);
     };
-  }, [isModalOpen]);
+  }, [isModalOpen, toggleModal]);
 
   return (
     <div className={`modal ${!isModalOpen ? "hidden" : ""}`}>
