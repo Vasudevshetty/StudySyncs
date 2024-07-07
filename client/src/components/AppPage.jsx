@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { storage, firestore } from "../../firebaseConfig"; // Check that this import correctly initializes Firebase
+import { storage } from "../../firebaseConfig"; // Check that this import correctly initializes Firebase
 import { ref, listAll, getDownloadURL } from "firebase/storage";
 
 function AppPage() {
@@ -8,7 +8,7 @@ function AppPage() {
   useEffect(() => {
     const fetchFiles = async () => {
       try {
-        const storageRef = ref(storage, "sjce/cse/sem-4/22CS410/module-1");
+        const storageRef = ref(storage, "sjce/cse/sem-4/22CS410/module-4");
         const listResult = await listAll(storageRef);
 
         const fileList = listResult.items.map(async (itemRef) => {
