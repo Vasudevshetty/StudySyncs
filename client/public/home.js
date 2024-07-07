@@ -216,25 +216,3 @@ const init = function () {
   goToSlide(0);
 };
 init();
-
-document
-  .querySelector(".modal__form")
-  .addEventListener("submit", function (event) {
-    event.preventDefault();
-
-    document.getElementById("home-page").style.display = "none";
-    document.getElementById("root").style.display = "block";
-    closeModal();
-    history.pushState(null, "", "/app");
-  });
-
-// Listen for popstate event (back/forward navigation)
-window.addEventListener("popstate", function (e) {
-  e.preventDefault();
-  // Check if we are on the home page (/)
-  if (location.pathname === "/") {
-    document.getElementById("home-page").style.display = "block";
-    document.getElementById("root").style.display = "none";
-    location.reload(); // This reloads the page, you can customize this logic
-  }
-});
