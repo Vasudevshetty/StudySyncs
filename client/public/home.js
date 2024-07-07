@@ -11,30 +11,6 @@ const tabs = document.querySelectorAll(".operations__tab");
 const tabsContainer = document.querySelector(".operations__tab-container");
 const tabsContent = document.querySelectorAll(".operations__content");
 
-const openModal = function (e) {
-  e.preventDefault();
-  modal.classList.remove("hidden");
-  overlay.classList.remove("hidden");
-};
-
-const closeModal = function () {
-  modal.classList.add("hidden");
-  overlay.classList.add("hidden");
-};
-
-btnsOpenModal.forEach((btn) => btn.addEventListener("click", openModal));
-
-btnCloseModal.addEventListener("click", closeModal);
-overlay.addEventListener("click", closeModal);
-
-document.addEventListener("keydown", function (e) {
-  if (e.key === "Escape" && !modal.classList.contains("hidden")) closeModal();
-});
-
-btnScrollTo.addEventListener("click", function () {
-  section1.scrollIntoView({ behavior: "smooth" });
-});
-
 // event delegation
 document.querySelector(".nav__links").addEventListener("click", function (e) {
   e.preventDefault();
@@ -42,24 +18,6 @@ document.querySelector(".nav__links").addEventListener("click", function (e) {
     const id = e.target.getAttribute("href");
     document.querySelector(id).scrollIntoView({ behavior: "smooth" });
   }
-});
-
-// tabbed content
-tabsContainer.addEventListener("click", function (e) {
-  const clicked = e.target.closest(".operations__tab");
-
-  if (!clicked) return;
-
-  tabs.forEach((tab) => tab.classList.remove("operations__tab--active"));
-  clicked.classList.add("operations__tab--active");
-  tabsContent.forEach((tabs) =>
-    tabs.classList.remove("operations__content--active")
-  );
-
-  const tabNo = clicked.getAttribute("data-tab");
-
-  const tabContent = document.querySelector(`.operations__content--${tabNo}`);
-  tabContent.classList.add("operations__content--active");
 });
 
 const menuFadeHandler = function (e) {
