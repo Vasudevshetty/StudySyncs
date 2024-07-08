@@ -12,12 +12,8 @@ const Header = React.forwardRef(function Header({ toggleModal, navRef }, ref) {
 function Navbar({ toggleModal, navRef }) {
   return (
     <nav className="nav" ref={navRef}>
-      <a href="#" id="logo">
-        <img
-          src="img/logo-final-light.png"
-          alt=""
-          className="nav__logo"
-        />
+      <a  id="logo">
+        <img src="img/logo-final-light.png" alt="" className="nav__logo" />
       </a>
       <ul className="nav__links">
         {["Features", "Operations", "Testimonials"].map((item, index) => (
@@ -30,7 +26,7 @@ function Navbar({ toggleModal, navRef }) {
         <li className="nav__item">
           <a
             href="#"
-            className="nav__link nav__link--btn btn--show-modal"
+            className="explore__link nav__link--btn btn--show-modal"
             onClick={toggleModal}
           >
             Explore more

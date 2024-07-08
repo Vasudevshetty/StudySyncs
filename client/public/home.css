@@ -149,6 +149,16 @@ img {
   transform: all 0.3s;
 }
 
+.explore__link:link,
+.explore__link:visited {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: inherit;
+  text-decoration: none;
+  display: block;
+  transform: all 0.3s;
+}
+
 .nav__link--btn:link,
 .nav__link--btn:visited {
   padding: 0.8rem 2.5rem;

@@ -13,7 +13,7 @@ function Features() {
         entry.target.addEventListener("load", () => {
           entry.target.classList.remove("lazy-img");
         });
-        observer.unobserve(entry.target);
+        if (entry.target instanceof Element) observer.unobserve(entry.target);
       });
     };
 
@@ -27,7 +27,9 @@ function Features() {
 
     return () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      imgRefs.current.forEach((img) => imgObserver.unobserve(img));
+      imgRefs.current.forEach((img) => {
+        if (img instanceof Element) imgObserver.unobserve(img);
+      });
     };
   }, []);
 
