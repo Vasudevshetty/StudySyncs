@@ -1,13 +1,13 @@
 import Navbar from "./Navbar";
 import MainContent from "./MainContent";
 import Sidebar from "./Sidebar";
-import "../../../public/app.css";
+import styles from "./styles/app.module.css";
 
 function AppPage() {
   return (
-    <div className="app">
+    <div className={styles.app}>
       <Navbar />
-      <div className="app__body">
+      <div className={styles.appBody}>
         <Sidebar />
         <MainContent />
       </div>

@@ -1,23 +1,42 @@
+import { useNavigate } from "react-router-dom";
+import styles from "./styles/app.module.css";
+
 function Navbar() {
+  const navigate = useNavigate();
+
   return (
-    <div className="navbar">
-      {/* <div className="navbar__logo">
-        <img src="img/syncs-final.png" alt="Logo" />
-      </div>
-      <div className="navbar__search">
-        <input type="text" placeholder="Search..." />
-        <button className="navbar__searchButton">Search</button>
-      </div>
-      <div className="navbar__menu">
-        <button>Forum</button>
-        <button>Get Help</button>
+    <nav className={styles.navbar}>
+      <div className={styles.navLeftblock}>
         <img
-          src="img/user-1.jpg"
-          alt="User Profile"
-          className="navbar__profilePicture"
+          src="img/menu-sidebar.png"
+          className={styles.navIcon}
+          alt="sidebar icon"
         />
-      </div> */}
-    </div>
+        <img
+          src="img/logo-final-light.png"
+          alt="logo"
+          className={styles.navLogo}
+          onClick={() => navigate("/app")}
+        />
+      </div>
+
+      <div className={styles.navMid}>
+        <input
+          type="text"
+          placeholder="Search with subject code"
+          className={styles.navSearch}
+        />
+        <button className={styles.searchButton}>
+          <img src="img/search.png" alt="search" className={styles.navIcon} />
+        </button>
+      </div>
+
+      <div className={styles.navRightblock}>
+        <img src="img/bookmark.png" alt="user" className={styles.navIcon} />
+        <img src="img/download.png" alt="user" className={styles.navIcon} />
+        <img src="img/user-1.jpg" alt="user" className={styles.navUser} />
+      </div>
+    </nav>
   );
 }
 
