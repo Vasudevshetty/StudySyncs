@@ -1,51 +1,33 @@
 import { useNavigate } from "react-router-dom";
+import Banner from "./Banner";
+import ContentList from "./ContentList";
+import Description from "./Description";
 import styles from "./styles/app.module.css";
 
-const colleges = [
-  { name: "sjce", courses: ["cse", "me", "ece"] },
-  { name: "vvce", courses: ["eee", "civil", "ise"] },
-];
+const college = {
+  name: "vvce",
+  courses: ["cse", "me", "ece", "civil", "ei", "csbs", "ise"],
+};
 
 function College() {
+  const navigate = useNavigate();
+
+  function handleCourseClick(courseName) {
+    navigate(`/app/college/${college.name}/${courseName}`);
+  }
+
   return (
     <>
-      <Banner />
-      <ContentList college={colleges[0]} />
+      <Banner img="background.jpeg" />
+      <div className={styles.content}>
+        <ContentList
+          content={college.courses}
+          handleClick={handleCourseClick}
+        />
+        <Description content="hello world" />
+      </div>
     </>
   );
 }
 
 export default College;
-
-function Banner() {
-  return (
-    <div className={styles.banner}>
-      <div className={styles.bannerBg}></div>
-    </div>
-  );
-}
-
-function ContentList({ college }) {
-  const navigate = useNavigate();
-  function handleCourseClick(collegeName, courseName) {
-    navigate(`/app/college/${collegeName}/${courseName}`);
-  }
-
-  return (
-    <ul>
-      <div>
-        <h2>{college.name.toUpperCase()}</h2>
-        <ul>
-          {college.courses.map((course) => (
-            <li
-              key={course}
-              onClick={() => handleCourseClick(college.name, course)}
-            >
-              {course.toUpperCase()}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </ul>
-  );
-}

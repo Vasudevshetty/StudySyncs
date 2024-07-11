@@ -1,30 +1,32 @@
 import { useParams, useNavigate } from "react-router-dom";
+import Banner from "./Banner";
+import ContentList from "./ContentList";
+import Description from "./Description";
+import styles from "./styles/app.module.css";
 
 function CoursePage() {
   const { collegeName, courseName } = useParams();
   const navigate = useNavigate();
 
   const handleSemesterClick = (semester) => {
-    navigate(`/app/college/${collegeName}/${courseName}/${semester}`);
+    navigate(`/app/college/${collegeName}/${courseName}/sem${semester}`);
   };
 
   return (
-    <div>
-      <h1>
-        {collegeName.toUpperCase()} - {courseName.toUpperCase()}
-      </h1>
-      <p>Information about the course.</p>
-      <ul>
-        {[1, 2, 3, 4, 5, 6, 7, 8].map((semester) => (
-          <li
-            key={semester}
-            onClick={() => handleSemesterClick(`sem${semester}`)}
-          >
-            Semester {semester}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <div>
+        {collegeName.toUpperCase()}/{courseName.toUpperCase()}
+      </div>
+      <Banner img={courseName === "cse" ? "cse.webp" : "me.jpg"} />
+
+      <div className={styles.content}>
+        <ContentList
+          content={[1, 2, 3, 4, 5, 6, 7, 8]}
+          handleClick={handleSemesterClick}
+        />
+        <Description content="hello world" />
+      </div>
+    </>
   );
 }
 

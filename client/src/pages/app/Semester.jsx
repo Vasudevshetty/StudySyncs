@@ -6,7 +6,7 @@ function SemesterPage() {
   return (
     <div>
       <h1>
-        {collegeName.toUpperCase()} - {courseName.toUpperCase()} -{" "}
+        {collegeName.toUpperCase()}/{courseName.toUpperCase()}/
         {semesterName.toUpperCase()}
       </h1>
       <p>Information about the semester.</p>
