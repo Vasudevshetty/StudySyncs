@@ -20,7 +20,7 @@ function Modal({ isModalOpen, toggleModal }) {
     e.preventDefault();
     // Add your form submission logic here (e.g., form validation, API calls, etc.)
     // After form submission logic, navigate to the /app page
-    navigate("/app");
+    navigate("/app/college");
   }
 
   return (
