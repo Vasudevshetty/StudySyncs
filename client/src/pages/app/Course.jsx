@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import Banner from "./Banner";
 import ContentList from "./ContentList";
 import Description from "./Description";
@@ -14,10 +14,14 @@ function CoursePage() {
 
   return (
     <>
-      <div>
-        {collegeName.toUpperCase()}/{courseName.toUpperCase()}
+      <div className={styles.breadcrumb}>
+        <Link to={`/app/college/`}>{collegeName.toUpperCase()}</Link>/{" "}
+        {courseName.toUpperCase()}
       </div>
-      <Banner img={courseName === "cse" ? "cse.webp" : "me.jpg"} />
+      <Banner
+        img={courseName === "cse" ? "cse.webp" : "me.jpg"}
+        title="Computer science of engineering"
+      />
 
       <div className={styles.content}>
         <ContentList

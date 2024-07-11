@@ -18,7 +18,7 @@
   align-items: center;
   padding: 0 20px;
   min-height: 6.4rem;
-  background-color: #dbd9d95b;
+  background-image: linear-gradient(to right, #4bceee, #414abd);
 }
 
 .navLeftblock {
@@ -43,20 +43,14 @@
 
 .navSearch {
   border: none;
-  background: white;
   font-size: 1.6rem;
   font-weight: 400;
   align-items: center;
   padding: 1.5rem;
-  color: white;
   height: 4rem;
   width: 100%;
   border-radius: 3rem;
   z-index: 10;
-}
-
-.navSearch::placeholder {
-  color: white;
 }
 
 .navSearch:focus {
@@ -73,10 +67,9 @@
   border: none;
   height: 4rem;
   border-radius: 3rem;
-  margin-left: -8rem;
+  margin-left: -7rem;
   cursor: pointer;
   z-index: 12;
-  background-image: linear-gradient(to bottom right, #4bceee, #1721b4);
 }
 
 .navIcon {
@@ -92,20 +85,23 @@
 .navUser {
   height: 45px;
   border-radius: 50%;
-}
-
-.sidebar {
-  width: 25rem;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  overflow-y: auto; /* Ensures sidebar content scrolls if necessary */
+  opacity: 0.9;
+  border: 2px solid rgba(255, 255, 255, 0.826);
 }
 
 .mainContent {
   flex: 1;
-  background-color: #ecf0f1;
+  background-color: #eff4f5;
   overflow-y: auto; /* Ensures main content scrolls if necessary */
+}
+
+.sidebar {
+  width: 28rem;
+  display: flex;
+  flex-direction: column;
+  background: #39444d;
+  padding: 20px;
+  overflow-y: auto; /* Ensures sidebar content scrolls if necessary */
 }
 
 .bannerBg {
@@ -119,15 +115,19 @@
 
 .banner {
   height: 40%;
-  padding: 2rem;
+  background-image: linear-gradient(to right, #4bceee, #1721b4);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.9);
+  margin: 0rem 2rem;
+  position: relative;
 }
 
 .content {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 100%;
-  padding: 4rem;
+  height: 50%;
+  padding: 1rem 5rem;
 }
 
 .contentList {
@@ -136,15 +136,16 @@
   text-align: center;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 30rem;
-  margin: 20px auto;
+  width: 30%;
   height: 30rem;
   overflow-y: auto; /* Ensures content list scrolls if necessary */
 }
 
 .contentListItem {
-  padding: 10px 15px;
+  padding: 1rem 1.5rem;
   border-bottom: 1px solid #ddd;
+  font-size: 1.2rem;
+  font-weight: 500;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -162,8 +163,7 @@
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 60rem;
-  margin: 20px auto;
+  width: 50%;
   height: 30rem;
   overflow-y: auto; /* Ensures description container scrolls if necessary */
 }
@@ -173,4 +173,61 @@
   color: #333333;
   line-height: 1.6;
   margin: 0;
+}
+
+.breadcrumb {
+  color: #0096c7;
+  text-transform: uppercase;
+  font-size: 1.8rem;
+  font-weight: 800;
+  padding: 1rem 5rem;
+}
+
+.breadcrumb a {
+  text-decoration: none;
+}
+
+.sidebar a {
+  color: white;
+  font-size: 1.4rem;
+  font-weight: 200;
+}
+
+.bannerTitle {
+  color: white;
+  text-transform: uppercase;
+  text-align: center;
+  width: 50%;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.95;
+  position: absolute;
+  left: 50%;
+  bottom: 3.9rem;
+  transform: translate(-50%, 20%) skewY(-6deg);
+  z-index: 190;
+}
+
+.bannerTitle span {
+  background-image: linear-gradient(to bottom right, #4bceee, #1721b4);
+  opacity: 0.8;
+  padding: 1.3rem 2rem;
+}
+
+.moduleBox,
+.filesBox {
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 58rem;
+  overflow-y: auto; /* Ensures description container scrolls if necessary */
+  background: #fff;
+}
+
+.moduleBox {
+  width: 30%;
+}
+
+.filesBox {
+  width: 60%;
 }
