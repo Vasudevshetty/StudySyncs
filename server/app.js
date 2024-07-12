@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 
 const collegeRoutes = require("./routes/collegeRoutes");
+const courseRoutes = require("./routes/courseRoutes");
 
 dotenv.config({ path: "./config.env" });
 
@@ -18,7 +19,7 @@ app.use(
 app.use(morgan("dev"));
 
 app.use("/api/v1/colleges", collegeRoutes);
-// app.use("/api", require("./routes/test"));
+app.use("/api/v1/courses", courseRoutes);
 
 app.all("*", (req, res) => {
   res.status(404).json({

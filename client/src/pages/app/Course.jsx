@@ -5,6 +5,8 @@ import Description from "./Description";
 import styles from "./styles/app.module.css";
 import Sidebar from "./Sidebar";
 
+const courses = ["CSE", "ISE", "CIVIL"];
+
 function CoursePage() {
   const { collegeName, courseName } = useParams();
   const navigate = useNavigate();
@@ -17,30 +19,15 @@ function CoursePage() {
     <>
       <Sidebar>
         <>
-          <Link
-            to={`/app/college/${collegeName}/cse`}
-            className={styles.sidebarLink}
-          >
-            CSE
-          </Link>
-          <Link
-            to={`/app/college/${collegeName}/ise`}
-            className={styles.sidebarLink}
-          >
-            ISE
-          </Link>
-          <Link
-            to={`/app/college/${collegeName}/mech`}
-            className={styles.sidebarLink}
-          >
-            MECH
-          </Link>
-          <Link
-            to={`/app/college/${collegeName}/civil`}
-            className={styles.sidebarLink}
-          >
-            CIVIL
-          </Link>
+          {courses.map((course) => (
+            <Link
+              to={`/app/college/${collegeName}/${course}`}
+              className={styles.sidebarLink}
+              key={course}
+            >
+              {course}
+            </Link>
+          ))}
         </>
       </Sidebar>
       <div className={styles.mainContent}>

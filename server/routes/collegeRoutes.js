@@ -1,17 +1,17 @@
 const express = require("express");
-const CollegeController = require("../controllers/collegeController");
+const collegeController = require("../controllers/collegeController");
 
 const router = express.Router();
 
 router
   .route("/")
-  .get(CollegeController.getAllColleges)
-  .post(CollegeController.createCollege);
+  .post(collegeController.createCollege)
+  .get(collegeController.getAllColleges);
 
 router
   .route("/:id")
-  .get(CollegeController.getCollege)
-  .patch(CollegeController.updateCollege)
-  .delete(CollegeController.deleteCollege);
+  .get(collegeController.getCollegeById)
+  .patch(collegeController.updateCollege)
+  .delete(collegeController.deleteCollege);
 
 module.exports = router;
