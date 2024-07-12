@@ -126,7 +126,6 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  height: 50%;
   padding: 1rem 5rem;
 }
 
@@ -215,7 +214,8 @@
 }
 
 .moduleBox,
-.filesBox {
+.filesBox,
+.subjectBox {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -224,10 +224,79 @@
   background: #fff;
 }
 
-.moduleBox {
-  width: 30%;
+.moduleBox,
+.subjectBox {
+  width: 24%;
 }
 
 .filesBox {
-  width: 60%;
+  width: 48%;
+}
+
+.module {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.module:hover {
+  background-color: #e0e0e0;
+}
+
+.filesBox {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.file {
+  width: 10rem;
+  border-radius: 1rem;
+  height: 12rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+  background-color: #f3f3f3;
+  margin: 1rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.fileIcon {
+  width: 60px;
+  height: 60px;
+}
+
+.fileName {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #333;
+  padding: 0 1rem;
+  border-radius: 1rem;
+}
+
+.sidebarLink {
+  display: block;
+  padding: 10px 15px;
+  color: #333;
+  text-decoration: none;
+  border-bottom: 1px solid #ddd;
+  transition: background-color 0.3s ease;
+}
+
+.sidebarLink:hover {
+  background-color: #e0e0e0;
+}
+
+.subject {
+  padding: 10px;
+  cursor: pointer;
+  margin-bottom: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.subject.selected,
+.module.selected {
+  background-color: #e0e0e0;
 }

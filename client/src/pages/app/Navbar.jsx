@@ -8,11 +8,6 @@ function Navbar() {
     <nav className={styles.navbar}>
       <div className={styles.navLeftblock}>
         <img
-          src="/img/menu-sidebar.png"
-          className={styles.navIcon}
-          alt="sidebar icon"
-        />
-        <img
           src="/img/logo-final-light.png"
           alt="logo"
           className={styles.navLogo}
@@ -34,7 +29,7 @@ function Navbar() {
       <div className={styles.navRightblock}>
         <img src="/img/bookmark.png" alt="user" className={styles.navIcon} />
         <img src="/img/download.png" alt="user" className={styles.navIcon} />
-        <img src="/img/user-1.jpg" alt="user" className={styles.navUser} />
+        <img src="/img/user.png" alt="user" className={styles.navUser} />
       </div>
     </nav>
   );
