@@ -1,0 +1,94 @@
+{
+  "college": "",
+  "course": "",
+  "number": 4,
+  "subjects": [
+    {
+      "name": "Operating Systems",
+      "code": "22CS410",
+      "modules": [
+        { "number": 1, "name": "Introductino to Operatinos System Structure" },
+        { "number": 2, "name": "Process, Thread and CPU Scheduling" },
+        { "number": 3, "name": "Process Synchronization and Deadlocks" },
+        { "number": 4, "name": "Main Memory and Virtual Memory" },
+        { "number": 5, "name": "Mass Storage Structure and File System" }
+      ]
+    },
+    {
+      "name": "Design and Analysis of Algorithms",
+      "code": "22CS420",
+      "modules": [
+        {
+          "number": 1,
+          "name": "Introudction to Algorithms and Problem Solving"
+        },
+        {
+          "number": 2,
+          "name": "Brute force and Exhaustive Search, Divide and Conquer Design Techniques"
+        },
+        {
+          "number": 3,
+          "name": "Decrease and Conquer, Transform and Conquer, Space-Time Tradeoffs Approaches"
+        },
+        { "number": 4, "name": "Dynamic Programming and Greedy Techinques" },
+        {
+          "number": 5,
+          "name": "Limitations of Algorithmic Power and Coping with Limitations"
+        }
+      ]
+    },
+    {
+      "name": "Data Communication",
+      "code": "22CS430",
+      "modules": [
+        { "number": 1, "name": "Introduction" },
+        {
+          "number": 2,
+          "name": "Introduction to Physical Layer and Digital Transmission"
+        },
+        {
+          "number": 3,
+          "name": "Bandwidth Utilization, Transmission Media and Switching"
+        },
+        { "number": 4, "name": "Error Detection and Correction" },
+        { "number": 5, "name": "Introduction to Data Link layer" }
+      ]
+    },
+    {
+      "name": "Software Engineering",
+      "code": "22CS440",
+      "modules": [
+        { "number": 1, "name": "Software Process" },
+        { "number": 2, "name": "Software Analysis" },
+        { "number": 3, "name": "Software Design" },
+        { "number": 4, "name": "Software Testing" },
+        { "number": 5, "name": "Agile Development" }
+      ]
+    },
+    {
+      "name": "Theory of Computation",
+      "code": "22CS450",
+      "modules": [
+        { "number": 1, "name": "Introudction to Finite Automata" },
+        {
+          "number": 2,
+          "name": "Regular Expressoins and Properties of Regular Languages"
+        },
+        { "number": 3, "name": "Context-Free Grammars and Languages" },
+        { "number": 4, "name": "Pushdown Automata" },
+        { "number": 5, "name": "Introduction to Turning Machine" }
+      ]
+    },
+    {
+      "name": "Linear Algebra",
+      "code": "22MA412",
+      "modules": [
+        { "number": 1, "name": "Linear Equations" },
+        { "number": 2, "name": "Matrix Algebra" },
+        { "number": 3, "name": "Vector Spaces" },
+        { "number": 4, "name": "Eigen Value, Eigen Vectors and Orthogonality" },
+        { "number": 5, "name": "Orthogonality and least square" }
+      ]
+    }
+  ]
+}
