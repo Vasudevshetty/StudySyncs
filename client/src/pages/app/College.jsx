@@ -49,9 +49,9 @@ function College() {
         <Link to="/">Home</Link>
       </Sidebar>
       <div className={styles.mainContent}>
-        <div className={styles.breadcrumb}>{college.name.toUpperCase()}</div>
+        <div className={styles.breadcrumb}>{college.slug.toUpperCase()}</div>
         <Banner
-          img="background.jpeg"
+          img={`/college/${college.bgImgUrl}`}
           title="Sri JayaChamrajendra College of Engineering"
         />
         <div className={styles.content}>

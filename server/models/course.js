@@ -5,6 +5,8 @@ const courseSchema = new mongoose.Schema({
     type: String,
     required: [true, "Every course must have a name"],
   },
+  slug: String,
+  bgImgUrl: String,
   college: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "College",

@@ -15,7 +15,7 @@ exports.getAllColleges = async (req, res) => {
   try {
     const colleges = await College.find().populate({
       path: "courses",
-      select: "name",
+      select: "name slug bgImgUrl",
     });
     res.status(200).json({ status: "success", data: colleges });
   } catch (error) {
