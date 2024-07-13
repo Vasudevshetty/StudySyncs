@@ -5,6 +5,7 @@ const cors = require("cors");
 
 const collegeRoutes = require("./routes/collegeRoutes");
 const courseRoutes = require("./routes/courseRoutes");
+const semesterRoutes = require("./routes/semesterRoutes");
 
 dotenv.config({ path: "./config.env" });
 
@@ -20,6 +21,7 @@ app.use(morgan("dev"));
 
 app.use("/api/v1/colleges", collegeRoutes);
 app.use("/api/v1/courses", courseRoutes);
+app.use("/api/v1/semesters", semesterRoutes);
 
 app.all("*", (req, res) => {
   res.status(404).json({

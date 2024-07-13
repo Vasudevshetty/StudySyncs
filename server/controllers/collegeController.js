@@ -13,7 +13,13 @@ exports.createCollege = async (req, res) => {
 // Get all colleges
 exports.getAllColleges = async (req, res) => {
   try {
-    const colleges = await College.find().populate("courses");
+    const colleges = await College.find().populate({
+      path: "courses",
+      populate: {
+        path: "semesters",
+        model: "Semester",
+      },
+    });
     res.status(200).json({ status: "success", data: colleges });
   } catch (error) {
     res.status(400).json({ status: "fail", message: error.message });
@@ -23,7 +29,13 @@ exports.getAllColleges = async (req, res) => {
 // Get a college by ID
 exports.getCollegeById = async (req, res) => {
   try {
-    const college = await College.findById(req.params.id).populate("courses");
+    const college = await College.findById(req.params.id).populate({
+      path: "courses",
+      populate: {
+        path: "semesters",
+        model: "Semester",
+      },
+    });
     if (!college) {
       return res
         .status(404)
@@ -40,7 +52,7 @@ exports.updateCollege = async (req, res) => {
   try {
     console.log(req.params.id);
     const college = await College.findByIdAndUpdate(req.params.id, req.body, {
-      // new: true,
+      new: true,
       runValidators: true,
     });
     if (!college) {
