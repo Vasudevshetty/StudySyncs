@@ -15,10 +15,7 @@ exports.getAllColleges = async (req, res) => {
   try {
     const colleges = await College.find().populate({
       path: "courses",
-      populate: {
-        path: "semesters",
-        model: "Semester",
-      },
+      select: "name",
     });
     res.status(200).json({ status: "success", data: colleges });
   } catch (error) {
@@ -31,10 +28,7 @@ exports.getCollegeById = async (req, res) => {
   try {
     const college = await College.findById(req.params.id).populate({
       path: "courses",
-      populate: {
-        path: "semesters",
-        model: "Semester",
-      },
+      name: "name",
     });
     if (!college) {
       return res

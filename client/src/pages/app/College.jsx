@@ -1,11 +1,12 @@
-import { Link, useNavigate, } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Banner from "./Banner";
 import ContentList from "./ContentList";
 import Description from "./Description";
 import Sidebar from "./Sidebar";
 import styles from "./styles/app.module.css";
+import { useState } from "react";
 
-const college = {
+const dummyCollege = {
   name: "sjce",
   courses: ["cse", "me", "ece", "civil", "ei", "csbs", "ise"],
   description:
@@ -13,6 +14,8 @@ const college = {
 };
 
 function College() {
+  // eslint-disable-next-line no-unused-vars
+  const [college, setCollege] = useState(dummyCollege);
   const navigate = useNavigate();
 
   function handleCourseClick(courseName) {

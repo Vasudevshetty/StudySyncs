@@ -13,7 +13,10 @@ exports.createCourse = async (req, res) => {
 // Get all courses
 exports.getAllCourses = async (req, res) => {
   try {
-    const courses = await Course.find().populate("college");
+    const courses = await Course.find().populate({
+      path: "semesters",
+      select: "number",
+    });
     res.status(200).json({ status: "success", data: courses });
   } catch (error) {
     res.status(400).json({ status: "fail", message: error.message });
@@ -23,7 +26,10 @@ exports.getAllCourses = async (req, res) => {
 // Get a course by ID
 exports.getCourseById = async (req, res) => {
   try {
-    const course = await Course.findById(req.params.id).populate("college");
+    const course = await Course.findById(req.params.id).populate({
+      path: "semesters",
+      select: "number",
+    });
     if (!course) {
       return res
         .status(404)
