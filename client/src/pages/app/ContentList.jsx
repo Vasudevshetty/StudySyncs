@@ -12,7 +12,7 @@ export default function ContentList({ content, handleClick }) {
           onClick={() =>
             typeof item.name !== "undefined"
               ? handleClick(`${item.name}`)
-              : handleClick(`Semester ${item.number}`)
+              : handleClick(`${item.number}`)
           }
         >
           {typeof item.name !== "undefined"

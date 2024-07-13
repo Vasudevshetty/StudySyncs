@@ -30,8 +30,8 @@ function CoursePage() {
     fetchData();
   }, []);
 
-  const handleSemesterClick = (semester) => {
-    navigate(`/app/college/${collegeName}/${courseName}/${semester}`);
+  const handleSemesterClick = (semesterNo) => {
+    navigate(`/app/college/${collegeName}/${courseName}/sem${semesterNo}`);
   };
 
   const semesters = Array.isArray(course.semesters) ? course.semesters : [];

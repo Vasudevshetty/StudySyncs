@@ -1,41 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link, useParams, useLocation, useNavigate } from "react-router-dom";
+import { storage } from "../../../firebaseConfig";
+import { ref, listAll, getDownloadURL } from "firebase/storage";
 import styles from "./styles/app.module.css";
-
-// Dummy data
-const dummyModules = {
-  Subject1: ["Module 1", "Module 2", "Module 3", "Module 4", "Module 5"],
-  Subject2: ["Module 6", "Module 7", "Module 8", "Module 9", "Module 10"],
-  Subject3: ["Module 11", "Module 12", "Module 13", "Module 14", "Module 15"],
-  Subject4: ["Module 16", "Module 17", "Module 18", "Module 19", "Module 20"],
-};
-
-const dummyFiles = {
-  "Module 1": ["file1.pdf", "file2.ppt"],
-  "Module 2": ["file3.pdf", "file4.ppt"],
-  "Module 3": ["file5.pdf", "file6.ppt"],
-  "Module 4": ["file7.pdf", "file8.ppt"],
-  "Module 5": ["file9.pdf", "file10.ppt"],
-  "Module 6": ["file1.pdf", "file2.ppt"],
-  "Module 7": ["file3.pdf", "file4.ppt"],
-  "Module 8": ["file5.pdf", "file6.ppt"],
-  "Module 9": ["file7.pdf", "file8.ppt"],
-  "Module 10": ["file9.pdf", "file10.ppt"],
-  "Module 11": ["file1.pdf", "file2.ppt"],
-  "Module 12": ["file3.pdf", "file4.ppt"],
-  "Module 13": ["file5.pdf", "file6.ppt"],
-  "Module 14": ["file7.pdf", "file8.ppt"],
-  "Module 15": ["file9.pdf", "file10.ppt"],
-  "Module 16": ["file1.pdf", "file2.ppt"],
-  "Module 17": ["file3.pdf", "file4.ppt"],
-  "Module 18": ["file5.pdf", "file6.ppt"],
-  "Module 19": ["file7.pdf", "file8.ppt"],
-  "Module 20": ["file9.pdf", "file10.ppt"],
-};
+import FullPageLoader from "./FullPageLoader";
 
 function getFileType(fileName) {
   const extension = fileName.split(".").pop();
-  return extension;
+  return extension === "pptx" ? "ppt" : "pdf";
 }
 
 function SemesterPage() {
@@ -43,20 +15,103 @@ function SemesterPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const query = new URLSearchParams(location.search);
-  const currentSubject = query.get("subject") || "Subject1";
-  const [currentModule, setCurrentModule] = useState("Module 1");
-  const [modules, setModules] = useState(dummyModules[currentSubject]);
+  const currentSubjectCode = query.get("subject");
+  const currentModuleNumber = parseInt(query.get("module"));
+
+  const [semester, setSemester] = useState({});
+  const [modules, setModules] = useState([]);
+  const [currentModule, setCurrentModule] = useState(currentModuleNumber);
+  const [files, setFiles] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    // Update the URL parameters
-    navigate(`?subject=${currentSubject}&module=${currentModule}`);
-  }, [currentSubject, currentModule, navigate]);
+    const fetchFiles = async () => {
+      setIsLoading(true);
+      try {
+        const storageRef = ref(
+          storage,
+          `sjce/cse/sem-4/${currentSubjectCode}/module-${currentModule}`
+        );
+        const listResult = await listAll(storageRef);
+
+        const fileList = listResult.items.map(async (itemRef) => {
+          const url = await getDownloadURL(itemRef);
+          return {
+            name: itemRef.name,
+            fullPath: itemRef.fullPath,
+            url,
+          };
+        });
+
+        const fileData = await Promise.all(fileList);
+        setFiles(fileData);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching files: ", error);
+        // Handle error (e.g., set state for error message)
+      }
+    };
+
+    fetchFiles();
+  }, [currentSubjectCode, currentModule]);
 
   useEffect(() => {
-    // Update modules based on selected subject
-    setModules(dummyModules[currentSubject]);
-    setCurrentModule(dummyModules[currentSubject][0]); // Set default module
-  }, [currentSubject]);
+    async function fetchData() {
+      setIsLoading(true);
+      try {
+        const response = await fetch(
+          "https://studysyncs.onrender.com/api/v1/semesters"
+        );
+        const { data } = await response.json();
+        setSemester(data.semesters[0]);
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+        setIsLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (semester.subjects) {
+      const firstSubject = semester.subjects[0];
+      if (!currentSubjectCode && firstSubject) {
+        navigate(
+          `?subject=${firstSubject.code}&module=${firstSubject.modules[0].number}`
+        );
+      }
+    }
+  }, [semester, currentSubjectCode, navigate]);
+
+  useEffect(() => {
+    if (semester.subjects && currentSubjectCode) {
+      const selectedSubject = semester.subjects.find(
+        (subject) => subject.code === currentSubjectCode
+      );
+      if (selectedSubject) {
+        setModules(selectedSubject.modules);
+        if (
+          !currentModuleNumber ||
+          !selectedSubject.modules.find(
+            (module) => module.number === currentModuleNumber
+          )
+        ) {
+          setCurrentModule(selectedSubject.modules[0].number);
+        }
+      }
+    }
+  }, [semester, currentSubjectCode, currentModuleNumber]);
+
+  useEffect(() => {
+    if (currentSubjectCode && currentModule) {
+      navigate(`?subject=${currentSubjectCode}&module=${currentModule}`);
+    }
+  }, [currentSubjectCode, currentModule, navigate]);
+
+  const subjects = Array.isArray(semester.subjects) ? semester.subjects : [];
+
+  if (isLoading) return <FullPageLoader />;
 
   return (
     <>
@@ -70,50 +125,28 @@ function SemesterPage() {
         </div>
         <div className={styles.content}>
           <div className={styles.subjectBox}>
-            {/* Subject selection block */}
-            {Object.keys(dummyModules).map((subject) => (
-              <div
-                key={subject}
-                className={`${styles.subject} ${
-                  subject === currentSubject ? styles.selected : ""
-                }`}
-                onClick={() => navigate(`?subject=${subject}`)}
-              >
-                {subject}
-              </div>
+            {subjects.map((subject) => (
+              <Subject
+                subject={subject}
+                currentSubjectCode={currentSubjectCode}
+                key={subject.code}
+                setCurrentModule={setCurrentModule}
+              />
             ))}
           </div>
           <div className={styles.moduleBox}>
             {modules.map((module) => (
-              <div
-                key={module}
-                className={`${styles.module} ${
-                  module === currentModule ? styles.selected : ""
-                }`}
-                onClick={() => setCurrentModule(module)}
-              >
-                {module}
-              </div>
+              <Module
+                module={module}
+                key={module.number}
+                currentModule={currentModule}
+                setCurrentModule={setCurrentModule}
+              />
             ))}
           </div>
           <div className={styles.filesBox}>
-            {dummyFiles[currentModule]?.map((file) => (
-              <div key={file} className={styles.file}>
-                <img
-                  src={`/img/${getFileType(file)}.png`}
-                  alt={getFileType(file)}
-                  className={styles.fileIcon}
-                />
-                <span className={styles.fileName}>{file}</span>
-                {/* Placeholder link for files */}
-                <a
-                  href={`/files/${file}`}
-                  download
-                  className={styles.downloadLink}
-                >
-                  Download
-                </a>
-              </div>
+            {files.map((file) => (
+              <File file={file} key={file.name} />
             ))}
           </div>
         </div>
@@ -123,3 +156,60 @@ function SemesterPage() {
 }
 
 export default SemesterPage;
+
+function File({ file }) {
+  return (
+    <div className={styles.file}>
+      <img
+        src={`/img/${getFileType(file.name)}.png`}
+        alt={getFileType(file.name)}
+        className={styles.fileIcon}
+      />
+      <span className={styles.fileName}>{file.name}</span>
+      <a
+        target="_blank"
+        href={file.url}
+        download
+        className={styles.downloadLink}
+      >
+        Download
+      </a>
+    </div>
+  );
+}
+
+function Module({ module, currentModule, setCurrentModule }) {
+  const handleClick = () => {
+    setCurrentModule(module.number);
+  };
+
+  return (
+    <div
+      className={`${styles.module} ${
+        module.number === currentModule ? styles.selected : ""
+      }`}
+      onClick={handleClick}
+    >
+      {module.name}
+    </div>
+  );
+}
+
+function Subject({ subject, currentSubjectCode, setCurrentModule }) {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(`?subject=${subject.code}`);
+    setCurrentModule(subject.modules[0].number);
+  };
+
+  return (
+    <div
+      className={`${styles.subject} ${
+        subject.code === currentSubjectCode ? styles.selected : ""
+      }`}
+      onClick={handleClick}
+    >
+      {subject.name}
+    </div>
+  );
+}
