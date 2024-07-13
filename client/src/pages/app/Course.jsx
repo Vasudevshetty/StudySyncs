@@ -4,31 +4,43 @@ import ContentList from "./ContentList";
 import Description from "./Description";
 import styles from "./styles/app.module.css";
 import Sidebar from "./Sidebar";
-
-const courses = ["CSE", "ISE", "CIVIL"];
+import { useEffect, useState } from "react";
+import FullPageLoader from "./FullPageLoader";
 
 function CoursePage() {
   const { collegeName, courseName } = useParams();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [course, setCourse] = useState({});
+
+  useEffect(() => {
+    async function fetchData() {
+      setIsLoading(true);
+      try {
+        const response = await fetch(
+          "https://studysyncs.onrender.com/api/v1/courses"
+        );
+        const { data } = await response.json();
+        setCourse(data[0]);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+  }, []);
 
   const handleSemesterClick = (semester) => {
-    navigate(`/app/college/${collegeName}/${courseName}/sem${semester}`);
+    navigate(`/app/college/${collegeName}/${courseName}/${semester}`);
   };
+
+  const semesters = Array.isArray(course.semesters) ? course.semesters : [];
+  if (isLoading) return <FullPageLoader />;
 
   return (
     <>
       <Sidebar>
-        <>
-          {courses.map((course) => (
-            <Link
-              to={`/app/college/${collegeName}/${course}`}
-              className={styles.sidebarLink}
-              key={course}
-            >
-              {course}
-            </Link>
-          ))}
-        </>
+        <Link to="/">Home</Link>
       </Sidebar>
       <div className={styles.mainContent}>
         <div className={styles.breadcrumb}>
@@ -41,11 +53,8 @@ function CoursePage() {
         />
 
         <div className={styles.content}>
-          <ContentList
-            content={[1, 2, 3, 4, 5, 6, 7, 8]}
-            handleClick={handleSemesterClick}
-          />
-          <Description content="hello world" />
+          <ContentList content={semesters} handleClick={handleSemesterClick} />
+          <Description content={course.description} />
         </div>
       </div>
     </>
