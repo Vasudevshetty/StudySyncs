@@ -119,11 +119,19 @@ function SemesterPage() {
     <>
       <div className={styles.mainContent}>
         <div className={styles.breadcrumb}>
-          <Link to={`/app/college/`}>{collegeName.toUpperCase()}</Link>/
-          <Link to={`/app/college/${collegeName}/${courseName}`}>
-            {courseName.toUpperCase()}
-          </Link>
-          / {semesterName.toUpperCase()}
+          <div>
+            <Link to={`/app/college/`}>{collegeName.toUpperCase()}</Link>/{" "}
+            <Link to={`/app/college/${collegeName}/${courseName}`}>
+              {courseName.toUpperCase()}
+            </Link>
+            / {semesterName.toUpperCase()}
+          </div>
+          <div>
+            {
+              subjects.find((subject) => subject.code === currentSubjectCode)
+                ?.name
+            }
+          </div>
         </div>
         <div className={styles.content}>
           <div className={styles.subjectBox}>

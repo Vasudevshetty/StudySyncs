@@ -32,7 +32,7 @@ function College() {
   }, []);
 
   const handleCourseClick = (courseName) => {
-    navigate(`/app/college/${college.name}/${courseName}`);
+    navigate(`/app/college/${college.slug}/${courseName}`);
   };
 
   if (isLoading) {

@@ -92,6 +92,7 @@
 .mainContent {
   flex: 1;
   background-color: #eff4f5;
+  position: relative;
   overflow-y: auto; /* Ensures main content scrolls if necessary */
 }
 
@@ -177,6 +178,8 @@
 .breadcrumb {
   color: #0096c7;
   text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
   font-size: 1.8rem;
   font-weight: 800;
   padding: 1rem 5rem;

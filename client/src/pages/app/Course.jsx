@@ -48,7 +48,7 @@ function CoursePage() {
           {courseName.toUpperCase()}
         </div>
         <Banner
-          img={courseName === "cse" ? "cse.webp" : "me.jpg"}
+          img={`course/${course.bgImgUrl}`}
           title="Computer science of engineering"
         />
 

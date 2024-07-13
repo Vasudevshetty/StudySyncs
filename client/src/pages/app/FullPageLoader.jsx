@@ -1,6 +1,6 @@
 const FullPageLoader = () => {
   const loaderStyle = {
-    position: "fixed",
+    position: "absolute",
     top: 0,
     left: 0,
     width: "100%",
