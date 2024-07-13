@@ -20,40 +20,9 @@ function SemesterPage() {
 
   const [semester, setSemester] = useState({});
   const [modules, setModules] = useState([]);
-  const [currentModule, setCurrentModule] = useState(currentModuleNumber);
+  const [currentModule, setCurrentModule] = useState(currentModuleNumber || 1);
   const [files, setFiles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchFiles = async () => {
-      setIsLoading(true);
-      try {
-        const storageRef = ref(
-          storage,
-          `sjce/cse/sem-4/${currentSubjectCode}/module-${currentModule}`
-        );
-        const listResult = await listAll(storageRef);
-
-        const fileList = listResult.items.map(async (itemRef) => {
-          const url = await getDownloadURL(itemRef);
-          return {
-            name: itemRef.name,
-            fullPath: itemRef.fullPath,
-            url,
-          };
-        });
-
-        const fileData = await Promise.all(fileList);
-        setFiles(fileData);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching files: ", error);
-        // Handle error (e.g., set state for error message)
-      }
-    };
-
-    fetchFiles();
-  }, [currentSubjectCode, currentModule]);
 
   useEffect(() => {
     async function fetchData() {
@@ -108,6 +77,39 @@ function SemesterPage() {
       navigate(`?subject=${currentSubjectCode}&module=${currentModule}`);
     }
   }, [currentSubjectCode, currentModule, navigate]);
+
+  useEffect(() => {
+    const fetchFiles = async () => {
+      setIsLoading(true);
+      try {
+        const storageRef = ref(
+          storage,
+          `sjce/cse/sem-4/${currentSubjectCode}/module-${currentModule}`
+        );
+        const listResult = await listAll(storageRef);
+
+        const fileList = listResult.items.map(async (itemRef) => {
+          const url = await getDownloadURL(itemRef);
+          return {
+            name: itemRef.name,
+            fullPath: itemRef.fullPath,
+            url,
+          };
+        });
+
+        const fileData = await Promise.all(fileList);
+        setFiles(fileData);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching files: ", error);
+        // Handle error (e.g., set state for error message)
+      }
+    };
+
+    if (currentSubjectCode && currentModule) {
+      fetchFiles();
+    }
+  }, [currentSubjectCode, currentModule]);
 
   const subjects = Array.isArray(semester.subjects) ? semester.subjects : [];
 

@@ -46,12 +46,7 @@ function College() {
   return (
     <>
       <Sidebar>
-        <Link to="/app/college/" className={styles.sidebarLink}>
-          SJCE
-        </Link>
-        <Link to="/app/college/" className={styles.sidebarLink}>
-          Other College
-        </Link>
+        <Link to="/">Home</Link>
       </Sidebar>
       <div className={styles.mainContent}>
         <div className={styles.breadcrumb}>{college.name.toUpperCase()}</div>
