@@ -32,11 +32,11 @@ function College() {
   }, []);
 
   useEffect(() => {
-    if (college) navigate(`/app/college/${college.slug}`);
+    if (college) navigate(`/app/colleges/${college.slug}`);
   }, [college, navigate]);
 
   const handleCourseClick = (courseName) => {
-    navigate(`/app/college/${college.slug}/${courseName}`);
+    navigate(`/app/colleges/${college.slug}/${courseName}`);
   };
 
   if (isLoading) {

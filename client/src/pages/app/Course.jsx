@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import FullPageLoader from "./FullPageLoader";
 
 function CoursePage() {
-  const { collegeName, courseName } = useParams();
+  const { collegeSlug, courseSlug } = useParams();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [course, setCourse] = useState({});
@@ -31,7 +31,7 @@ function CoursePage() {
   }, []);
 
   const handleSemesterClick = (semesterNo) => {
-    navigate(`/app/college/${collegeName}/${courseName}/sem-${semesterNo}`);
+    navigate(`/app/colleges/${collegeSlug}/${courseSlug}/sem-${semesterNo}`);
   };
 
   const semesters = Array.isArray(course.semesters) ? course.semesters : [];
@@ -49,8 +49,10 @@ function CoursePage() {
       </Sidebar>
       <div className={styles.mainContent}>
         <div className={styles.breadcrumb}>
-          <Link to={`/app/college/`}>{collegeName.toUpperCase()}</Link>/{" "}
-          {courseName.toUpperCase()}
+          <Link to={`/app/colleges/${collegeSlug}`}>
+            {collegeSlug.toUpperCase()}
+          </Link>
+          / {courseSlug.toUpperCase()}
         </div>
         <Banner
           img={`course/${course.bgImgUrl}`}

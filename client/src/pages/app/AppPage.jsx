@@ -11,10 +11,10 @@ function AppPage() {
       <Navbar />
       <div className={styles.appBody}>
         <Routes>
-          <Route path="college/:collegeName" element={<College />} />
-          <Route path="college/:collegeName/:courseName" element={<Course />} />
+          <Route path="colleges/:collegeSlug" element={<College />} />
+          <Route path="colleges/:collegeSlug/:courseSlug" element={<Course />} />
           <Route
-            path="college/:collegeName/:courseName/:semesterName"
+            path="colleges/:collegeSlug/:courseSlug/:semesterSlug"
             element={<Semester />}
           />
         </Routes>

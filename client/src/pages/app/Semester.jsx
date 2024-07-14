@@ -11,7 +11,7 @@ function getFileType(fileName) {
 }
 
 function SemesterPage() {
-  const { collegeName, courseName, semesterName } = useParams();
+  const { collegeSlug, courseSlug, semesterSlug } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
   const query = new URLSearchParams(location.search);
@@ -84,7 +84,7 @@ function SemesterPage() {
       try {
         const storageRef = ref(
           storage,
-          `${collegeName}/${courseName}/${semesterName}/${currentSubjectCode}/module-${currentModule}`
+          `${collegeSlug}/${courseSlug}/${semesterSlug}/${currentSubjectCode}/module-${currentModule}`
         );
         const listResult = await listAll(storageRef);
 
@@ -110,9 +110,9 @@ function SemesterPage() {
       fetchFiles();
     }
   }, [
-    collegeName,
-    courseName,
-    semesterName,
+    collegeSlug,
+    courseSlug,
+    semesterSlug,
     currentSubjectCode,
     currentModule,
   ]);
@@ -126,11 +126,11 @@ function SemesterPage() {
       <div className={styles.mainContent}>
         <div className={styles.breadcrumb}>
           <div>
-            <Link to={`/app/college/`}>{collegeName.toUpperCase()}</Link>/{" "}
-            <Link to={`/app/college/${collegeName}/${courseName}`}>
-              {courseName.toUpperCase()}
+            <Link to={`/app/colleges/`}>{collegeSlug.toUpperCase()}</Link>/{" "}
+            <Link to={`/app/colleges/${collegeSlug}/${courseSlug}`}>
+              {courseSlug.toUpperCase()}
             </Link>
-            / {semesterName.toUpperCase()}
+            / {semesterSlug.toUpperCase()}
           </div>
           <div>
             {
