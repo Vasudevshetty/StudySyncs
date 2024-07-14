@@ -3,7 +3,7 @@ import { Link, useParams, useLocation, useNavigate } from "react-router-dom";
 import { storage } from "../../../firebaseConfig";
 import { ref, listAll, getDownloadURL } from "firebase/storage";
 import styles from "./styles/app.module.css";
-import FullPageLoader from "./FullPageLoader";
+import Loader from "./Loader";
 
 function getFileType(fileName) {
   const extension = fileName.split(".").pop();
@@ -18,44 +18,50 @@ function SemesterPage() {
   const currentSubjectCode = query.get("subject");
   const currentModuleNumber = parseInt(query.get("module"));
 
-  const [semester, setSemester] = useState({});
+  const [subjects, setSubjects] = useState([]);
   const [modules, setModules] = useState([]);
-  const [currentModule, setCurrentModule] = useState(currentModuleNumber || 1);
   const [files, setFiles] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+
+  const [loadingSubjects, setLoadingSubjects] = useState(false);
+  const [loadingModules, setLoadingModules] = useState(false);
+  const [loadingFiles, setLoadingFiles] = useState(false);
+
+  const [currentModule, setCurrentModule] = useState(currentModuleNumber || 1);
 
   useEffect(() => {
-    async function fetchData() {
-      setIsLoading(true);
+    async function fetchSemesterData() {
+      setLoadingSubjects(true);
+      setLoadingModules(true);
       try {
         const response = await fetch(
           "https://studysyncs.onrender.com/api/v1/semesters"
         );
         const { data } = await response.json();
-        setSemester(data.semesters[0]);
-        setIsLoading(false);
+        const semesterData = data.semesters[0];
+        setSubjects(semesterData.subjects);
+        setLoadingSubjects(false);
+        setLoadingModules(false);
       } catch (error) {
         console.error(error);
-        setIsLoading(false);
+        setLoadingSubjects(false);
+        setLoadingModules(false);
       }
     }
-    fetchData();
+    fetchSemesterData();
   }, []);
 
   useEffect(() => {
-    if (semester.subjects) {
-      const firstSubject = semester.subjects[0];
-      if (!currentSubjectCode && firstSubject) {
-        navigate(
-          `?subject=${firstSubject.code}&module=${firstSubject.modules[0].number}`
-        );
-      }
+    if (subjects.length && !currentSubjectCode) {
+      const firstSubject = subjects[0];
+      navigate(
+        `?subject=${firstSubject.code}&module=${firstSubject.modules[0].number}`
+      );
     }
-  }, [semester, currentSubjectCode, navigate]);
+  }, [subjects, currentSubjectCode, navigate]);
 
   useEffect(() => {
-    if (semester.subjects && currentSubjectCode) {
-      const selectedSubject = semester.subjects.find(
+    if (subjects.length && currentSubjectCode) {
+      const selectedSubject = subjects.find(
         (subject) => subject.code === currentSubjectCode
       );
       if (selectedSubject) {
@@ -70,7 +76,7 @@ function SemesterPage() {
         }
       }
     }
-  }, [semester, currentSubjectCode, currentModuleNumber]);
+  }, [subjects, currentSubjectCode, currentModuleNumber]);
 
   useEffect(() => {
     if (currentSubjectCode && currentModule) {
@@ -80,7 +86,7 @@ function SemesterPage() {
 
   useEffect(() => {
     const fetchFiles = async () => {
-      setIsLoading(true);
+      setLoadingFiles(true);
       try {
         const storageRef = ref(
           storage,
@@ -99,10 +105,10 @@ function SemesterPage() {
 
         const fileData = await Promise.all(fileList);
         setFiles(fileData);
-        setIsLoading(false);
+        setLoadingFiles(false);
       } catch (error) {
         console.error("Error fetching files: ", error);
-        // Handle error (e.g., set state for error message)
+        setLoadingFiles(false);
       }
     };
 
@@ -117,57 +123,61 @@ function SemesterPage() {
     currentModule,
   ]);
 
-  const subjects = Array.isArray(semester.subjects) ? semester.subjects : [];
-
-  if (isLoading) return <FullPageLoader />;
-
   return (
-    <>
-      <div className={styles.mainContent}>
-        <div className={styles.breadcrumb}>
-          <div>
-            <Link to={`/app/colleges/`}>{collegeSlug.toUpperCase()}</Link>/{" "}
-            <Link to={`/app/colleges/${collegeSlug}/${courseSlug}`}>
-              {courseSlug.toUpperCase()}
-            </Link>
-            / {semesterSlug.toUpperCase()}
-          </div>
-          <div>
-            {
-              subjects.find((subject) => subject.code === currentSubjectCode)
-                ?.name
-            }
-          </div>
+    <div className={styles.mainContent}>
+      <div className={styles.breadcrumb}>
+        <div>
+          <Link to={`/app/colleges/`}>{collegeSlug.toUpperCase()}</Link>/{" "}
+          <Link to={`/app/colleges/${collegeSlug}/${courseSlug}`}>
+            {courseSlug.toUpperCase()}
+          </Link>
+          / {semesterSlug.toUpperCase()}
         </div>
-        <div className={styles.content}>
-          <div className={styles.subjectBox}>
-            {subjects.map((subject) => (
+        <div>
+          {
+            subjects.find((subject) => subject.code === currentSubjectCode)
+              ?.name
+          }
+        </div>
+      </div>
+      <div className={styles.content}>
+        <div className={styles.subjectBox}>
+          {loadingSubjects ? (
+            <Loader />
+          ) : (
+            subjects.map((subject) => (
               <Subject
                 subject={subject}
                 currentSubjectCode={currentSubjectCode}
                 key={subject.code}
                 setCurrentModule={setCurrentModule}
               />
-            ))}
-          </div>
-          <div className={styles.moduleBox}>
-            {modules.map((module) => (
+            ))
+          )}
+        </div>
+        <div className={styles.moduleBox}>
+          {loadingModules ? (
+            <Loader />
+          ) : (
+            modules.map((module) => (
               <Module
                 module={module}
                 key={module.number}
                 currentModule={currentModule}
                 setCurrentModule={setCurrentModule}
               />
-            ))}
-          </div>
-          <div className={styles.filesBox}>
-            {files.map((file) => (
-              <File file={file} key={file.name} />
-            ))}
-          </div>
+            ))
+          )}
+        </div>
+        <div className={styles.filesBox}>
+          {loadingFiles ? (
+            <Loader />
+          ) : (
+            files.map((file) => <File file={file} key={file.name} />)
+          )}
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

@@ -1,7 +1,15 @@
+import Loader from "./Loader";
 import styles from "./styles/app.module.css";
 
-export default function ContentList({ content, handleClick }) {
-  if (!content.length) return <div>No Courses available</div>;
+export default function ContentList({ content, handleClick, isLoading }) {
+  if (isLoading)
+    return (
+      <div className={styles.contentList}>
+        <Loader />
+      </div>
+    );
+  if (!content.length)
+    return <div className={styles.contentList}>No Courses available</div>;
 
   return (
     <ul className={styles.contentList}>

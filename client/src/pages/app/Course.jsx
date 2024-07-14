@@ -1,11 +1,10 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Banner from "./Banner";
 import ContentList from "./ContentList";
 import Description from "./Description";
-import styles from "./styles/app.module.css";
 import Sidebar from "./Sidebar";
-import { useEffect, useState } from "react";
-import FullPageLoader from "./FullPageLoader";
+import styles from "./styles/app.module.css";
 
 function CoursePage() {
   const { collegeSlug, courseSlug } = useParams();
@@ -24,7 +23,8 @@ function CoursePage() {
         setCourse(data[0]);
         setIsLoading(false);
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching course data:", error);
+        setIsLoading(false);
       }
     }
     fetchData();
@@ -35,7 +35,6 @@ function CoursePage() {
   };
 
   const semesters = Array.isArray(course.semesters) ? course.semesters : [];
-  if (isLoading) return <FullPageLoader />;
 
   return (
     <>
@@ -49,19 +48,24 @@ function CoursePage() {
       </Sidebar>
       <div className={styles.mainContent}>
         <div className={styles.breadcrumb}>
-          <Link to={`/app/colleges/${collegeSlug}`}>
-            {collegeSlug.toUpperCase()}
-          </Link>
-          / {courseSlug.toUpperCase()}
+          <div>
+            <Link to={`/app/colleges/${collegeSlug}`}>
+              {collegeSlug.toUpperCase()}
+            </Link>
+            / {courseSlug.toUpperCase()}
+          </div>
         </div>
         <Banner
           img={`course/${course.bgImgUrl}`}
-          title="Computer science of engineering"
+          title="Computer Science of Engineering"
         />
-
         <div className={styles.content}>
-          <ContentList content={semesters} handleClick={handleSemesterClick} />
-          <Description content={course.description} />
+          <ContentList
+            content={semesters}
+            handleClick={handleSemesterClick}
+            isLoading={isLoading}
+          />
+          <Description content={course.description} isLoading={isLoading} />
         </div>
       </div>
     </>

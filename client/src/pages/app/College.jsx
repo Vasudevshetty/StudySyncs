@@ -61,9 +61,10 @@ function College() {
         <div className={styles.content}>
           <ContentList
             content={college.courses || []}
+            isLoading={isLoading}
             handleClick={handleCourseClick}
           />
-          <Description content={college.description} />
+          <Description isLoading={isLoading} content={college.description} />
         </div>
       </div>
     </>
