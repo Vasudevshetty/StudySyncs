@@ -18,8 +18,9 @@ function Navbar({ profileData }) {
       <div className={styles.navMid}>
         <input
           type="text"
-          placeholder="Search with subject code"
+          placeholder="Will be added soon:) tysm (subject code search)"
           className={styles.navSearch}
+          disabled
         />
         <button className={styles.searchButton}>
           <img src="/img/search.png" alt="search" className={styles.navIcon} />
@@ -34,16 +35,16 @@ function Navbar({ profileData }) {
             className={styles.navIcon}
           />
           <div className={styles.dropdown}>
-            <p>
-              <img
-                src="/img/ppt.png"
-                alt="ppt"
-                className={styles.navFileIcon}
-              />
-              Bookmark 1
-            </p>
-            <p>Bookmark 2</p>
-            <p>Bookmark 3</p>
+            {[1, 2, 3].map((item) => (
+              <div className={styles.fileDropDown} key={item}>
+                <img
+                  src={`/img/${item % 2 ? "ppt.png" : "pdf.png"}`}
+                  alt="ppt"
+                  className={styles.navFileIcon}
+                />
+                Dummy Bookmark {item}
+              </div>
+            ))}
           </div>
         </div>
 
@@ -54,9 +55,16 @@ function Navbar({ profileData }) {
             className={styles.navIcon}
           />
           <div className={styles.dropdown}>
-            <p>Download 1</p>
-            <p>Download 2</p>
-            <p>Download 3</p>
+            {[1, 2, 3, 4].map((item) => (
+              <div className={styles.fileDropDown} key={item}>
+                <img
+                  src={`/img/${item % 2 ? "ppt.png" : "pdf.png"}`}
+                  alt="ppt"
+                  className={styles.navFileIcon}
+                />
+                Dummy Download {item}
+              </div>
+            ))}
           </div>
         </div>
 
