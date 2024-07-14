@@ -31,7 +31,7 @@ function CoursePage() {
   }, []);
 
   const handleSemesterClick = (semesterNo) => {
-    navigate(`/app/college/${collegeName}/${courseName}/sem${semesterNo}`);
+    navigate(`/app/college/${collegeName}/${courseName}/sem-${semesterNo}`);
   };
 
   const semesters = Array.isArray(course.semesters) ? course.semesters : [];
@@ -40,7 +40,12 @@ function CoursePage() {
   return (
     <>
       <Sidebar>
-        <Link to="/">Home</Link>
+        <Link to="/">
+          <div className={styles.homeIcon}>
+            <img src="/img/home.png" alt="home icon" />
+            <span>Home</span>
+          </div>
+        </Link>
       </Sidebar>
       <div className={styles.mainContent}>
         <div className={styles.breadcrumb}>

@@ -31,6 +31,10 @@ function College() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (college) navigate(`/app/college/${college.slug}`);
+  }, [college, navigate]);
+
   const handleCourseClick = (courseName) => {
     navigate(`/app/college/${college.slug}/${courseName}`);
   };

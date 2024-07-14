@@ -84,7 +84,7 @@ function SemesterPage() {
       try {
         const storageRef = ref(
           storage,
-          `sjce/cse/sem-4/${currentSubjectCode}/module-${currentModule}`
+          `${collegeName}/${courseName}/${semesterName}/${currentSubjectCode}/module-${currentModule}`
         );
         const listResult = await listAll(storageRef);
 
@@ -109,7 +109,13 @@ function SemesterPage() {
     if (currentSubjectCode && currentModule) {
       fetchFiles();
     }
-  }, [currentSubjectCode, currentModule]);
+  }, [
+    collegeName,
+    courseName,
+    semesterName,
+    currentSubjectCode,
+    currentModule,
+  ]);
 
   const subjects = Array.isArray(semester.subjects) ? semester.subjects : [];
 

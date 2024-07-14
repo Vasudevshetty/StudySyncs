@@ -11,7 +11,7 @@ function Navbar() {
           src="/img/logo-final-light.png"
           alt="logo"
           className={styles.navLogo}
-          onClick={() => navigate("/app/college")}
+          onClick={() => navigate("/app/college/*")}
         />
       </div>
 

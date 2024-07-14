@@ -11,7 +11,7 @@ function AppPage() {
       <Navbar />
       <div className={styles.appBody}>
         <Routes>
-          <Route path="college" element={<College />} />
+          <Route path="college/:collegeName" element={<College />} />
           <Route path="college/:collegeName/:courseName" element={<Course />} />
           <Route
             path="college/:collegeName/:courseName/:semesterName"
