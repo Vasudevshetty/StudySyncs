@@ -1,14 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Banner from "./Banner";
 import ContentList from "./ContentList";
 import Description from "./Description";
 import Sidebar from "./Sidebar";
 import styles from "./styles/app.module.css";
-import { useEffect, useState } from "react";
-import FullPageLoader from "./FullPageLoader";
+import Loader from "./Loader";
 
 function College() {
-  const [college, setCollege] = useState(null); // Initialize as null
+  const [college, setCollege] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -23,8 +23,8 @@ function College() {
         setCollege(data[0]);
         setIsLoading(false);
       } catch (error) {
-        console.log(error);
-        setIsLoading(false); // Ensure loading state is reset
+        console.error("Error fetching college data:", error);
+        setIsLoading(false);
       }
     }
 
@@ -39,25 +39,21 @@ function College() {
     navigate(`/app/colleges/${college.slug}/${courseName}`);
   };
 
-  if (isLoading) {
-    return <FullPageLoader />;
-  }
-
-  if (!college) {
-    return <div>No college data found</div>;
-  }
-
-  return (
+  return !college ? (
+    <Loader />
+  ) : (
     <>
       <Sidebar>
-        <Link to="/">Home</Link>
+        <Link to="/">
+          <div className={styles.homeIcon}>
+            <img src="/img/home.png" alt="home icon" />
+            <span>Home</span>
+          </div>
+        </Link>
       </Sidebar>
       <div className={styles.mainContent}>
         <div className={styles.breadcrumb}>{college.slug.toUpperCase()}</div>
-        <Banner
-          img={`/college/${college.bgImgUrl}`}
-          title="Sri JayaChamrajendra College of Engineering"
-        />
+        <Banner img={`/college/${college.bgImgUrl}`} title={college.name} />
         <div className={styles.content}>
           <ContentList
             content={college.courses || []}

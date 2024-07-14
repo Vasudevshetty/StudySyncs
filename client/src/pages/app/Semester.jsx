@@ -127,7 +127,10 @@ function SemesterPage() {
     <div className={styles.mainContent}>
       <div className={styles.breadcrumb}>
         <div>
-          <Link to={`/app/colleges/`}>{collegeSlug.toUpperCase()}</Link>/{" "}
+          <Link to={`/app/colleges/${collegeSlug}`}>
+            {collegeSlug.toUpperCase()}
+          </Link>
+          /{" "}
           <Link to={`/app/colleges/${collegeSlug}/${courseSlug}`}>
             {courseSlug.toUpperCase()}
           </Link>

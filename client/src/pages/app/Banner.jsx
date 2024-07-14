@@ -1,6 +1,14 @@
+import Loader from "./Loader";
 import styles from "./styles/app.module.css";
 
-function Banner({ img, title }) {
+function Banner({ img, title, isLoading }) {
+  if (isLoading)
+    return (
+      <div className={styles.banner}>
+        <Loader />
+      </div>
+    );
+
   return (
     <div className={styles.banner}>
       <h1 className={styles.bannerTitle}>
