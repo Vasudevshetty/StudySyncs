@@ -6,13 +6,18 @@ import Course from "./Course";
 import Semester from "./Semester";
 
 function AppPage() {
+  const profileData = JSON.parse(localStorage.getItem("profileData")) || {};
+
   return (
     <div className={styles.app}>
-      <Navbar />
+      <Navbar profileData={profileData} />
       <div className={styles.appBody}>
         <Routes>
           <Route path="colleges/:collegeSlug" element={<College />} />
-          <Route path="colleges/:collegeSlug/:courseSlug" element={<Course />} />
+          <Route
+            path="colleges/:collegeSlug/:courseSlug"
+            element={<Course />}
+          />
           <Route
             path="colleges/:collegeSlug/:courseSlug/:semesterSlug"
             element={<Semester />}

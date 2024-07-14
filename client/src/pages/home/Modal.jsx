@@ -1,8 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Modal({ isModalOpen, toggleModal }) {
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    name: "Vasudev D M",
+    usn: "01JST22UCS169",
+    email: "vasudeepu2815@gmail.com",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
 
   useEffect(() => {
     const handleEsc = (e) => {
@@ -16,12 +26,12 @@ function Modal({ isModalOpen, toggleModal }) {
     };
   }, [isModalOpen, toggleModal]);
 
-  function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    // Add your form submission logic here (e.g., form validation, API calls, etc.)
-    // After form submission logic, navigate to the /app page
+    localStorage.setItem("profileData", JSON.stringify(formData)); // Store data in local storage
     navigate("/app/colleges/*");
-  }
+    toggleModal(); // Close the modal
+  };
 
   return (
     <div className={`modal ${!isModalOpen ? "hidden" : ""}`}>
@@ -35,11 +45,30 @@ function Modal({ isModalOpen, toggleModal }) {
       </h2>
 
       <form className="modal__form" onSubmit={handleSubmit}>
-        <label>Name : </label>
-        <input type="text" disabled />
-        <label>USN : </label> <input type="text" disabled />
-        <label>Email Address : </label>
-        <input type="email" disabled />
+        <label>Name: </label>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          disabled
+          onChange={handleChange}
+        />
+        <label>USN: </label>
+        <input
+          type="text"
+          name="usn"
+          value={formData.usn}
+          disabled
+          onChange={handleChange}
+        />
+        <label>Email Address: </label>
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          disabled
+          onChange={handleChange}
+        />
         <button className="btn">Next step &rarr;</button>
       </form>
       <div
