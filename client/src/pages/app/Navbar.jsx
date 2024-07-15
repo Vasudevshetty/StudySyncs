@@ -150,7 +150,10 @@ function Navbar({ profileData }) {
                   className={styles.fileDropDown}
                   onClick={() => handleSuggestionClick(suggestion)}
                 >
-                  {suggestion.code} - {suggestion.name}
+                  <div className={styles.codeDetails}>
+                    <span className={styles.codeBadge}>{suggestion.code}</span>{" "}
+                    - <span className={styles.codeName}>{suggestion.name}</span>
+                  </div>
                 </div>
               ))}
             </div>

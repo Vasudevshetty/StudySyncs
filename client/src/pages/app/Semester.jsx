@@ -43,7 +43,6 @@ function SemesterPage() {
             semester.course.slug === courseSlug &&
             semester.number === +semesterSlug.charAt(4)
         );
-        console.log(semesterData);
         setSubjects(semesterData.subjects);
         setLoadingSubjects(false);
         setLoadingModules(false);
@@ -227,7 +226,10 @@ function Module({ module, currentModule, setCurrentModule }) {
       }`}
       onClick={handleClick}
     >
-      {module.name}
+      <div className={styles.codeDetails}>
+        <span className={styles.codeBadge}>M-{module.number}</span>
+        <span className={styles.codeName}>{module.name}</span>
+      </div>
     </div>
   );
 }
@@ -246,7 +248,10 @@ function Subject({ subject, currentSubjectCode, setCurrentModule }) {
       }`}
       onClick={handleClick}
     >
-      {subject.name}
+      <div className={styles.codeDetails}>
+        <span className={styles.codeBadge}>{subject.code}</span>
+        <span>{subject.name}</span>
+      </div>
     </div>
   );
 }
