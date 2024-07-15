@@ -99,6 +99,7 @@
 
 .serachContainer .dropdown {
   display: block;
+  overflow-y: auto;
 }
 
 .navIconContainer .dropdown {

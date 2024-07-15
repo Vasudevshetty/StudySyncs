@@ -40,8 +40,10 @@ function SemesterPage() {
         const semesterData = data.semesters.find(
           (semester) =>
             semester.college.slug === collegeSlug &&
-            semester.course.slug === courseSlug
+            semester.course.slug === courseSlug &&
+            semester.number === +semesterSlug.charAt(4)
         );
+        console.log(semesterData);
         setSubjects(semesterData.subjects);
         setLoadingSubjects(false);
         setLoadingModules(false);
@@ -52,7 +54,7 @@ function SemesterPage() {
       }
     }
     fetchSemesterData();
-  }, [collegeSlug, courseSlug]);
+  }, [semesterSlug, collegeSlug, courseSlug]);
 
   useEffect(() => {
     if (subjects.length && !currentSubjectCode) {
