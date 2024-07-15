@@ -349,26 +349,52 @@
   height: 12rem;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-direction: column;
   background-color: #f3f3f3;
   margin: 1rem;
-  padding: 2rem;
+  padding: 1rem 2rem;
   text-align: center;
 }
 
 .fileIcon {
-  width: 60px;
-  height: 60px;
+  width: 5rem;
+  height: 5rem;
+}
+
+.fileNameWrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 4rem; /* Adjust this to match the height of your text */
 }
 
 .fileName {
-  display: block;
-  margin-top: 5px;
+  margin-top: 1rem;
   font-size: 12px;
   color: #333;
   padding: 0 1rem;
   border-radius: 1rem;
+  white-space: nowrap;
+  display: inline-block;
+  animation: scroll 9s linear infinite;
+}
+
+.file a{
+  height: 2.2rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(10%);
+  }
+  100% {
+    transform: translateX(-90%);
+  }
 }
 
 .sidebarLink {

@@ -194,7 +194,9 @@ function File({ file }) {
         alt={getFileType(file.name)}
         className={styles.fileIcon}
       />
-      <span className={styles.fileName}>{file.name}</span>
+      <div className={styles.fileNameWrapper}>
+        <span className={styles.fileName}>{file.name}</span>
+      </div>
       <a
         target="_blank"
         href={file.url}
