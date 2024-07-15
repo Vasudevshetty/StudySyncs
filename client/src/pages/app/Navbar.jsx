@@ -1,12 +1,15 @@
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import Loader from "./Loader";
 import styles from "./styles/app.module.css";
-import { useState, useEffect } from "react";
 
 function Navbar({ profileData }) {
   const navigate = useNavigate();
   const [subjectCode, setSubjectCode] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const dropdownRef = useRef(null); // Ref to the dropdown
 
   useEffect(() => {
     const fetchSuggestions = async () => {
@@ -15,15 +18,23 @@ function Navbar({ profileData }) {
         subjectCode.split("").slice(0, 2).join("").toLowerCase() + "e";
 
       if (subjectCode.length > 2) {
-        const response = await fetch(
-          `https://studysyncs.onrender.com/api/v1/semesters/${collegeSlug}/${courseSlug}?query=${subjectCode}`
-        );
-        const data = await response.json();
+        try {
+          setIsLoading(true);
+          const response = await fetch(
+            `https://studysyncs.onrender.com/api/v1/semesters/${collegeSlug}/${courseSlug}?query=${subjectCode}`
+          );
+          const data = await response.json();
 
-        if (response.ok) {
-          setSuggestions(data.data);
-        } else {
-          setSuggestions([]);
+          if (response.ok) {
+            setSuggestions(data.data);
+            setIsLoading(false);
+          } else {
+            setSuggestions([]);
+            setIsLoading(false);
+          }
+        } catch (error) {
+          console.log(error);
+          setIsLoading(false);
         }
       } else {
         setSuggestions([]);
@@ -63,6 +74,32 @@ function Navbar({ profileData }) {
     setShowSuggestions(false);
   };
 
+  // Close dropdown on escape key press
+  const handleKeyDown = (event) => {
+    if (event.key === "Escape") {
+      setShowSuggestions(false);
+    }
+  };
+
+  // Close dropdown on clicking outside
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setShowSuggestions(false);
+    }
+  };
+
+  useEffect(() => {
+    // Add event listeners
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("click", handleClickOutside);
+
+    // Cleanup event listeners on unmount
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   return (
     <nav className={styles.navbar}>
       <div className={styles.navLeftblock}>
@@ -99,8 +136,14 @@ function Navbar({ profileData }) {
               className={styles.navIcon}
             />
           </button>
+          {showSuggestions && isLoading && (
+            <div className={styles.dropdown} ref={dropdownRef}>
+              <Loader />
+            </div>
+          )}
+
           {showSuggestions && suggestions.length > 0 && (
-            <div className={styles.dropdown}>
+            <div className={styles.dropdown} ref={dropdownRef}>
               {suggestions.map((suggestion) => (
                 <div
                   key={suggestion._id}
@@ -112,11 +155,14 @@ function Navbar({ profileData }) {
               ))}
             </div>
           )}
-          {subjectCode && showSuggestions && suggestions.length === 0 && (
-            <div className={styles.errorDropdown}>
-              <p> No matching subjects found.</p>
-            </div>
-          )}
+          {!isLoading &&
+            subjectCode.length > 2 &&
+            showSuggestions &&
+            suggestions.length === 0 && (
+              <div className={styles.errorDropdown} ref={dropdownRef}>
+                <p> No matching subjects found.</p>
+              </div>
+            )}
         </div>
       </div>
 
