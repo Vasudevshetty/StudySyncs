@@ -38,14 +38,7 @@ function CoursePage() {
 
   return (
     <>
-      <Sidebar>
-        <Link to="/">
-          <div className={styles.homeIcon}>
-            <img src="/img/home.png" alt="home icon" />
-            <span>Home</span>
-          </div>
-        </Link>
-      </Sidebar>
+      <Sidebar></Sidebar>
       <div className={styles.mainContent}>
         <div className={styles.breadcrumb}>
           <div>
@@ -55,7 +48,11 @@ function CoursePage() {
             / {courseSlug.toUpperCase()}
           </div>
         </div>
-        <Banner img={`course/${course.bgImgUrl}`} title={`${course.name}`} />
+        <Banner
+          img={`course/${course.bgImgUrl}`}
+          title={`${course.name}`}
+          isLoading={isLoading}
+        />
         <div className={styles.content}>
           <ContentList
             content={semesters}

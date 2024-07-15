@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Banner from "./Banner";
 import ContentList from "./ContentList";
@@ -43,14 +43,7 @@ function College() {
     <Loader />
   ) : (
     <>
-      <Sidebar>
-        <Link to="/">
-          <div className={styles.homeIcon}>
-            <img src="/img/home.png" alt="home icon" />
-            <span>Home</span>
-          </div>
-        </Link>
-      </Sidebar>
+      <Sidebar></Sidebar>
       <div className={styles.mainContent}>
         <div className={styles.breadcrumb}>{college.slug.toUpperCase()}</div>
         <Banner img={`/college/${college.bgImgUrl}`} title={college.name} />

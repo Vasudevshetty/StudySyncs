@@ -5,7 +5,7 @@ function Banner({ img, title, isLoading }) {
   if (isLoading)
     return (
       <div className={styles.banner}>
-        <Loader />
+        <Loader white />
       </div>
     );
 

@@ -67,6 +67,12 @@ function Navbar({ profileData }) {
     <nav className={styles.navbar}>
       <div className={styles.navLeftblock}>
         <img
+          src="/img/home.png"
+          alt="home navigation"
+          className={styles.navIcon}
+          onClick={() => navigate("/")}
+        />
+        <img
           src="/img/logo-final-light.png"
           alt="logo"
           className={styles.navLogo}
@@ -78,7 +84,7 @@ function Navbar({ profileData }) {
         <div className={styles.serachContainer}>
           <input
             type="text"
-            placeholder="Enter subject code"
+            placeholder="Enter subject code [ex: ec330]"
             className={styles.navSearch}
             value={subjectCode}
             onChange={(e) => {
