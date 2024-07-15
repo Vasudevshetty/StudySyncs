@@ -169,7 +169,7 @@ function SemesterPage() {
             modules.map((module) => (
               <Module
                 module={module}
-                key={module.number}
+                key={module.name}
                 currentModule={currentModule}
                 setCurrentModule={setCurrentModule}
               />
