@@ -16,7 +16,7 @@ function Navbar({ profileData }) {
 
       if (subjectCode.length > 2) {
         const response = await fetch(
-          `http://localhost:8000/api/v1/semesters/${collegeSlug}/${courseSlug}?query=${subjectCode}`
+          `https://studysyncs.onrender.com/api/v1/semesters/${collegeSlug}/${courseSlug}?query=${subjectCode}`
         );
         const data = await response.json();
 
