@@ -202,7 +202,7 @@
 }
 
 .banner {
-  height: 40%;
+  height: 30%;
   background-image: linear-gradient(to right, #4bceee, #1721b4);
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.9);
   margin: 0rem 2rem;
@@ -214,7 +214,7 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 1rem 5rem;
+  padding: 4rem 5rem;
 }
 
 .contentList {

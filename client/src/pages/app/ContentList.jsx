@@ -9,7 +9,7 @@ export default function ContentList({ content, handleClick, isLoading }) {
       </div>
     );
   if (!content.length)
-    return <div className={styles.contentList}>No Courses available</div>;
+    return <div className={styles.contentList}>No content available</div>;
 
   return (
     <ul className={styles.contentList}>

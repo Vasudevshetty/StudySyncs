@@ -3,7 +3,10 @@ const Semester = require("../models/semester");
 // Get all semesters
 exports.getAllSemesters = async (req, res) => {
   try {
-    const semesters = await Semester.find();
+    const semesters = await Semester.find().populate({
+      path: "college course",
+      select: "slug",
+    });
     res.status(200).json({
       status: "success",
       results: semesters.length,

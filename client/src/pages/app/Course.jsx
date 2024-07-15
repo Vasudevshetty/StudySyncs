@@ -20,7 +20,7 @@ function CoursePage() {
           "https://studysyncs.onrender.com/api/v1/courses"
         );
         const { data } = await response.json();
-        setCourse(data[0]);
+        setCourse(data.find((course) => course.slug === courseSlug));
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching course data:", error);
@@ -28,7 +28,7 @@ function CoursePage() {
       }
     }
     fetchData();
-  }, []);
+  }, [courseSlug]);
 
   const handleSemesterClick = (semesterNo) => {
     navigate(`/app/colleges/${collegeSlug}/${courseSlug}/sem-${semesterNo}`);
@@ -55,10 +55,7 @@ function CoursePage() {
             / {courseSlug.toUpperCase()}
           </div>
         </div>
-        <Banner
-          img={`course/${course.bgImgUrl}`}
-          title="Computer Science of Engineering"
-        />
+        <Banner img={`course/${course.bgImgUrl}`} title={`${course.name}`} />
         <div className={styles.content}>
           <ContentList
             content={semesters}

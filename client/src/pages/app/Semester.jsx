@@ -37,7 +37,11 @@ function SemesterPage() {
           "https://studysyncs.onrender.com/api/v1/semesters"
         );
         const { data } = await response.json();
-        const semesterData = data.semesters[0];
+        const semesterData = data.semesters.find(
+          (semester) =>
+            semester.college.slug === collegeSlug &&
+            semester.course.slug === courseSlug
+        );
         setSubjects(semesterData.subjects);
         setLoadingSubjects(false);
         setLoadingModules(false);
@@ -48,7 +52,7 @@ function SemesterPage() {
       }
     }
     fetchSemesterData();
-  }, []);
+  }, [collegeSlug, courseSlug]);
 
   useEffect(() => {
     if (subjects.length && !currentSubjectCode) {

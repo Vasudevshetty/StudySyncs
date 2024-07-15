@@ -1,93 +1,121 @@
 {
-  "college": "",
+  "college": "66917a9338cbf6a58c8a9d40",
   "course": "",
-  "number": 4,
+  "number": 3,
   "subjects": [
     {
-      "name": "Operating Systems",
-      "code": "22CS410",
+      "name": "Engineering Mathematics-III",
+      "code": "MA310",
       "modules": [
-        { "number": 1, "name": "Introductino to Operatinos System Structure" },
-        { "number": 2, "name": "Process, Thread and CPU Scheduling" },
-        { "number": 3, "name": "Process Synchronization and Deadlocks" },
-        { "number": 4, "name": "Main Memory and Virtual Memory" },
-        { "number": 5, "name": "Mass Storage Structure and File System" }
+        { "name": "Statistics", "number": 1 },
+        { "name": "Linear Algebra", "number": 2 },
+        { "name": "Complex Variables-I", "number": 3 },
+        { "name": "Complex Variables-II", "number": 4 },
+        { "name": "Fourier Series", "number": 5 }
       ]
     },
     {
-      "name": "Design and Analysis of Algorithms",
-      "code": "22CS420",
+      "name": "Foundations of Engineering Mathematics-I",
+      "code": "MATDIP310",
+      "modules": [
+        { "name": "Differential Calculus-I", "number": 1 },
+        { "name": "Differential Calculus–II", "number": 2 },
+        { "name": "Differential Calculus–III", "number": 3 },
+        { "name": "Vector Calculus", "number": 4 },
+        { "name": "Differential Equations-I", "number": 5 }
+      ]
+    },
+    {
+      "name": "Circuit Theory and Analysis",
+      "code": "EC310",
+      "modules": [
+        { "name": "Basic concepts", "number": 1 },
+        { "name": "Network Theorems", "number": 2 },
+        { "name": "Resonance and Initial Conditions", "number": 3 },
+        {
+          "name": "Circuit Analysis using Laplace Transforms and Fourier series",
+          "number": 4
+        },
+        { "name": "Network Functions and Two Port parameters", "number": 5 }
+      ]
+    },
+    {
+      "name": "Sensors and Actuators",
+      "code": "EC320",
+      "modules": [
+        { "name": "Instrumentation system and Transducers", "number": 1 },
+        { "name": "Analog Sensors and Transducers", "number": 2 },
+        { "name": "Actuators", "number": 4 },
+        { "name": "Smart Sensors", "number": 4 },
+        { "name": "Interfacing Methods and Circuits", "number": 5 }
+      ]
+    },
+    {
+      "name": "Analog Electronic Circuits",
+      "code": "EC330",
+      "modules": [
+        { "name": "BJT amplifier circuits", "number": 1 },
+        { "name": "MOS amplifier circuits", "number": 2 },
+        { "name": "Frequency Response", "number": 3 },
+        { "name": "Feedback amplifiers and Oscillators", "number": 4 },
+        { "name": "Output stages and Power amplifiers", "number": 5 }
+      ]
+    },
+    {
+      "name": "Digital System Design",
+      "code": "EC340",
       "modules": [
         {
-          "number": 1,
-          "name": "Introudction to Algorithms and Problem Solving"
+          "name": "Principles, Analysis and design of combinational logic",
+          "number": 1
+        },
+        { "name": "Flip-Flops and its Applications", "number": 2 },
+        { "name": "Applications of Digital Circuits", "number": 3 },
+        {
+          "name": "Verilog HDL Basic Concepts, Modules and Ports, Gate-Level Modeling",
+          "number": 4
         },
         {
-          "number": 2,
-          "name": "Brute force and Exhaustive Search, Divide and Conquer Design Techniques"
-        },
-        {
-          "number": 3,
-          "name": "Decrease and Conquer, Transform and Conquer, Space-Time Tradeoffs Approaches"
-        },
-        { "number": 4, "name": "Dynamic Programming and Greedy Techinques" },
-        {
-          "number": 5,
-          "name": "Limitations of Algorithmic Power and Coping with Limitations"
+          "name": "Dataflow Modeling, Behavioral Modeling, Tasks and Functions",
+          "number": 5
         }
       ]
     },
     {
-      "name": "Data Communication",
-      "code": "22CS430",
+      "name": "Communication Systems-I",
+      "code": "EC350",
       "modules": [
-        { "number": 1, "name": "Introduction" },
-        {
-          "number": 2,
-          "name": "Introduction to Physical Layer and Digital Transmission"
-        },
-        {
-          "number": 3,
-          "name": "Bandwidth Utilization, Transmission Media and Switching"
-        },
-        { "number": 4, "name": "Error Detection and Correction" },
-        { "number": 5, "name": "Introduction to Data Link layer" }
+        { "name": "Introduction", "number": 1 },
+        { "name": "AM Modulation and Demodulation", "number": 2 },
+        { "name": "SSB generation and frequency synthesizers", "number": 3 },
+        { "name": "FM modulation and Demodulation", "number": 4 },
+        { "name": "Noise Analysis", "number": 5 }
       ]
     },
     {
-      "name": "Software Engineering",
-      "code": "22CS440",
+      "name": "Universal Human Values (UHV)",
+      "code": "HU311",
       "modules": [
-        { "number": 1, "name": "Software Process" },
-        { "number": 2, "name": "Software Analysis" },
-        { "number": 3, "name": "Software Design" },
-        { "number": 4, "name": "Software Testing" },
-        { "number": 5, "name": "Agile Development" }
-      ]
-    },
-    {
-      "name": "Theory of Computation",
-      "code": "22CS450",
-      "modules": [
-        { "number": 1, "name": "Introudction to Finite Automata" },
         {
-          "number": 2,
-          "name": "Regular Expressoins and Properties of Regular Languages"
+          "name": " Course Introduction - Need, Basic Guidelines, Content and Process for Value Education",
+          "number": 1
         },
-        { "number": 3, "name": "Context-Free Grammars and Languages" },
-        { "number": 4, "name": "Pushdown Automata" },
-        { "number": 5, "name": "Introduction to Turning Machine" }
-      ]
-    },
-    {
-      "name": "Linear Algebra",
-      "code": "22MA412",
-      "modules": [
-        { "number": 1, "name": "Linear Equations" },
-        { "number": 2, "name": "Matrix Algebra" },
-        { "number": 3, "name": "Vector Spaces" },
-        { "number": 4, "name": "Eigen Value, Eigen Vectors and Orthogonality" },
-        { "number": 5, "name": "Orthogonality and least square" }
+        {
+          "name": "Understanding Harmony in the Human Being - Harmony in Myself! ",
+          "number": 2
+        },
+        {
+          "name": "Understanding Harmony in the Family and Society- Harmony in Human-Human Relationship",
+          "number": 3
+        },
+        {
+          "name": "Understanding Harmony in the Nature and Existence - Whole existence as Coexistence",
+          "number": 4
+        },
+        {
+          "name": "Implications of the above Holistic Understanding of Harmony on Professional Ethics ",
+          "number": 5
+        }
       ]
     }
   ]
