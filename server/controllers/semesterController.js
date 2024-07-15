@@ -25,7 +25,10 @@ exports.getAllSemesters = async (req, res) => {
 // Get a single semester by ID
 exports.getSemester = async (req, res) => {
   try {
-    const semester = await Semester.findById(req.params.id);
+    const semester = await Semester.findById(req.params.id).populate({
+      path: "college course",
+      select: "slug",
+    });
     if (!semester) {
       return res.status(404).json({
         status: "fail",
@@ -114,5 +117,44 @@ exports.deleteSemester = async (req, res) => {
       status: "fail",
       message: error.message,
     });
+  }
+};
+
+// Controller to get subject details by subject code, college slug, and course slug
+exports.getSubjectDetails = async (req, res) => {
+  const { collegeSlug, courseSlug, subjectCode } = req.params;
+
+  try {
+    // Find the semester that matches the college slug and course slug
+    const semesters = await Semester.find().populate({
+      path: "college course",
+      select: "slug",
+    });
+
+    const semester = semesters.find(
+      (semester) =>
+        semester.college.slug === collegeSlug &&
+        semester.course.slug === courseSlug
+    );
+
+    if (!semester) {
+      return res.status(404).json({ message: "Semester not found" });
+    }
+
+    // Find the subject by subject code within the found semester
+    const subject = semester.subjects.find((sub) => sub.code === subjectCode);
+
+    if (!subject) {
+      return res.status(404).json({ message: "Subject not found" });
+    }
+
+    return res.status(200).json({
+      status: "success",
+      data: subject,
+    });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Server error", error: error.message });
   }
 };

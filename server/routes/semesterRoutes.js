@@ -5,6 +5,7 @@ const {
   createSemester,
   updateSemester,
   deleteSemester,
+  getSubjectDetails,
 } = require("../controllers/semesterController");
 
 const router = express.Router();
@@ -16,5 +17,7 @@ router
   .get(getSemester)
   .patch(updateSemester)
   .delete(deleteSemester);
+
+router.route("/:collegeSlug/:courseSlug/:subjectCode").get(getSubjectDetails);
 
 module.exports = router;
