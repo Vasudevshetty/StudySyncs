@@ -1,8 +1,67 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./styles/app.module.css";
+import { useState, useEffect } from "react";
 
 function Navbar({ profileData }) {
   const navigate = useNavigate();
+  const [subjectCode, setSubjectCode] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+  useEffect(() => {
+    const fetchSuggestions = async () => {
+      const collegeSlug = "sjce";
+      const courseSlug =
+        subjectCode.split("").slice(0, 2).join("").toLowerCase() + "e";
+
+      if (subjectCode.length > 2) {
+        const response = await fetch(
+          `http://localhost:8000/api/v1/semesters/${collegeSlug}/${courseSlug}?query=${subjectCode}`
+        );
+        const data = await response.json();
+
+        if (response.ok) {
+          setSuggestions(data.data);
+        } else {
+          setSuggestions([]);
+        }
+      } else {
+        setSuggestions([]);
+      }
+    };
+
+    fetchSuggestions();
+  }, [subjectCode]);
+
+  const handleSearch = () => {
+    if (subjectCode) {
+      const collegeSlug = "sjce"; // or dynamically set this based on your app's context
+      const courseSlug =
+        subjectCode.split("").slice(0, 2).join("").toLowerCase() + "e";
+      const semesterSlug = subjectCode.charAt(2);
+
+      // Navigate to the details page with params
+      navigate(
+        `colleges/${collegeSlug}/${courseSlug}/sem-${semesterSlug}?subject=${subjectCode.toUpperCase()}&module=1`
+      );
+      setSubjectCode("");
+      setShowSuggestions(false);
+    }
+  };
+
+  const handleSuggestionClick = (suggestion) => {
+    const collegeSlug = "sjce"; // or dynamically set this based on your app's context
+    const courseSlug =
+      suggestion.code.split("").slice(0, 2).join("").toLowerCase() + "e";
+    const semesterSlug = suggestion.code.charAt(2);
+
+    // Navigate to the details page with params
+    navigate(
+      `colleges/${collegeSlug}/${courseSlug}/sem-${semesterSlug}?subject=${suggestion.code}&module=1`
+    );
+    setSubjectCode("");
+    setShowSuggestions(false);
+  };
 
   return (
     <nav className={styles.navbar}>
@@ -16,15 +75,43 @@ function Navbar({ profileData }) {
       </div>
 
       <div className={styles.navMid}>
-        <input
-          type="text"
-          placeholder="Will be added soon:) tysm (subject code search)"
-          className={styles.navSearch}
-          disabled
-        />
-        <button className={styles.searchButton}>
-          <img src="/img/search.png" alt="search" className={styles.navIcon} />
-        </button>
+        <div className={styles.serachContainer}>
+          <input
+            type="text"
+            placeholder="Enter subject code"
+            className={styles.navSearch}
+            value={subjectCode}
+            onChange={(e) => {
+              setSubjectCode(e.target.value);
+              setShowSuggestions(true);
+            }}
+          />
+          <button className={styles.searchButton} onClick={handleSearch}>
+            <img
+              src="/img/search.png"
+              alt="search"
+              className={styles.navIcon}
+            />
+          </button>
+          {showSuggestions && suggestions.length > 0 && (
+            <div className={styles.dropdown}>
+              {suggestions.map((suggestion) => (
+                <div
+                  key={suggestion._id}
+                  className={styles.fileDropDown}
+                  onClick={() => handleSuggestionClick(suggestion)}
+                >
+                  {suggestion.code} - {suggestion.name}
+                </div>
+              ))}
+            </div>
+          )}
+          {subjectCode && showSuggestions && suggestions.length === 0 && (
+            <div className={styles.errorDropdown}>
+              <p> No matching subjects found.</p>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className={styles.navRightblock}>

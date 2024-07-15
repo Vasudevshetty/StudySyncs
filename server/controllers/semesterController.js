@@ -123,35 +123,61 @@ exports.deleteSemester = async (req, res) => {
 // Controller to get subject details by subject code, college slug, and course slug
 exports.getSubjectDetails = async (req, res) => {
   const { collegeSlug, courseSlug, subjectCode } = req.params;
+  const { query } = req.query;
 
   try {
-    // Find the semester that matches the college slug and course slug
+    // Find the semesters that match the college slug and course slug
     const semesters = await Semester.find().populate({
       path: "college course",
       select: "slug",
     });
 
-    const semester = semesters.find(
+    const filteredSemesters = semesters.filter(
       (semester) =>
         semester.college.slug === collegeSlug &&
         semester.course.slug === courseSlug
     );
 
-    if (!semester) {
-      return res.status(404).json({ message: "Semester not found" });
+    if (!filteredSemesters.length) {
+      return res.status(404).json({ message: "No semesters found" });
     }
 
-    // Find the subject by subject code within the found semester
-    const subject = semester.subjects.find((sub) => sub.code === subjectCode);
+    if (query) {
+      // If query is present, find subjects matching the query within the filtered semesters
+      const matchingSubjects = [];
+      filteredSemesters.forEach((semester) => {
+        const subjects = semester.subjects.filter((subject) =>
+          subject.code.includes(query.toUpperCase())
+        );
+        matchingSubjects.push(...subjects);
+      });
 
-    if (!subject) {
-      return res.status(404).json({ message: "Subject not found" });
+      if (!matchingSubjects.length) {
+        return res.status(404).json({ message: "No matching subjects found" });
+      }
+
+      return res.status(200).json({
+        status: "success",
+        results: matchingSubjects.length,
+        data: matchingSubjects,
+      });
+    } else if (subjectCode) {
+      // If subjectCode is present, find the subject by subject code within the filtered semesters
+      const subject = filteredSemesters[0].subjects.find(
+        (sub) => sub.code === subjectCode
+      );
+
+      if (!subject) {
+        return res.status(404).json({ message: "Subject not found" });
+      }
+
+      return res.status(200).json({
+        status: "success",
+        data: subject,
+      });
     }
 
-    return res.status(200).json({
-      status: "success",
-      data: subject,
-    });
+    return res.status(400).json({ message: "Invalid request parameters" });
   } catch (error) {
     return res
       .status(500)

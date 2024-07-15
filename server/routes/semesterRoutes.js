@@ -18,6 +18,6 @@ router
   .patch(updateSemester)
   .delete(deleteSemester);
 
-router.route("/:collegeSlug/:courseSlug/:subjectCode").get(getSubjectDetails);
+router.route("/:collegeSlug/:courseSlug/:subjectCode?").get(getSubjectDetails);
 
 module.exports = router;
