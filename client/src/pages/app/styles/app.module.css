@@ -17,7 +17,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  min-height: 6.4rem;
+  height: 6.4rem;
   background-image: linear-gradient(to right, #4bceee, #414abd);
 }
 
@@ -509,4 +509,55 @@
   100% {
     transform: rotate(360deg);
   }
+}
+
+@media (max-width: 320px) {
+  .appBody {
+    flex-direction: column;
+  }
+
+  .navbar {
+    height: 4rem;
+    padding: 0 1rem;
+  }
+
+  .navIcon,
+  .navLogo,
+  .navUser {
+    height: 1.5rem;
+  }
+
+  .navSearch {
+    height: 2rem;
+    font-size: 0.8rem;
+    letter-spacing: 0;
+    padding: 0.8rem;
+  }
+
+  .searchButton {
+    height: 2rem;
+    margin-left: -2rem;
+    font-size: 1rem;
+  }
+
+  .navMid {
+    width: 50%;
+  }
+
+  .navRightblock{
+    width: 20%;
+  }
+
+  .navUser{
+    height: 2rem;
+    padding: 0;
+    width: 2rem;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: 2rem;
+    padding: 0;
+  }
+
 }
