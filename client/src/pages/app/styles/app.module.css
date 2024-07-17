@@ -131,7 +131,7 @@
   height: 8rem;
   z-index: 1000;
   opacity: 0.9;
-  padding: 10px;
+  padding: 1rem;
   text-align: center;
 }
 
@@ -270,6 +270,7 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  margin: 4rem 0;
   padding: 1rem 5rem;
 }
 
@@ -279,7 +280,6 @@
   text-align: center;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-top: 4rem;
   width: 35%;
   height: 30rem;
   overflow-y: auto; /* Ensures content list scrolls if necessary */
@@ -311,7 +311,6 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 50%;
-  margin-top: 4rem;
   height: 30rem;
   overflow-y: auto; /* Ensures description container scrolls if necessary */
 }
@@ -511,44 +510,53 @@
   }
 }
 
-@media (max-width: 320px) {
+@media (max-width: 700px) {
   .appBody {
     flex-direction: column;
   }
 
   .navbar {
-    height: 4rem;
+    height: 5rem;
     padding: 0 1rem;
   }
 
   .navIcon,
   .navLogo,
   .navUser {
-    height: 1.5rem;
+    height: 2rem;
+  }
+
+  .navLogo {
+    height: 2rem;
+  }
+
+  .navHome {
+    width: 0;
   }
 
   .navSearch {
-    height: 2rem;
-    font-size: 0.8rem;
+    height: 3.5rem;
+    font-size: 1rem;
     letter-spacing: 0;
-    padding: 0.8rem;
+    padding: 0 0.8rem;
   }
 
   .searchButton {
-    height: 2rem;
-    margin-left: -2rem;
-    font-size: 1rem;
+    height: 100%;
+    padding: 0.8rem 1rem;
+    margin-left: -19%;
+    font-size: 0.3rem;
   }
 
   .navMid {
-    width: 50%;
+    min-width: 50%;
   }
 
-  .navRightblock{
+  .navRightblock {
     width: 20%;
   }
 
-  .navUser{
+  .navUser {
     height: 2rem;
     padding: 0;
     width: 2rem;
@@ -560,4 +568,74 @@
     padding: 0;
   }
 
+  .mainContent {
+    flex-direction: column;
+  }
+
+  .content {
+    padding: 0.5rem;
+    flex-direction: column;
+    margin: 2rem 0;
+  }
+
+  .breadcrumb {
+    font-size: 1rem;
+  }
+
+  .banner {
+    height: 40%; /* Ensure the height is correctly set */
+    min-height: 15rem; /* Optional: Set a minimum height to prevent it from collapsing */
+  }
+
+  .bannerTitle {
+    font-weight: 800;
+    font-size: 1rem;
+    bottom: 1rem; /* Adjust to ensure visibility */
+    line-height: 2;
+    width: 80%;
+  }
+
+  .bannerTitle span {
+    width: 50%;
+    min-width: 30%;
+    padding: 1rem;
+    align-items: center;
+  }
+
+  .contentList,
+  .descriptionContainer {
+    height: 25rem;
+    width: 88%;
+  }
+
+  .contentList {
+    margin-bottom: 2rem;
+  }
+
+  .descriptionText {
+    font-size: 1.3rem;
+  }
+
+  .contentListItem {
+    padding: 1rem;
+    font-size: 1.2rem;
+    margin: 1rem;
+  }
+
+  .moduleBox,
+  .filesBox,
+  .subjectBox {
+    padding: 1rem;
+    width: 85%;
+    height: 33%;
+  }
+
+  .navIconContainer .dropdown,
+  .serachContainer .dropdown,
+  .serachContainer .errorDropdown {
+    width: 28rem;
+    height: 20rem;
+    opacity: 1;
+    right: -25%;
+  }
 }

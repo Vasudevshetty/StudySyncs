@@ -106,7 +106,7 @@ function Navbar({ profileData }) {
         <img
           src="/img/home.png"
           alt="home navigation"
-          className={styles.navIcon}
+          className={styles.navHome}
           onClick={() => navigate("/")}
         />
         <img
