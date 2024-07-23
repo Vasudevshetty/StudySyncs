@@ -29,3 +29,9 @@ const createSendToken = (user, statusCode, res) => {
     data: { user },
   });
 };
+
+exports.login = (req, res) => {};
+
+exports.signup = (req, res) => {};
+
+exports.logout = (req, res) => {};
