@@ -35,8 +35,50 @@
 }
 
 .btnContainer {
+  height: 10%;
   display: flex;
   color: white;
   justify-content: space-around;
 }
 
+.bookmarks,
+.downloads {
+  width: 40%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+}
+
+.bookmarks h2,
+.downloads h2 {
+  font-size: 2.2rem;
+}
+
+.bookmarks ul, 
+.downloads ul{
+  height: 80%;
+}
+
+.bookmarkItem,
+.downloadItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.fileIcon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.resourceData {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  height: 30%;
+  padding: 2rem;
+  justify-content: space-around;
+}

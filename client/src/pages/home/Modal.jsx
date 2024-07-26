@@ -1,8 +1,11 @@
+// src/components/Modal.js
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Loader from "../app/Loader";
+import { useAuth } from "../../contexts/AuthContext";
 
 function Modal({ isModalOpen, toggleModal }) {
+  const { login, skipAuth } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "vasudeepu2815@gmail.com",
@@ -29,36 +32,20 @@ function Modal({ isModalOpen, toggleModal }) {
     };
   }, [isModalOpen, toggleModal]);
 
-  // src/components/Modal.js
   const handleLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+
     try {
-      setIsLoading(true);
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_SERVER_URL}/auth/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-          credentials: "include", // Include cookies
-        }
-      );
-      if (response.ok) {
-        navigate("app/me"); // Redirect to the Me page
-        setIsLoading(false);
-        toggleModal(); // Close the modal
-      } else {
-        setIsLoading(false);
-        const result = await response.json();
-        console.error("Login failed:", result.message);
-        setErrorMessage(result.message);
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error);
+      await login(formData);
+      navigate("/app/me"); // Redirect to the Me page
+      toggleModal(); // Close the modal
       setIsLoading(false);
+    } catch (error) {
       setErrorMessage(error.message);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -67,15 +54,23 @@ function Modal({ isModalOpen, toggleModal }) {
     toggleModal(); // Close the modal
   };
 
-  const handleSkip = () => {
-    navigate("/app/colleges/*"); // Or any route you want to redirect for free-tier access
-    toggleModal(); // Close the modal
+  const handleSkip = async () => {
+    try {
+      await skipAuth();
+      navigate("/app/colleges/*"); // Redirect to a free-tier access route
+    } catch (error) {
+      console.error("Error skipping authentication:", error.message);
+    } finally {
+      toggleModal(); // Close the modal
+    }
   };
 
   return (
     <div className={`modal ${!isModalOpen ? "hidden" : ""}`}>
       {isLoading ? (
-        <Loader />
+        <>
+          <Loader />
+        </>
       ) : (
         <>
           <button className="btn--close-modal" onClick={toggleModal}>
@@ -92,6 +87,7 @@ function Modal({ isModalOpen, toggleModal }) {
               name="email"
               value={formData.email}
               onChange={handleChange}
+              required
             />
             <label>Password: </label>
             <input
@@ -99,6 +95,7 @@ function Modal({ isModalOpen, toggleModal }) {
               name="password"
               value={formData.password}
               onChange={handleChange}
+              required
             />
             {errorMessage && <p className="error-message">{errorMessage}</p>}
             <div className="button-container">

@@ -1,9 +1,10 @@
-// src/pages/AuthPage.js
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 import styles from "./styles/AuthPage.module.css";
 
 const AuthPage = () => {
+  const { signup, skipAuth } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -11,7 +12,7 @@ const AuthPage = () => {
     course: "",
     currentSemester: "",
     password: "",
-    passwordConfirm: "", // Ensure this is defined here
+    passwordConfirm: "",
   });
   const [colleges, setColleges] = useState([]);
   const [courses, setCourses] = useState([]);
@@ -98,26 +99,16 @@ const AuthPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_SERVER_URL}/auth/signup`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
-
-      if (response.ok) {
-        navigate("/app/colleges/*"); // Redirect to home page on successful signup
-      } else {
-        const result = await response.json();
-        console.error("Signup failed:", result.message);
-      }
+      await signup(formData);
+      navigate("/app/colleges/*"); // Redirect to home page on successful signup
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.error("Signup failed:", error.message);
     }
+  };
+
+  const handleSkip = () => {
+    skipAuth();
+    navigate("/app/colleges/*"); // Redirect to app page
   };
 
   return (
@@ -196,7 +187,7 @@ const AuthPage = () => {
           <label>Confirm Password:</label>
           <input
             type="password"
-            name="passwordConfirm" // Ensure the name matches the formData state field
+            name="passwordConfirm"
             value={formData.passwordConfirm}
             onChange={handleChange}
             required
@@ -204,11 +195,7 @@ const AuthPage = () => {
           <button type="submit" className="btn btn-signup">
             Sign Up
           </button>
-          <button
-            type="button"
-            className="btn btn-skip"
-            onClick={() => navigate("/")}
-          >
+          <button type="button" className="btn btn-skip" onClick={handleSkip}>
             Skip
           </button>
         </form>

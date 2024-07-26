@@ -2,16 +2,16 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Loader from "./Loader";
 import styles from "./styles/app.module.css";
+import { useAuth } from "../../contexts/AuthContext";
 
-function Navbar({ userData, bookmarks, downloads }) {
+function Navbar() {
   const navigate = useNavigate();
+  const { userData, logout } = useAuth();
   const [subjectCode, setSubjectCode] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dropdownRef = useRef(null); // Ref to the dropdown
-
-  console.log(userData, downloads, bookmarks);
 
   useEffect(() => {
     const fetchSuggestions = async () => {
@@ -23,7 +23,16 @@ function Navbar({ userData, bookmarks, downloads }) {
         try {
           setIsLoading(true);
           const response = await fetch(
-            `https://studysyncs.onrender.com/api/v1/semesters/${collegeSlug}/${courseSlug}?query=${subjectCode}`
+            `${
+              import.meta.env.VITE_BACKEND_SERVER_URL
+            }/semesters/${collegeSlug}/${courseSlug}?query=${subjectCode}`,
+            {
+              method: "GET", // or 'POST', 'PUT', etc.
+              credentials: "include", // Important to include credentials
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
           );
           const data = await response.json();
 
@@ -102,6 +111,11 @@ function Navbar({ userData, bookmarks, downloads }) {
     };
   }, []);
 
+  const handleLogout = async () => {
+    await logout();
+    navigate("/");
+  };
+
   return (
     <nav className={styles.navbar}>
       <div className={styles.navLeftblock}>
@@ -179,16 +193,20 @@ function Navbar({ userData, bookmarks, downloads }) {
             className={styles.navIcon}
           />
           <div className={styles.dropdown}>
-            {[1, 2, 3].map((item) => (
-              <div className={styles.fileDropDown} key={item}>
-                <img
-                  src={`/img/${item % 2 ? "ppt.png" : "pdf.png"}`}
-                  alt="ppt"
-                  className={styles.navFileIcon}
-                />
-                Dummy Bookmark {item}
-              </div>
-            ))}
+            {userData.bookmarks.length > 0 ? (
+              userData.bookmarks.map((item) => (
+                <div className={styles.fileDropDown} key={item._id}>
+                  <img
+                    src={`/img/${item.type === "ppt" ? "ppt.png" : "pdf.png"}`}
+                    alt="file"
+                    className={styles.navFileIcon}
+                  />
+                  {item.title}
+                </div>
+              ))
+            ) : (
+              <p>No bookmarks available.</p>
+            )}
           </div>
         </div>
 
@@ -199,30 +217,41 @@ function Navbar({ userData, bookmarks, downloads }) {
             className={styles.navIcon}
           />
           <div className={styles.dropdown}>
-            {[1, 2, 3, 4].map((item) => (
-              <div className={styles.fileDropDown} key={item}>
-                <img
-                  src={`/img/${item % 2 ? "ppt.png" : "pdf.png"}`}
-                  alt="ppt"
-                  className={styles.navFileIcon}
-                />
-                Dummy Download {item}
-              </div>
-            ))}
+            {userData.downloads.length > 0 ? (
+              userData.downloads.map((item) => (
+                <div className={styles.fileDropDown} key={item._id}>
+                  <img
+                    src={`/img/${item.type === "ppt" ? "ppt.png" : "pdf.png"}`}
+                    alt="file"
+                    className={styles.navFileIcon}
+                  />
+                  {item.title}
+                </div>
+              ))
+            ) : (
+              <p>No downloads available.</p>
+            )}
           </div>
         </div>
 
         <div className={styles.navIconContainer}>
-          <img src="/img/dp.jpg" alt="user" className={styles.navUser} />
+          <img src={userData.photo} alt="user" className={styles.navUser} />
           <div className={styles.dropdown}>
             <div className={styles.profileData}>
               <div className={styles.profilePic}>
-                <img src="/img/dp.jpg" alt="user photo" />
+                <img
+                  src={userData.photo || "/img/guest.png"}
+                  alt="user photo"
+                />
               </div>
               <div>
-                {/* <p>{userData.name}</p> */}
-                {/* <p>{userData.email}</p> */}
+                <p>{userData.name}</p>
+                <p>{userData.email}</p>
               </div>
+            </div>
+            <div className={styles.profileActions}>
+              <button onClick={() => navigate("me")}>View Profile</button>
+              <button onClick={handleLogout}>Logout</button>
             </div>
           </div>
         </div>
