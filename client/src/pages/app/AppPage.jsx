@@ -4,6 +4,7 @@ import styles from "./styles/app.module.css";
 import College from "./College";
 import Course from "./Course";
 import Semester from "./Semester";
+import Me from "./Me";
 
 function AppPage() {
   const profileData = JSON.parse(localStorage.getItem("profileData")) || {};
@@ -22,6 +23,7 @@ function AppPage() {
             path="colleges/:collegeSlug/:courseSlug/:semesterSlug"
             element={<Semester />}
           />
+          <Route path="me" element={<Me />} />
         </Routes>
       </div>
     </div>

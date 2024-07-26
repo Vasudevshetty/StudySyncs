@@ -1,0 +1,42 @@
+.profile {
+  width: 100%;
+  padding: 2rem 2rem;
+}
+
+.profilePicContainer {
+  display: flex;
+  padding: 2rem 1rem;
+  justify-content: space-around;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+}
+
+.profilePicContainer h1 {
+  font-size: 4rem;
+}
+
+.profilePic {
+  width: 18rem;
+  height: 18rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profileDetails {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  font-weight: bold;
+  padding: 4rem 4rem;
+}
+
+.profileDetails p {
+  font-size: 2.2rem;
+}
+
+.btnContainer {
+  display: flex;
+  color: white;
+  justify-content: space-around;
+}
+

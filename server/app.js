@@ -10,7 +10,7 @@ const semesterRoutes = require("./routes/semesterRoutes");
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
 
-// const authController = require("./controllers/authController");
+const authController = require("./controllers/authController");
 
 dotenv.config({ path: "./config.env" });
 
@@ -36,8 +36,8 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/colleges", collegeRoutes);
 app.use("/api/v1/courses", courseRoutes);
 
-// app.use("/api/v1/semesters", authController.protect, semesterRoutes);
-app.use("/api/v1/semesters", semesterRoutes);
+app.use("/api/v1/semesters", authController.protect, semesterRoutes);
+// app.use("/api/v1/semesters", semesterRoutes);
 
 app.all("*", (req, res) => {
   res.status(404).json({
