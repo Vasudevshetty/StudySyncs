@@ -34,7 +34,7 @@ function SemesterPage() {
       setLoadingModules(true);
       try {
         const response = await fetch(
-          "https://studysyncs.onrender.com/api/v1/semesters"
+          `${import.meta.env.VITE_BACKEND_SERVER_URL}/semesters`
         );
         const { data } = await response.json();
         const semesterData = data.semesters.find(

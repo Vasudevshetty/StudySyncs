@@ -17,7 +17,7 @@ function CoursePage() {
       setIsLoading(true);
       try {
         const response = await fetch(
-          "https://studysyncs.onrender.com/api/v1/courses"
+          `${import.meta.env.VITE_BACKEND_SERVER_URL}/courses`
         );
         const { data } = await response.json();
         setCourse(data.find((course) => course.slug === courseSlug));

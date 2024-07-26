@@ -17,7 +17,7 @@ function College() {
       setIsLoading(true);
       try {
         const response = await fetch(
-          "https://studysyncs.onrender.com/api/v1/colleges"
+          `${import.meta.env.VITE_BACKEND_SERVER_URL}/colleges`
         );
         const { data } = await response.json();
         setCollege(data[0]);

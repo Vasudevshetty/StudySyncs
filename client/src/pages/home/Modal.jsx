@@ -4,9 +4,8 @@ import { useNavigate } from "react-router-dom";
 function Modal({ isModalOpen, toggleModal }) {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: "Vasudev D M",
-    usn: "01JST22UCS169",
     email: "vasudeepu2815@gmail.com",
+    password: "VasudevShetty@39",
   });
 
   const handleChange = (e) => {
@@ -26,10 +25,20 @@ function Modal({ isModalOpen, toggleModal }) {
     };
   }, [isModalOpen, toggleModal]);
 
-  const handleSubmit = (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
     localStorage.setItem("profileData", JSON.stringify(formData)); // Store data in local storage
     navigate("/app/colleges/*");
+    toggleModal(); // Close the modal
+  };
+
+  const handleSignup = () => {
+    navigate("/auth"); // Navigate to the AuthPage
+    toggleModal(); // Close the modal
+  };
+
+  const handleSkip = () => {
+    navigate("/app/colleges"); // Or any route you want to redirect for free-tier access
     toggleModal(); // Close the modal
   };
 
@@ -39,50 +48,40 @@ function Modal({ isModalOpen, toggleModal }) {
         &times;
       </button>
       <h2 className="modal__header">
-        Fill all the details to <br />
-        <span className="highlight">Explore more</span>
-        <br />
+        Welcome to <span className="highlight">StudySyncs</span>
       </h2>
 
-      <form className="modal__form" onSubmit={handleSubmit}>
-        <label>Name: </label>
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          disabled
-          onChange={handleChange}
-        />
-        <label>USN: </label>
-        <input
-          type="text"
-          name="usn"
-          value={formData.usn}
-          disabled
-          onChange={handleChange}
-        />
-        <label>Email Address: </label>
+      <form className="modal__form" onSubmit={handleLogin}>
+        <label>Email: </label>
         <input
           type="email"
           name="email"
           value={formData.email}
-          disabled
           onChange={handleChange}
         />
-        <button className="btn">Next step &rarr;</button>
+        <label>Password: </label>
+        <input
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+        />
+        <div className="button-container">
+          <button type="submit" className="btn">
+            Login &rarr;
+          </button>
+          <button
+            type="button"
+            className="btn btn-signup"
+            onClick={handleSignup}
+          >
+            New here? Sign up &rarr;
+          </button>
+          <button type="button" className="btn btn-skip" onClick={handleSkip}>
+            Skip
+          </button>
+        </div>
       </form>
-      <div
-        className="modal__message"
-        style={{
-          fontSize: "2.2rem",
-          fontWeight: "bold",
-          marginTop: "20px",
-          textAlign: "center",
-          color: "#333",
-        }}
-      >
-        <span className="highlight">Authentication</span> will be added later.
-      </div>
     </div>
   );
 }
