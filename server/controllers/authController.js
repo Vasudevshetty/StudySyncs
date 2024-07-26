@@ -111,8 +111,7 @@ exports.protect = async (req, res, next) => {
   } catch (err) {
     return res.status(401).json({
       status: "fail",
-      message:
-        "You are not logged in! Please log in to get access. " + err.message,
+      message: err.message,
     });
   }
 };
