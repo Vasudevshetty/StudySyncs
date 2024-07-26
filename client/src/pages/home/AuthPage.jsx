@@ -109,8 +109,6 @@ const AuthPage = () => {
         }
       );
 
-      console.log(JSON.stringify(formData));
-
       if (response.ok) {
         navigate("/app/colleges/*"); // Redirect to home page on successful signup
       } else {

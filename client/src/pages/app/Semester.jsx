@@ -34,7 +34,14 @@ function SemesterPage() {
       setLoadingModules(true);
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_SERVER_URL}/semesters`
+          `${import.meta.env.VITE_BACKEND_SERVER_URL}/semesters`,
+          {
+            method: "GET", // or 'POST', 'PUT', etc.
+            credentials: "include", // Important to include credentials
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
         );
         const { data } = await response.json();
         const semesterData = data.semesters.find(
