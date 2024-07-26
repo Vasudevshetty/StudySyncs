@@ -91,23 +91,38 @@ exports.protect = async (req, res, next) => {
   }
 
   try {
+    // Verify token
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
+    // Check if user still exists
     const currentUser = await User.findById(decoded.id);
     if (!currentUser) {
       return res.status(401).json({
         status: "fail",
-        message: "The user belonging to this token does no longer exist.",
+        message: "The user belonging to this token no longer exists.",
       });
     }
 
+    // Grant access to protected route
     req.user = currentUser;
     next();
   } catch (err) {
-    return res.status(401).json({
-      status: "fail",
-      message: err.message,
-    });
+    if (err.name === "JsonWebTokenError") {
+      return res.status(401).json({
+        status: "fail",
+        message: "Invalid token. Please log in again!",
+      });
+    } else if (err.name === "TokenExpiredError") {
+      return res.status(401).json({
+        status: "fail",
+        message: "Your token has expired! Please log in again.",
+      });
+    } else {
+      return res.status(401).json({
+        status: "fail",
+        message: "Unauthorized access!",
+      });
+    }
   }
 };
 

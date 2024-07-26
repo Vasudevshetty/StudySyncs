@@ -5,8 +5,10 @@ function Modal({ isModalOpen, toggleModal }) {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "vasudeepu2815@gmail.com",
-    password: "VasudevShetty@39",
+    password: "vasudev@39",
   });
+
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,11 +27,34 @@ function Modal({ isModalOpen, toggleModal }) {
     };
   }, [isModalOpen, toggleModal]);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    localStorage.setItem("profileData", JSON.stringify(formData)); // Store data in local storage
-    navigate("/app/colleges/*");
-    toggleModal(); // Close the modal
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_SERVER_URL}/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+          credentials: "include", // This is important to include cookies in the request
+        }
+      );
+
+      const result = await response.json();
+
+      if (response.ok) {
+        navigate("/app/colleges/*");
+        toggleModal(); // Close the modal
+      } else {
+        setErrorMessage(result.message || "Login failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error logging in:", error);
+      setErrorMessage("An error occurred. Please try again.");
+    }
   };
 
   const handleSignup = () => {
@@ -38,7 +63,7 @@ function Modal({ isModalOpen, toggleModal }) {
   };
 
   const handleSkip = () => {
-    navigate("/app/colleges"); // Or any route you want to redirect for free-tier access
+    navigate("/app/colleges/*"); // Or any route you want to redirect for free-tier access
     toggleModal(); // Close the modal
   };
 
@@ -66,6 +91,7 @@ function Modal({ isModalOpen, toggleModal }) {
           value={formData.password}
           onChange={handleChange}
         />
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
         <div className="button-container">
           <button type="submit" className="btn">
             Login &rarr;
