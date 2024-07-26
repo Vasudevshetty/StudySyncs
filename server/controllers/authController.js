@@ -42,12 +42,7 @@ const createSendToken = (user, statusCode, res) => {
 // Signup controller
 exports.signup = async (req, res) => {
   try {
-    const newUser = await User.create({
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password,
-      passwordConfirm: req.body.passwordConfirm,
-    });
+    const newUser = await User.create(req.body);
 
     createSendToken(newUser, 201, res);
   } catch (err) {

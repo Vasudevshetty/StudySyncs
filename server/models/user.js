@@ -18,6 +18,18 @@ const userSchema = new mongoose.Schema({
   photo: {
     type: String,
   },
+  college: {
+    type: String,
+    required: [true, "Please provide your college"],
+  },
+  course: {
+    type: String,
+    required: [true, "Please provide your course"],
+  },
+  currentSemester: {
+    type: String,
+    required: [true, "Please provide your current semester"],
+  },
   role: {
     type: String,
     enum: ["student", "teacher"],
