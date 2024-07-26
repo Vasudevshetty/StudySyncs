@@ -3,6 +3,27 @@ const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 
+const resourceSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: [true, "A resource must have a title"],
+  },
+  url: {
+    type: String,
+    required: [true, "A resource must have a URL"],
+  },
+  type: {
+    type: String,
+    enum: ["bookmark", "download"],
+    required: [true, "A resource must have a type"],
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  // Other fields related to the resource can go here
+});
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -59,6 +80,8 @@ const userSchema = new mongoose.Schema({
     default: true,
     select: false,
   },
+  bookmarks: [resourceSchema],
+  downloads: [resourceSchema],
 });
 
 userSchema.pre("save", async function (next) {

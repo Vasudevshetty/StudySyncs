@@ -10,6 +10,17 @@ router.route("/").get(userController.getAllUsers);
 
 router.route("/me").get(authController.getMe, userController.getUser);
 
+// Routes for bookmarks and downloads
+router
+  .route("/me/bookmarks")
+  .post(userController.addBookmark)
+  .delete(userController.removeBookmark);
+
+router
+  .route("/me/downloads")
+  .post(userController.addDownload)
+  .delete(userController.removeDownload);
+
 router
   .route("/:id")
   .get(userController.getUser)

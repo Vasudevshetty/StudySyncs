@@ -3,13 +3,15 @@ import { useNavigate } from "react-router-dom";
 import Loader from "./Loader";
 import styles from "./styles/app.module.css";
 
-function Navbar({ profileData }) {
+function Navbar({ userData, bookmarks, downloads }) {
   const navigate = useNavigate();
   const [subjectCode, setSubjectCode] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dropdownRef = useRef(null); // Ref to the dropdown
+
+  console.log(userData, downloads, bookmarks);
 
   useEffect(() => {
     const fetchSuggestions = async () => {
@@ -218,9 +220,8 @@ function Navbar({ profileData }) {
                 <img src="/img/dp.jpg" alt="user photo" />
               </div>
               <div>
-                <p>{profileData.name}</p>
-                <p>{profileData.usn}</p>
-                <p>{profileData.email}</p>
+                {/* <p>{userData.name}</p> */}
+                {/* <p>{userData.email}</p> */}
               </div>
             </div>
           </div>
