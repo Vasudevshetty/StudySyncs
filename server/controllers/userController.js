@@ -43,14 +43,30 @@ exports.updateUser = async (req, res) => {
     });
 
     res.status(200).json({
-      status: 'success',
+      status: "success",
       data: {
         user: updatedUser,
       },
     });
   } catch (err) {
     res.status(400).json({
-      status: 'fail',
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+
+exports.deleteUser = async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+
+    res.status(204).json({
+      status: "success",
+      data: null,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
       message: err.message,
     });
   }

@@ -1,14 +1,45 @@
 /* eslint-disable no-undef */
 const jwt = require("jsonwebtoken");
-const User = require("../models/user");
+const crypto = require("crypto");
 const { promisify } = require("util");
+const User = require("../models/user");
+const sendEmail = require("../utils/email");
 
+// Function to sign a JWT
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 };
 
+// Function to create and send a JWT cookie
+const createSendToken = (user, statusCode, res) => {
+  const token = signToken(user._id);
+
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+    // Uncomment the following line in production to use HTTPS
+    // secure: process.env.NODE_ENV === 'production',
+  };
+
+  res.cookie("jwt", token, cookieOptions);
+
+  // Remove password from output
+  user.password = undefined;
+
+  res.status(statusCode).json({
+    status: "success",
+    token,
+    data: {
+      user,
+    },
+  });
+};
+
+// Signup controller
 exports.signup = async (req, res) => {
   try {
     const newUser = await User.create({
@@ -18,15 +49,7 @@ exports.signup = async (req, res) => {
       passwordConfirm: req.body.passwordConfirm,
     });
 
-    const token = signToken(newUser._id);
-
-    res.status(201).json({
-      status: "success",
-      token,
-      data: {
-        user: newUser,
-      },
-    });
+    createSendToken(newUser, 201, res);
   } catch (err) {
     res.status(400).json({
       status: "fail",
@@ -35,10 +58,10 @@ exports.signup = async (req, res) => {
   }
 };
 
+// Login controller
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
-  // Check if email and password exist
   if (!email || !password) {
     return res.status(400).json({
       status: "fail",
@@ -46,7 +69,6 @@ exports.login = async (req, res) => {
     });
   }
 
-  // Check if user exists and password is correct
   const user = await User.findOne({ email }).select("+password");
 
   if (!user || !(await user.correctPassword(password, user.password))) {
@@ -56,21 +78,14 @@ exports.login = async (req, res) => {
     });
   }
 
-  // If everything is ok, send token to client
-  const token = signToken(user._id);
-  res.status(200).json({
-    status: "success",
-    token,
-  });
+  createSendToken(user, 200, res);
 };
 
+// Protect middleware to check if user is authenticated
 exports.protect = async (req, res, next) => {
   let token;
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
-    token = req.headers.authorization.split(" ")[1];
+  if (req.cookies.jwt) {
+    token = req.cookies.jwt;
   }
 
   if (!token) {
@@ -96,7 +111,120 @@ exports.protect = async (req, res, next) => {
   } catch (err) {
     return res.status(401).json({
       status: "fail",
-      message: "Invalid token." + err.message,
+      message:
+        "You are not logged in! Please log in to get access. " + err.message,
     });
   }
+};
+
+// Forgot password controller
+exports.forgotPassword = async (req, res) => {
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
+    return res.status(404).json({
+      status: "fail",
+      message: "There is no user with that email address.",
+    });
+  }
+
+  const resetToken = user.createPasswordResetToken();
+  await user.save({ validateBeforeSave: false });
+
+  const resetURL = `${req.protocol}://${req.get(
+    "host"
+  )}/api/v1/auth/resetPassword/${resetToken}`;
+
+  const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
+
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: "Your password reset token (valid for 10 min)",
+      message,
+    });
+
+    res.status(200).json({
+      status: "success",
+      message: "Token sent to email!",
+    });
+  } catch (err) {
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save({ validateBeforeSave: false });
+
+    return res.status(500).json({
+      status: "fail",
+      message:
+        "There was an error sending the email. Try again later!" + err.message,
+    });
+  }
+};
+
+// Reset password controller
+exports.resetPassword = async (req, res) => {
+  const hashedToken = crypto
+    .createHash("sha256")
+    .update(req.params.token)
+    .digest("hex");
+
+  const user = await User.findOne({
+    passwordResetToken: hashedToken,
+    passwordResetExpires: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    return res.status(400).json({
+      status: "fail",
+      message: "Token is invalid or has expired",
+    });
+  }
+
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
+  user.passwordResetToken = undefined;
+  user.passwordResetExpires = undefined;
+  await user.save();
+
+  const token = signToken(user._id);
+  res.status(200).json({
+    status: "success",
+    token,
+  });
+};
+
+// Update password controller
+exports.updatePassword = async (req, res) => {
+  const user = await User.findById(req.user.id).select("+password");
+
+  if (!(await user.correctPassword(req.body.passwordCurrent, user.password))) {
+    return res.status(401).json({
+      status: "fail",
+      message: "Your current password is wrong.",
+    });
+  }
+
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
+  await user.save();
+
+  const token = signToken(user._id);
+  res.status(200).json({
+    status: "success",
+    token,
+  });
+};
+
+// Middleware to set the current user
+exports.getMe = (req, res, next) => {
+  req.params.id = req.user.id;
+  next();
+};
+
+// Logout controller
+exports.logout = (req, res) => {
+  res.cookie("jwt", "loggedout", {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true,
+  });
+  res.status(200).json({ status: "success" });
 };

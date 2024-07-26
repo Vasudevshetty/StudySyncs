@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 const collegeRoutes = require("./routes/collegeRoutes");
 const courseRoutes = require("./routes/courseRoutes");
@@ -19,6 +20,7 @@ app.use(
     limit: "10kb",
   })
 );
+app.use(cookieParser());
 app.use(morgan("dev"));
 
 app.use("/api/v1/colleges", collegeRoutes);
