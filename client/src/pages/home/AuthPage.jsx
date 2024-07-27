@@ -192,8 +192,8 @@ const AuthPage = () => {
             onChange={handleChange}
             required
           />
-          <button type="submit" className="btn btn-signup">
-            Sign Up
+          <button type="submit" className="btn btn-signup" disabled>
+            Sign Up | disabled for now, will add up soon
           </button>
           <button type="button" className="btn btn-skip" onClick={handleSkip}>
             Skip

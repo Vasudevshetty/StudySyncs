@@ -666,3 +666,12 @@
 .profileActions button:hover {
   background-color: var(--color-primary-darker);
 }
+
+/* Non-hoverable state styles */
+.nonHoverable {
+  pointer-events: none; /* Prevent hover interactions */
+}
+
+.nonHoverable:hover .dropdown {
+  display: none; /* Hide dropdown on hover if non-hoverable */
+}

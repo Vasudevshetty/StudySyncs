@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Loader from "./Loader";
 import styles from "./styles/app.module.css";
 import { useAuth } from "../../contexts/AuthContext";
@@ -10,6 +10,9 @@ function Navbar() {
   const { fetchSuggestions, suggestions, isSuggestionsLoading } =
     useAppContext();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isOnMePage = location.pathname === "/app/me";
+
   const [subjectCode, setSubjectCode] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
   const dropdownRef = useRef(null);
@@ -27,7 +30,6 @@ function Navbar() {
         subjectCode.split("").slice(0, 2).join("").toLowerCase() + "e";
       const semesterSlug = subjectCode.charAt(2);
 
-      // Navigate to the details page with params
       navigate(
         `colleges/${collegeSlug}/${courseSlug}/sem-${semesterSlug}?subject=${subjectCode.toUpperCase()}&module=1`
       );
@@ -42,7 +44,6 @@ function Navbar() {
       suggestion.code.split("").slice(0, 2).join("").toLowerCase() + "e";
     const semesterSlug = suggestion.code.charAt(2);
 
-    // Navigate to the details page with params
     navigate(
       `colleges/${collegeSlug}/${courseSlug}/sem-${semesterSlug}?subject=${suggestion.code}&module=1`
     );
@@ -50,14 +51,12 @@ function Navbar() {
     setShowSuggestions(false);
   };
 
-  // Close dropdown on escape key press
   const handleKeyDown = (event) => {
     if (event.key === "Escape") {
       setShowSuggestions(false);
     }
   };
 
-  // Close dropdown on clicking outside
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setShowSuggestions(false);
@@ -65,11 +64,9 @@ function Navbar() {
   };
 
   useEffect(() => {
-    // Add event listeners
     document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("click", handleClickOutside);
 
-    // Cleanup event listeners on unmount
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("click", handleClickOutside);
@@ -144,14 +141,18 @@ function Navbar() {
             showSuggestions &&
             suggestions.length === 0 && (
               <div className={styles.errorDropdown} ref={dropdownRef}>
-                <p> No matching subjects found.</p>
+                <p>No matching subjects found.</p>
               </div>
             )}
         </div>
       </div>
 
       <div className={styles.navRightblock}>
-        <div className={styles.navIconContainer}>
+        <div
+          className={`${styles.navIconContainer} ${
+            isOnMePage ? styles.nonHoverable : ""
+          }`}
+        >
           <img
             src="/img/bookmark.png"
             alt="bookmark"
@@ -175,7 +176,11 @@ function Navbar() {
           </div>
         </div>
 
-        <div className={styles.navIconContainer}>
+        <div
+          className={`${styles.navIconContainer} ${
+            isOnMePage ? styles.nonHoverable : ""
+          }`}
+        >
           <img
             src="/img/download.png"
             alt="download"
@@ -199,7 +204,11 @@ function Navbar() {
           </div>
         </div>
 
-        <div className={styles.navIconContainer}>
+        <div
+          className={`${styles.navIconContainer} ${
+            isOnMePage ? styles.nonHoverable : ""
+          }`}
+        >
           <img src={userData.photo} alt="user" className={styles.navUser} />
           <div className={styles.dropdown}>
             <div className={styles.profileData}>
@@ -217,7 +226,8 @@ function Navbar() {
             <div className={styles.profileActions}>
               <button onClick={() => navigate("me")}>
                 <img src="/img/profile.png" alt="profile" />
-                View Profile</button>
+                View Profile
+              </button>
               <button onClick={handleLogout}>
                 <img src="/img/logout.png" alt="" />
                 Logout
