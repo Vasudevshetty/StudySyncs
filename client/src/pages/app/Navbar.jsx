@@ -3,57 +3,22 @@ import { useNavigate } from "react-router-dom";
 import Loader from "./Loader";
 import styles from "./styles/app.module.css";
 import { useAuth } from "../../contexts/AuthContext";
+import { useAppContext } from "../../contexts/AppContext";
 
 function Navbar() {
-  const navigate = useNavigate();
   const { userData, logout } = useAuth();
+  const { fetchSuggestions, suggestions, isSuggestionsLoading } =
+    useAppContext();
+  const navigate = useNavigate();
   const [subjectCode, setSubjectCode] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const dropdownRef = useRef(null); // Ref to the dropdown
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
-    const fetchSuggestions = async () => {
-      const collegeSlug = "sjce";
-      const courseSlug =
-        subjectCode.split("").slice(0, 2).join("").toLowerCase() + "e";
-
-      if (subjectCode.length > 2) {
-        try {
-          setIsLoading(true);
-          const response = await fetch(
-            `${
-              import.meta.env.VITE_BACKEND_SERVER_URL
-            }/semesters/${collegeSlug}/${courseSlug}?query=${subjectCode}`,
-            {
-              method: "GET", // or 'POST', 'PUT', etc.
-              credentials: "include", // Important to include credentials
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-          const data = await response.json();
-
-          if (response.ok) {
-            setSuggestions(data.data);
-            setIsLoading(false);
-          } else {
-            setSuggestions([]);
-            setIsLoading(false);
-          }
-        } catch (error) {
-          console.log(error);
-          setIsLoading(false);
-        }
-      } else {
-        setSuggestions([]);
-      }
-    };
-
-    fetchSuggestions();
-  }, [subjectCode]);
+    if (userData && userData.college) {
+      fetchSuggestions(subjectCode, userData.college);
+    }
+  }, [subjectCode, userData, fetchSuggestions]);
 
   const handleSearch = () => {
     if (subjectCode) {
@@ -129,7 +94,7 @@ function Navbar() {
           src="/img/logo-final-light.png"
           alt="logo"
           className={styles.navLogo}
-          onClick={() => navigate("/app/colleges/*")}
+          onClick={() => navigate(`/app/colleges/${userData.college}`)}
         />
       </div>
 
@@ -152,7 +117,7 @@ function Navbar() {
               className={styles.navIcon}
             />
           </button>
-          {showSuggestions && isLoading && (
+          {showSuggestions && isSuggestionsLoading && (
             <div className={styles.dropdown} ref={dropdownRef}>
               <Loader />
             </div>
@@ -174,7 +139,7 @@ function Navbar() {
               ))}
             </div>
           )}
-          {!isLoading &&
+          {!isSuggestionsLoading &&
             subjectCode.length > 2 &&
             showSuggestions &&
             suggestions.length === 0 && (

@@ -1,5 +1,6 @@
+import { useEffect } from "react";
+import { useAppContext } from "../../contexts/AppContext";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 import Banner from "./Banner";
 import ContentList from "./ContentList";
 import Description from "./Description";
@@ -7,35 +8,16 @@ import Sidebar from "./Sidebar";
 import styles from "./styles/app.module.css";
 import Loader from "./Loader";
 
-function College() {
-  const [college, setCollege] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+function College({ collegeSlug }) {
+  const { college, isLoading, fetchCollege } = useAppContext();
   const navigate = useNavigate();
 
   useEffect(() => {
-    async function fetchData() {
-      setIsLoading(true);
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_SERVER_URL}/colleges`
-        );
-        const { data } = await response.json();
-        setCollege(data[0]);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching college data:", error);
-        setIsLoading(false);
-      }
-    }
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (college) navigate(`/app/colleges/${college.slug}`);
-  }, [college, navigate]);
+    fetchCollege(collegeSlug);
+  }, [collegeSlug, fetchCollege]);
 
   const handleCourseClick = (courseName) => {
+    console.log(courseName);
     navigate(`/app/colleges/${college.slug}/${courseName}`);
   };
 
@@ -43,7 +25,7 @@ function College() {
     <Loader />
   ) : (
     <>
-      <Sidebar></Sidebar>
+      <Sidebar />
       <div className={styles.mainContent}>
         <div className={styles.breadcrumb}>{college.slug.toUpperCase()}</div>
         <Banner img={`/college/${college.bgImgUrl}`} title={college.name} />

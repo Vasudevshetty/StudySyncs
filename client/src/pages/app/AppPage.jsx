@@ -7,6 +7,7 @@ import Me from "./Me";
 import Loader from "./Loader";
 import { useAuth } from "../../contexts/AuthContext";
 import styles from "./styles/app.module.css";
+import { AppProvider } from "../../contexts/AppContext";
 
 function AppPage() {
   const { userData, isLoading } = useAuth();
@@ -20,23 +21,28 @@ function AppPage() {
   }
 
   return (
-    <div className={styles.app}>
-      <Navbar />
-      <div className={styles.appBody}>
-        <Routes>
-          <Route path="colleges/:collegeSlug" element={<College />} />
-          <Route
-            path="colleges/:collegeSlug/:courseSlug"
-            element={<Course />}
-          />
-          <Route
-            path="colleges/:collegeSlug/:courseSlug/:semesterSlug"
-            element={<Semester />}
-          />
-          <Route path="me" element={<Me userData={userData} />} />
-        </Routes>
+    <AppProvider>
+      <div className={styles.app}>
+        <Navbar />
+        <div className={styles.appBody}>
+          <Routes>
+            <Route
+              path="colleges/:collegeSlug"
+              element={<College collegeSlug={userData.college} />}
+            />
+            <Route
+              path="colleges/:collegeSlug/:courseSlug"
+              element={<Course />}
+            />
+            <Route
+              path="colleges/:collegeSlug/:courseSlug/:semesterSlug"
+              element={<Semester />}
+            />
+            <Route path="me" element={<Me userData={userData} />} />
+          </Routes>
+        </div>
       </div>
-    </div>
+    </AppProvider>
   );
 }
 

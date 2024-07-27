@@ -9,6 +9,9 @@ export const AuthProvider = ({ children }) => {
     downloads: [],
     photo: "",
     name: "Guest",
+    college: "",
+    course: "",
+    currentSemester: "",
     email: "guest@example.com",
   });
   const [isLoading, setIsLoading] = useState(true);
@@ -35,6 +38,9 @@ export const AuthProvider = ({ children }) => {
           name: "Guest",
           email: "guest@example.com",
           photo: "/img/guest.png",
+          college: "sjce",
+          course: "cse",
+          currentSemester: "4",
           bookmarks: [],
           downloads: [],
         });
@@ -46,6 +52,9 @@ export const AuthProvider = ({ children }) => {
         name: "Guest",
         email: "guest@example.com",
         photo: "/img/guest.png",
+        college: "sjce",
+        course: "cse",
+        currentSemester: "4",
         bookmarks: [],
         downloads: [],
       });
@@ -106,6 +115,9 @@ export const AuthProvider = ({ children }) => {
           name: "Guest",
           email: "guest@example.com",
           photo: "/img/guest.png",
+          college: "sjce",
+          course: "cse",
+          currentSemester: "4",
           bookmarks: [],
           downloads: [],
         });
@@ -158,6 +170,9 @@ export const AuthProvider = ({ children }) => {
       name: "Guest",
       email: "guest@example.com",
       photo: "/img/guest.png",
+      college: "sjce",
+      course: "cse",
+      currentSemester: "4",
       bookmarks: [],
       downloads: [],
     });

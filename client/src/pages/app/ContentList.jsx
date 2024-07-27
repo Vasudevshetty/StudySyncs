@@ -8,7 +8,8 @@ export default function ContentList({ content, handleClick, isLoading }) {
         <Loader />
       </div>
     );
-  if (!content.length)
+
+  if (!content || !content.length)
     return <div className={styles.contentList}>No content available</div>;
 
   return (
@@ -17,11 +18,12 @@ export default function ContentList({ content, handleClick, isLoading }) {
         <li
           key={item._id}
           className={styles.contentListItem}
-          onClick={() =>
+          onClick={(e) => {
+            e.preventDefault();
             typeof item.name !== "undefined"
               ? handleClick(`${item.slug}`)
-              : handleClick(`${item.number}`)
-          }
+              : handleClick(`${item.number}`);
+          }}
         >
           {typeof item.name !== "undefined"
             ? item.name.toUpperCase()

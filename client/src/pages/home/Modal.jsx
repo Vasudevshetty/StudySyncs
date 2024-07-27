@@ -57,7 +57,7 @@ function Modal({ isModalOpen, toggleModal }) {
   const handleSkip = async () => {
     try {
       await skipAuth();
-      navigate("/app/colleges/*"); // Redirect to a free-tier access route
+      navigate("/app/me"); // Redirect to a free-tier access route
     } catch (error) {
       console.error("Error skipping authentication:", error.message);
     } finally {

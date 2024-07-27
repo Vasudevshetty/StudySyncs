@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useParams, useLocation, useNavigate } from "react-router-dom";
-import { storage } from "../../../firebaseConfig";
-import { ref, listAll, getDownloadURL } from "firebase/storage";
 import styles from "./styles/app.module.css";
 import Loader from "./Loader";
+import { useAppContext } from "../../contexts/AppContext";
 
 function getFileType(fileName) {
   const extension = fileName.split(".").pop();
@@ -18,49 +17,20 @@ function SemesterPage() {
   const currentSubjectCode = query.get("subject");
   const currentModuleNumber = parseInt(query.get("module"));
 
-  const [subjects, setSubjects] = useState([]);
-  const [modules, setModules] = useState([]);
-  const [files, setFiles] = useState([]);
-
-  const [loadingSubjects, setLoadingSubjects] = useState(false);
-  const [loadingModules, setLoadingModules] = useState(false);
-  const [loadingFiles, setLoadingFiles] = useState(false);
-
+  const {
+    subjects,
+    modules,
+    files,
+    isLoading,
+    fetchSemesterData,
+    fetchFiles,
+    setModules,
+  } = useAppContext();
   const [currentModule, setCurrentModule] = useState(currentModuleNumber || 1);
 
   useEffect(() => {
-    async function fetchSemesterData() {
-      setLoadingSubjects(true);
-      setLoadingModules(true);
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_SERVER_URL}/semesters`,
-          {
-            method: "GET", // or 'POST', 'PUT', etc.
-            credentials: "include", // Important to include credentials
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const { data } = await response.json();
-        const semesterData = data.semesters.find(
-          (semester) =>
-            semester.college.slug === collegeSlug &&
-            semester.course.slug === courseSlug &&
-            semester.number === +semesterSlug.charAt(4)
-        );
-        setSubjects(semesterData.subjects);
-        setLoadingSubjects(false);
-        setLoadingModules(false);
-      } catch (error) {
-        console.error(error);
-        setLoadingSubjects(false);
-        setLoadingModules(false);
-      }
-    }
-    fetchSemesterData();
-  }, [semesterSlug, collegeSlug, courseSlug]);
+    fetchSemesterData(collegeSlug, courseSlug, semesterSlug);
+  }, [semesterSlug, collegeSlug, courseSlug, fetchSemesterData]);
 
   useEffect(() => {
     if (subjects.length && !currentSubjectCode) {
@@ -68,8 +38,24 @@ function SemesterPage() {
       navigate(
         `?subject=${firstSubject.code}&module=${firstSubject.modules[0].number}`
       );
+      fetchFiles(
+        collegeSlug,
+        courseSlug,
+        semesterSlug,
+        currentSubjectCode,
+        currentModule
+      );
     }
-  }, [subjects, currentSubjectCode, navigate]);
+  }, [
+    subjects,
+    currentSubjectCode,
+    navigate,
+    fetchFiles,
+    collegeSlug,
+    courseSlug,
+    semesterSlug,
+    currentModule,
+  ]);
 
   useEffect(() => {
     if (subjects.length && currentSubjectCode) {
@@ -88,51 +74,27 @@ function SemesterPage() {
         }
       }
     }
-  }, [subjects, currentSubjectCode, currentModuleNumber]);
+  }, [subjects, currentSubjectCode, currentModuleNumber, setModules]);
 
   useEffect(() => {
     if (currentSubjectCode && currentModule) {
       navigate(`?subject=${currentSubjectCode}&module=${currentModule}`);
-    }
-  }, [currentSubjectCode, currentModule, navigate]);
-
-  useEffect(() => {
-    const fetchFiles = async () => {
-      setLoadingFiles(true);
-      try {
-        const storageRef = ref(
-          storage,
-          `${collegeSlug}/${courseSlug}/${semesterSlug}/${currentSubjectCode}/module-${currentModule}`
-        );
-        const listResult = await listAll(storageRef);
-
-        const fileList = listResult.items.map(async (itemRef) => {
-          const url = await getDownloadURL(itemRef);
-          return {
-            name: itemRef.name,
-            fullPath: itemRef.fullPath,
-            url,
-          };
-        });
-
-        const fileData = await Promise.all(fileList);
-        setFiles(fileData);
-        setLoadingFiles(false);
-      } catch (error) {
-        console.error("Error fetching files: ", error);
-        setLoadingFiles(false);
-      }
-    };
-
-    if (currentSubjectCode && currentModule) {
-      fetchFiles();
+      fetchFiles(
+        collegeSlug,
+        courseSlug,
+        semesterSlug,
+        currentSubjectCode,
+        currentModule
+      );
     }
   }, [
+    currentSubjectCode,
+    currentModule,
+    navigate,
+    fetchFiles,
     collegeSlug,
     courseSlug,
     semesterSlug,
-    currentSubjectCode,
-    currentModule,
   ]);
 
   return (
@@ -157,7 +119,7 @@ function SemesterPage() {
       </div>
       <div className={styles.content}>
         <div className={styles.subjectBox}>
-          {loadingSubjects ? (
+          {isLoading ? (
             <Loader />
           ) : (
             subjects.map((subject) => (
@@ -171,7 +133,7 @@ function SemesterPage() {
           )}
         </div>
         <div className={styles.moduleBox}>
-          {loadingModules ? (
+          {isLoading ? (
             <Loader />
           ) : (
             modules.map((module) => (
@@ -185,7 +147,7 @@ function SemesterPage() {
           )}
         </div>
         <div className={styles.filesBox}>
-          {loadingFiles ? (
+          {isLoading ? (
             <Loader />
           ) : (
             files.map((file) => <File file={file} key={file.name} />)

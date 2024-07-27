@@ -1,5 +1,6 @@
-import { useParams, useNavigate, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useAppContext } from "../../contexts/AppContext";
 import Banner from "./Banner";
 import ContentList from "./ContentList";
 import Description from "./Description";
@@ -9,36 +10,22 @@ import styles from "./styles/app.module.css";
 function CoursePage() {
   const { collegeSlug, courseSlug } = useParams();
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
-  const [course, setCourse] = useState({});
+  const { course, isLoading, fetchCourse } = useAppContext();
+
+  console.log(courseSlug);
 
   useEffect(() => {
-    async function fetchData() {
-      setIsLoading(true);
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_SERVER_URL}/courses`
-        );
-        const { data } = await response.json();
-        setCourse(data.find((course) => course.slug === courseSlug));
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching course data:", error);
-        setIsLoading(false);
-      }
-    }
-    fetchData();
-  }, [courseSlug]);
+    fetchCourse(courseSlug);
+    console.log("hello from the useeffect");
+  }, [courseSlug, fetchCourse]);
 
   const handleSemesterClick = (semesterNo) => {
     navigate(`/app/colleges/${collegeSlug}/${courseSlug}/sem-${semesterNo}`);
   };
 
-  const semesters = Array.isArray(course.semesters) ? course.semesters : [];
-
   return (
     <>
-      <Sidebar></Sidebar>
+      <Sidebar />
       <div className={styles.mainContent}>
         <div className={styles.breadcrumb}>
           <div>
@@ -55,7 +42,7 @@ function CoursePage() {
         />
         <div className={styles.content}>
           <ContentList
-            content={semesters}
+            content={course.semesters}
             handleClick={handleSemesterClick}
             isLoading={isLoading}
           />
