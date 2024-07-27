@@ -215,8 +215,13 @@ function Navbar() {
               </div>
             </div>
             <div className={styles.profileActions}>
-              <button onClick={() => navigate("me")}>View Profile</button>
-              <button onClick={handleLogout}>Logout</button>
+              <button onClick={() => navigate("me")}>
+                <img src="/img/profile.png" alt="profile" />
+                View Profile</button>
+              <button onClick={handleLogout}>
+                <img src="/img/logout.png" alt="" />
+                Logout
+              </button>
             </div>
           </div>
         </div>

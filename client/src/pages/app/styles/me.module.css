@@ -6,6 +6,7 @@
 .profilePicContainer {
   display: flex;
   padding: 2rem 1rem;
+  height: 30%;
   justify-content: space-around;
   align-items: center;
   border-bottom: 1px solid #ccc;
@@ -13,9 +14,12 @@
 
 .profilePicContainer h1 {
   font-size: 4rem;
+  color: white;
+  z-index: 100;
 }
 
 .profilePic {
+  z-index: 100;
   width: 18rem;
   height: 18rem;
   border-radius: 50%;
@@ -27,7 +31,7 @@
   flex-direction: row;
   justify-content: space-evenly;
   font-weight: bold;
-  padding: 4rem 4rem;
+  padding: 2rem 2rem;
 }
 
 .profileDetails p {
@@ -35,37 +39,62 @@
 }
 
 .btnContainer {
-  height: 10%;
   display: flex;
+  padding: 1rem;
   color: white;
   justify-content: space-around;
+}
+
+.resourceData {
+  height: 45%;
 }
 
 .bookmarks,
 .downloads {
   width: 40%;
   height: 100%;
+  border-radius: 8px;
+  background: #fff;
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  overflow-y: auto;
   flex-direction: column;
 }
 
 .bookmarks h2,
 .downloads h2 {
   font-size: 2.2rem;
+  border-bottom: 2px solid #ccc;
+  padding: 0.5rem 0;
+  margin-bottom: 0.5rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.bookmarks ul, 
-.downloads ul{
+.bookmarks ul,
+.downloads ul {
   height: 80%;
+  width: 80%;
 }
 
 .bookmarkItem,
 .downloadItem {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  padding: 1rem;
+  margin: 0.8rem;
+  font-size: 1.3rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.bookmarkItem:hover,
+.downloadItem:hover {
+  background-color: #e0e0e0;
 }
 
 .fileIcon {
@@ -78,7 +107,48 @@
   display: flex;
   width: 100%;
   align-items: center;
-  height: 30%;
   padding: 2rem;
   justify-content: space-around;
+}
+
+.btnContainer button {
+  border: none;
+  padding: 1rem;
+  font-size: 1.8rem;
+  gap: 1rem;
+  justify-content: center;
+  font-weight: 600;
+  color: white;
+  display: flex;
+  align-items: center;
+  background-color: var(--color-primary);
+  border-radius: 3rem;
+}
+
+.btnContainer button img {
+  padding-left: 0.8rem;
+  height: 2rem;
+}
+
+.btnContainer button:hover {
+  background-color: var(--color-primary-darker);
+}
+
+.coverImg {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.6;
+}
+
+.cover {
+  background-image: linear-gradient(to right, #4bceee, #1721b4);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.9);
+  margin: 0rem 2rem;
+  position: relative;
 }

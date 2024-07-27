@@ -38,6 +38,11 @@ const userSchema = new mongoose.Schema({
   },
   photo: {
     type: String,
+    default: "/img/guest.png",
+  },
+  coverPhoto: {
+    type: String,
+    default: "/img/cover.png",
   },
   college: {
     type: String,

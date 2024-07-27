@@ -8,8 +8,8 @@ function Modal({ isModalOpen, toggleModal }) {
   const { login, skipAuth } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    email: "vasudeepu2815@gmail.com",
-    password: "vasudev@39",
+    email: "",
+    password: "",
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -87,6 +87,7 @@ function Modal({ isModalOpen, toggleModal }) {
               name="email"
               value={formData.email}
               onChange={handleChange}
+              placeholder="user@example.com"
               required
             />
             <label>Password: </label>

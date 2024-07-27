@@ -1,11 +1,13 @@
-import styles from "./styles/me.module.css";
-import Sidebar from "./Sidebar";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import styles from "./styles/me.module.css";
+import Sidebar from "./Sidebar";
 
 function Me({ userData }) {
   const { logout } = useAuth();
   const navigate = useNavigate();
+
+  console.log(userData);
 
   const handleLogout = async () => {
     await logout();
@@ -16,15 +18,23 @@ function Me({ userData }) {
     <>
       <Sidebar />
       <div className={styles.profile}>
-        <div className={styles.profilePicContainer}>
-          <h1>
-            <span className="highlight">{userData?.name}</span>
-          </h1>
-          <img
-            src={userData.photo}
-            alt="Profile"
-            className={styles.profilePic}
-          />
+        <div className={styles.cover}>
+          <div className={styles.profilePicContainer}>
+            <h1>
+              <span className="highlight">{userData?.name}</span>
+            </h1>
+            <img
+              src={userData.photo}
+              alt="Profile"
+              className={styles.profilePic}
+            />
+          </div>
+          <div
+            className={styles.coverImg}
+            style={{
+              backgroundImage: `url(${userData.coverPhoto})`,
+            }}
+          ></div>
         </div>
         <div className={styles.profileDetails}>
           <p> {userData?.email}</p>
@@ -86,18 +96,22 @@ function Me({ userData }) {
         </div>
 
         <div className={styles.btnContainer}>
-          <button className="btn">Edit</button>
+          <button>
+            <img src="/img/edit.png" alt="edit" />
+            Edit
+          </button>
           <button
-            className="btn"
             onClick={() =>
               navigate(
                 `/app/colleges/${userData.college}/${userData.course}/sem-${userData.currentSemester}`
               )
             }
           >
+            <img src="/img/file.png" alt="files" />
             Get study materials
           </button>
-          <button className="btn" onClick={handleLogout}>
+          <button onClick={handleLogout}>
+            <img src="/img/logout.png" alt="logout" />
             Logout
           </button>
         </div>
