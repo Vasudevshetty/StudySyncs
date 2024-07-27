@@ -7,8 +7,6 @@ function Me({ userData }) {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
-  console.log(userData);
-
   const handleLogout = async () => {
     await logout();
     navigate("/");

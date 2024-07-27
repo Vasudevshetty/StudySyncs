@@ -738,22 +738,6 @@ img {
   background: none;
 }
 
-/* Button Containers */
-.button-container {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-top: 2rem;
-}
-
-.btn-signup {
-  background-color: #28a745; /* Signup button color */
-}
-
-.btn-skip {
-  background-color: #6c757d; /* Skip button color */
-}
-
 /* Hidden Class */
 .hidden {
   visibility: hidden;
@@ -787,6 +771,39 @@ img {
   justify-content: space-evenly;
   background-color: white;
   color: #bbb;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+/* Button Containers */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.button-container button {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  font-size: 1.8rem;
+  border-radius: 4rem;
+  font-weight: 600;
+}
+.button-container button img {
+  height: 2rem;
+}
+
+.signup-container {
+  display: flex;
+  font-size: 1.2rem;
+  align-items: center;
+  padding: 0rem 1rem;
+  gap: 1rem;
+}
+
+.signup-container a {
+  color: #000878;
   font-size: 1.5rem;
   font-weight: 500;
 }

@@ -1,6 +1,6 @@
 // src/components/Modal.js
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Loader from "../app/Loader";
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -49,11 +49,6 @@ function Modal({ isModalOpen, toggleModal }) {
     }
   };
 
-  const handleSignup = () => {
-    navigate("/auth"); // Navigate to the AuthPage
-    toggleModal(); // Close the modal
-  };
-
   const handleSkip = async () => {
     try {
       await skipAuth();
@@ -99,23 +94,22 @@ function Modal({ isModalOpen, toggleModal }) {
               required
             />
             {errorMessage && <p className="error-message">{errorMessage}</p>}
+            <div className="signup-container">
+              <p> New here ! Welcome to studysyncs</p>
+              <Link to={"/auth"}>Sign up</Link>
+            </div>
             <div className="button-container">
               <button type="submit" className="btn">
-                Login &rarr;
+                <img src="/img/login.png" alt="login" />
+                Login
               </button>
-              <button
-                type="button"
-                className="btn btn-signup"
-                onClick={handleSignup}
-                disabled
-              >
-                New here? Sign up &rarr;
-              </button>
+
               <button
                 type="button"
                 className="btn btn-skip"
                 onClick={handleSkip}
               >
+                <img src="/img/next.png" alt="" />
                 Skip
               </button>
             </div>
