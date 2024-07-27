@@ -672,6 +672,7 @@ img {
   display: flex;
   flex-direction: column;
   align-items: center; /* Center content horizontally */
+  justify-content: center;
 }
 
 /* Overlay Styles */

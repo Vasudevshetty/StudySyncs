@@ -38,9 +38,9 @@ function Modal({ isModalOpen, toggleModal }) {
 
     try {
       await login(formData);
-      navigate("/app/me"); // Redirect to the Me page
       toggleModal(); // Close the modal
       setIsLoading(false);
+      navigate("/app/me"); // Redirect to the Me page
     } catch (error) {
       setErrorMessage(error.message);
       setIsLoading(false);
@@ -106,6 +106,7 @@ function Modal({ isModalOpen, toggleModal }) {
                 type="button"
                 className="btn btn-signup"
                 onClick={handleSignup}
+                disabled
               >
                 New here? Sign up &rarr;
               </button>

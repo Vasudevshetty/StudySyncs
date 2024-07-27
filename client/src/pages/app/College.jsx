@@ -17,7 +17,6 @@ function College({ collegeSlug }) {
   }, [collegeSlug, fetchCollege]);
 
   const handleCourseClick = (courseName) => {
-    console.log(courseName);
     navigate(`/app/colleges/${college.slug}/${courseName}`);
   };
 

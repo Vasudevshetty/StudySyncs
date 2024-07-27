@@ -16,7 +16,6 @@ function CoursePage() {
 
   useEffect(() => {
     fetchCourse(courseSlug);
-    console.log("hello from the useeffect");
   }, [courseSlug, fetchCourse]);
 
   const handleSemesterClick = (semesterNo) => {
