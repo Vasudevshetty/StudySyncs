@@ -6,13 +6,18 @@ import Features from "./Features";
 import Operations from "./Operations";
 import Testimonials from "./Testimonials";
 import Signup from "./Signup";
+import { useAuth } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
+  const { isAuth } = useAuth();
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const headerRef = useRef(null);
   const navRef = useRef(null);
 
   function toggleModal() {
+    if (isAuth) navigate("/app/me");
     setIsModalOpen(!isModalOpen);
   }
 

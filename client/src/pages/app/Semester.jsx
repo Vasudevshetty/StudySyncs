@@ -3,6 +3,7 @@ import { Link, useParams, useLocation, useNavigate } from "react-router-dom";
 import styles from "./styles/app.module.css";
 import Loader from "./Loader";
 import { useAppContext } from "../../contexts/AppContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 function getFileType(fileName) {
   const extension = fileName.split(".").pop();
@@ -26,6 +27,7 @@ function SemesterPage() {
     fetchFiles,
     setModules,
   } = useAppContext();
+  const { isAuth } = useAuth();
   const [currentModule, setCurrentModule] = useState(currentModuleNumber || 1);
 
   useEffect(() => {
@@ -38,13 +40,14 @@ function SemesterPage() {
       navigate(
         `?subject=${firstSubject.code}&module=${firstSubject.modules[0].number}`
       );
-      fetchFiles(
-        collegeSlug,
-        courseSlug,
-        semesterSlug,
-        currentSubjectCode,
-        currentModule
-      );
+      if (isAuth)
+        fetchFiles(
+          collegeSlug,
+          courseSlug,
+          semesterSlug,
+          currentSubjectCode,
+          currentModule
+        );
     }
   }, [
     subjects,
@@ -55,6 +58,7 @@ function SemesterPage() {
     courseSlug,
     semesterSlug,
     currentModule,
+    isAuth,
   ]);
 
   useEffect(() => {
@@ -79,13 +83,14 @@ function SemesterPage() {
   useEffect(() => {
     if (currentSubjectCode && currentModule) {
       navigate(`?subject=${currentSubjectCode}&module=${currentModule}`);
-      fetchFiles(
-        collegeSlug,
-        courseSlug,
-        semesterSlug,
-        currentSubjectCode,
-        currentModule
-      );
+      if (isAuth)
+        fetchFiles(
+          collegeSlug,
+          courseSlug,
+          semesterSlug,
+          currentSubjectCode,
+          currentModule
+        );
     }
   }, [
     currentSubjectCode,
@@ -95,6 +100,7 @@ function SemesterPage() {
     collegeSlug,
     courseSlug,
     semesterSlug,
+    isAuth,
   ]);
 
   return (
