@@ -807,3 +807,135 @@ img {
   font-size: 1.5rem;
   font-weight: 500;
 }
+
+@media only screen and (max-width: 720px) {
+  .nav {
+    display: none;
+  }
+  .header {
+    padding: 0;
+  }
+  .header__title {
+    margin-top: 5rem;
+    display: inline-block;
+    clip-path: none;
+    clip-path: polygon(0px 0px, 100% 0px, 100% 75vh, 0px 100%);
+    /* max-width: 100%; */
+    /* background-image: none; */
+    /* background-color: yellow; */
+    height: 50vh;
+  }
+  .header__text {
+    /* color: black; */
+  }
+  .header__text h1 {
+    font-size: 4rem;
+    position: relative;
+    left: -16rem;
+    font-weight: bold;
+    line-height: 1.35;
+  }
+  #header__text {
+    position: relative;
+    left: -16rem;
+  }
+
+  .btn-learn--more {
+    position: relative;
+    left: -11rem;
+    font-size: 2rem;
+  }
+
+  /* features section  */
+
+  .section__header {
+    font-size: 2rem;
+    letter-spacing: 0.2rem;
+  }
+  /* .features__img {
+    width: 158%;
+    height: 54%;
+    position: relative;
+    left: -13rem;
+    border-radius: 2px;
+  } */
+
+  .features__feature {
+    /* align-self: center; */
+    /* justify-self: center; */
+    /* width: none; */
+    font-size: 1.4rem;
+  }
+  .features {
+    display: grid;
+    grid-template-columns: 1.2fr 1.5fr;
+    gap: 3rem;
+    margin: 0;
+    /* border-bottom: 1px solid black; */
+  }
+
+  .features__header {
+    font-size: 1.8rem;
+    /* margin-bottom: 0rem; */
+  }
+
+  .features__icon {
+    margin: 0;
+  }
+
+  .features__img {
+    /* align-items: center; */
+    position: relative;
+    top: 8rem;
+  }
+
+  .responive-img {
+    top: 3rem;
+  }
+
+  .operations__bg {
+    margin: 0;
+  }
+  .btn {
+    padding: 1.25rem 1.5rem;
+  }
+  .footer__item {
+    margin-right: 2rem;
+  }
+  .syncs_text {
+    font-size: 3rem;
+  }
+  .testimonial__text {
+    font-size: 1.5rem;
+  }
+  .operations__content {
+    font-size: 1.5rem;
+    padding: 2.5rem 4rem 4.5rem 4rem;
+  }
+}
+
+@media only screen and (max-width: 641px) {
+  .nav {
+    /* display: inline; */
+  }
+  .features {
+    gap: 0rem;
+    /* border-bottom: 1px solid black; */
+  }
+  .header__text h1 {
+    left: -20rem;
+  }
+  .btn {
+    padding: 1.25rem 0.5rem;
+  }
+  .footer__item {
+    margin-right: 1rem;
+    padding-right: 0.5rem;
+  }
+}
+
+@media only screen and (min-width: 720px) and (max-width: 1199px) {
+  .nav {
+    /* display: none; */
+  }
+}
