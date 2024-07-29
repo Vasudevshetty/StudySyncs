@@ -12,8 +12,6 @@ function CoursePage() {
   const navigate = useNavigate();
   const { course, isLoading, fetchCourse } = useAppContext();
 
-  console.log(courseSlug);
-
   useEffect(() => {
     fetchCourse(courseSlug);
   }, [courseSlug, fetchCourse]);
@@ -38,15 +36,18 @@ function CoursePage() {
         <Banner
           img={`course/${course.bgImgUrl}`}
           title={`${course.name}`}
-          isLoading={isLoading}
+          isLoading={isLoading.course}
         />
         <div className={styles.content}>
           <ContentList
             content={course.semesters}
             handleClick={handleSemesterClick}
-            isLoading={isLoading}
+            isLoading={isLoading.course}
           />
-          <Description content={course.description} isLoading={isLoading} />
+          <Description
+            content={course.description}
+            isLoading={isLoading.course}
+          />
         </div>
       </div>
     </>

@@ -10,16 +10,21 @@ export const AppProvider = ({ children }) => {
   const [subjects, setSubjects] = useState([]);
   const [modules, setModules] = useState([]);
   const [files, setFiles] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState({
+    college: false,
+    course: false,
+    subjects: false,
+    files: false,
+    suggestions: false,
+  });
   const [suggestions, setSuggestions] = useState([]);
-  const [isSuggestionsLoading, setIsSuggestionsLoading] = useState(false);
 
   const fetchSuggestions = useCallback(async (subjectCode, collegeSlug) => {
     const courseSlug =
       subjectCode.split("").slice(0, 2).join("").toLowerCase() + "e";
 
     if (subjectCode.length > 2) {
-      setIsSuggestionsLoading(true);
+      setIsLoading((prev) => ({ ...prev, suggestions: true }));
       try {
         const response = await fetch(
           `${
@@ -44,7 +49,7 @@ export const AppProvider = ({ children }) => {
         console.log(error);
         setSuggestions([]);
       } finally {
-        setIsSuggestionsLoading(false);
+        setIsLoading((prev) => ({ ...prev, suggestions: false }));
       }
     } else {
       setSuggestions([]);
@@ -52,7 +57,7 @@ export const AppProvider = ({ children }) => {
   }, []);
 
   const fetchCollege = useCallback(async (collegeSlug) => {
-    setIsLoading(true);
+    setIsLoading((prev) => ({ ...prev, college: true }));
     try {
       const response = await fetch(
         `${import.meta.env.VITE_BACKEND_SERVER_URL}/colleges`
@@ -63,11 +68,12 @@ export const AppProvider = ({ children }) => {
       console.error("Error fetching college data:", error);
     } finally {
       setIsLoading(false);
+      setIsLoading((prev) => ({ ...prev, college: false }));
     }
   }, []);
 
   const fetchCourse = useCallback(async (courseSlug) => {
-    setIsLoading(true);
+    setIsLoading((prev) => ({ ...prev, course: true }));
     try {
       const response = await fetch(
         `${import.meta.env.VITE_BACKEND_SERVER_URL}/courses`
@@ -77,13 +83,13 @@ export const AppProvider = ({ children }) => {
     } catch (error) {
       console.error("Error fetching course data:", error);
     } finally {
-      setIsLoading(false);
+      setIsLoading((prev) => ({ ...prev, course: false }));
     }
   }, []);
 
   const fetchSemesterData = useCallback(
     async (collegeSlug, courseSlug, semesterSlug) => {
-      setIsLoading(true);
+      setIsLoading((prev) => ({ ...prev, subjects: true }));
       try {
         const response = await fetch(
           `${import.meta.env.VITE_BACKEND_SERVER_URL}/semesters`,
@@ -103,7 +109,7 @@ export const AppProvider = ({ children }) => {
       } catch (error) {
         console.error("Error fetching semester data:", error);
       } finally {
-        setIsLoading(false);
+        setIsLoading((prev) => ({ ...prev, subjects: false }));
       }
     },
     []
@@ -117,7 +123,7 @@ export const AppProvider = ({ children }) => {
       currentSubjectCode,
       currentModule
     ) => {
-      setIsLoading(true);
+      setIsLoading((prev) => ({ ...prev, files: true }));
       try {
         const storageRef = ref(
           storage,
@@ -139,7 +145,7 @@ export const AppProvider = ({ children }) => {
       } catch (error) {
         console.error("Error fetching files: ", error);
       } finally {
-        setIsLoading(false);
+        setIsLoading((prev) => ({ ...prev, files: false }));
       }
     },
     []
@@ -157,7 +163,6 @@ export const AppProvider = ({ children }) => {
     fetchSemesterData,
     fetchFiles,
     setModules,
-    isSuggestionsLoading,
     suggestions,
     fetchSuggestions,
   };

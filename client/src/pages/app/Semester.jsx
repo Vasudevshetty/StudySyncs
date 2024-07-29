@@ -126,7 +126,7 @@ function SemesterPage() {
       </div>
       <div className={styles.content}>
         <div className={styles.subjectBox}>
-          {isLoading ? (
+          {isLoading.subjects ? (
             <Loader />
           ) : (
             subjects.map((subject) => (
@@ -140,7 +140,7 @@ function SemesterPage() {
           )}
         </div>
         <div className={styles.moduleBox}>
-          {isLoading ? (
+          {isLoading.subjects ? (
             <Loader />
           ) : (
             modules.map((module) => (
@@ -154,7 +154,7 @@ function SemesterPage() {
           )}
         </div>
         <div className={styles.filesBox}>
-          {isLoading ? (
+          {isLoading.files ? (
             <Loader />
           ) : (
             files.map((file) => <File file={file} key={file.name} />)
