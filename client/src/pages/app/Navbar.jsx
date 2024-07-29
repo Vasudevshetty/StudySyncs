@@ -226,7 +226,7 @@ function Navbar() {
             <div className={styles.profileActions}>
               <button onClick={() => navigate("me")}>
                 <img src="/img/profile.png" alt="profile" />
-                View Profile
+                Profile
               </button>
               <button onClick={handleLogout}>
                 <img src="/img/logout.png" alt="" />

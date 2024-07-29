@@ -16,23 +16,13 @@ function Me({ userData }) {
     <>
       <Sidebar />
       <div className={styles.profile}>
-        <div className={styles.cover}>
-          <div className={styles.profilePicContainer}>
-            <h1>
-              <span className="highlight">{userData?.name}</span>
-            </h1>
-            <img
-              src={userData.photo}
-              alt="Profile"
-              className={styles.profilePic}
-            />
-          </div>
-          <div
-            className={styles.coverImg}
-            style={{
-              backgroundImage: `url(${userData.coverPhoto})`,
-            }}
-          ></div>
+        <div className={styles.profilePicContainer}>
+          <h1>{userData?.name}</h1>
+          <img
+            src={userData.photo}
+            alt="Profile"
+            className={styles.profilePic}
+          />
         </div>
         <div className={styles.profileDetails}>
           <p> {userData?.email}</p>

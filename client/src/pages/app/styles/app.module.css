@@ -636,6 +636,30 @@
     opacity: 1;
     right: -25%;
   }
+
+  .profileActions {
+    padding: 1rem;
+  }
+
+  .profilePic img {
+    height: 7rem;
+    width: 7rem;
+  }
+  .profileData p {
+    font-size: 1.2rem;
+  }
+
+  .profileActions button {
+    font-size: 1rem;
+    padding: 0.5rem 0.3rem;
+    width: 10rem;
+    height: 4rem;
+    gap: 0.6rem;
+  }
+
+  .profileActions button img {
+    height: 1rem;
+  }
 }
 
 .profileActions {

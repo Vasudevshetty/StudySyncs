@@ -163,6 +163,8 @@ const AuthPage = () => {
                 </option>
               ))}
             </select>
+          </div>
+          <div>
             <label>Current Semester:</label>
             <select
               name="currentSemester"
@@ -199,7 +201,7 @@ const AuthPage = () => {
             />
           </div>
           <div>
-            <button type="submit" disabled>
+            <button type="submit">
               <img src="/img/signup.png" alt="signup" />
               Sign Up
             </button>

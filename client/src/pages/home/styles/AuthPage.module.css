@@ -16,8 +16,7 @@
   padding: 2rem;
   height: 80%;
   border-radius: 8px;
-  max-width: 80%;
-  min-width: 40%;
+  width: 40%;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -87,7 +86,7 @@
   font-size: 1.5rem;
   font-weight: 600;
   display: flex;
-  width: 25%;
+  width: 15rem;
   align-items: center;
   justify-content: space-around;
   cursor: pointer;
@@ -95,4 +94,30 @@
 
 .authForm div button img {
   width: 2.5rem;
+}
+
+@media (max-width: 700px) {
+  .logo img {
+    height: 6rem;
+  }
+
+  .authContainer {
+    width: 90%;
+  }
+  .authContainer h1 {
+    font-size: 3rem;
+  }
+
+  .authForm div {
+    gap: 1rem;
+  }
+
+  .authForm div button {
+    font-size: 1.8rem;
+    width: 40%;
+  }
+
+  .authForm div button img{
+    width: 2rem;
+  }
 }
