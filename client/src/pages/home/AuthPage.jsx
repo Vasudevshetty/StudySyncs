@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import styles from "./styles/AuthPage.module.css";
+import Loader from "../app/Loader";
 
 const AuthPage = () => {
-  const { signup, skipAuth } = useAuth();
+  const { signup, skipAuth, isLoading } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -111,106 +112,110 @@ const AuthPage = () => {
       </Link>
       <div className={styles.authContainer}>
         <h1>Sign in</h1>
-        <form className={styles.authForm} onSubmit={handleSubmit}>
-          <div>
-            <label>Name:</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label>Email:</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label>College:</label>
-            <select
-              name="college"
-              value={formData.college}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select a college</option>
-              {colleges?.map((college) => (
-                <option key={college._id} value={college.slug}>
-                  {college.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label>Course:</label>
-            <select
-              name="course"
-              value={formData.course}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select a course</option>
-              {courses?.map((course) => (
-                <option key={course._id} value={course.slug}>
-                  {course.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label>Current Semester:</label>
-            <select
-              name="currentSemester"
-              value={formData.currentSemester}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select a semester</option>
-              {semesters?.map((semester) => (
-                <option key={semester._id} value={semester.number}>
-                  {semester.number}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label>Password:</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label>Confirm Password:</label>
-            <input
-              type="password"
-              name="passwordConfirm"
-              value={formData.passwordConfirm}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <button type="submit">
-              <img src="/img/signup.png" alt="signup" />
-              Sign Up
-            </button>
-            <button type="button" onClick={handleSkip}>
-              <img src="/img/next.png" alt="signup" />
-              Skip
-            </button>
-          </div>
-        </form>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <form className={styles.authForm} onSubmit={handleSubmit}>
+            <div>
+              <label>Name:</label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <label>Email:</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <label>College:</label>
+              <select
+                name="college"
+                value={formData.college}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select a college</option>
+                {colleges?.map((college) => (
+                  <option key={college._id} value={college.slug}>
+                    {college.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label>Course:</label>
+              <select
+                name="course"
+                value={formData.course}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select a course</option>
+                {courses?.map((course) => (
+                  <option key={course._id} value={course.slug}>
+                    {course.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label>Current Semester:</label>
+              <select
+                name="currentSemester"
+                value={formData.currentSemester}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select a semester</option>
+                {semesters?.map((semester) => (
+                  <option key={semester._id} value={semester.number}>
+                    {semester.number}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label>Password:</label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <label>Confirm Password:</label>
+              <input
+                type="password"
+                name="passwordConfirm"
+                value={formData.passwordConfirm}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <button type="submit">
+                <img src="/img/signup.png" alt="signup" />
+                Sign Up
+              </button>
+              <button type="button" onClick={handleSkip}>
+                <img src="/img/next.png" alt="signup" />
+                Skip
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );
