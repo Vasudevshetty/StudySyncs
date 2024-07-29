@@ -82,12 +82,6 @@ function Navbar() {
     <nav className={styles.navbar}>
       <div className={styles.navLeftblock}>
         <img
-          src="/img/home.png"
-          alt="home navigation"
-          className={styles.navHome}
-          onClick={() => navigate("/")}
-        />
-        <img
           src="/img/logo-final-light.png"
           alt="logo"
           className={styles.navLogo}

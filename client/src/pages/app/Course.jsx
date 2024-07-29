@@ -28,6 +28,7 @@ function CoursePage() {
       <div className={styles.mainContent}>
         <div className={styles.breadcrumb}>
           <div>
+            <Link to="/">HOME/ </Link>
             <Link to={`/app/colleges/${collegeSlug}`}>
               {collegeSlug.toUpperCase()}
             </Link>
