@@ -125,13 +125,11 @@ export const AuthProvider = ({ children }) => {
           bookmarks: [],
           downloads: [],
         });
-        console.log("Logout successful");
       } else {
         throw new Error("Logout failed");
       }
     } catch (error) {
       setError(error.message);
-      console.error("Logout failed:", error);
     } finally {
       setIsLoading(false);
     }

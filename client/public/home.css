@@ -808,4 +808,38 @@ img {
   font-weight: 500;
 }
 
+.page-not-found {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  background-image: linear-gradient(to right bottom, #4bceee, #0008788e),
+    url(./img/bg2.webp);
+  align-items: center;
+}
 
+.page-not-found div {
+  height: 50%;
+  background: white;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2rem;
+  width: 50%;
+}
+
+.page-not-found div h2 {
+  font-size: 4rem;
+  color: red;
+}
+
+.page-not-found div p{
+  font-size: 3rem;
+}
+
+.page-not-found div a{
+  font-size: 2rem;
+  font-weight: 600;
+}
