@@ -6,8 +6,18 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useAppContext } from "../../contexts/AppContext";
 
 function Navbar() {
-  const { userData, logout, removeBookmark, removeDownload } = useAuth();
-  const { fetchSuggestions, suggestions, isLoading } = useAppContext();
+  const {
+    userData,
+    logout,
+    removeBookmark,
+    removeDownload,
+    isLoading: authIsLoading,
+  } = useAuth();
+  const {
+    fetchSuggestions,
+    suggestions,
+    isLoading: appIsLoading,
+  } = useAppContext();
   const navigate = useNavigate();
   const location = useLocation();
   const isOnMePage = location.pathname === "/app/me";
@@ -115,7 +125,7 @@ function Navbar() {
               className={styles.navIcon}
             />
           </button>
-          {showSuggestions && isLoading.suggestions && (
+          {showSuggestions && appIsLoading.suggestions && (
             <div className={styles.dropdown} ref={dropdownRef}>
               <Loader />
             </div>
@@ -137,7 +147,7 @@ function Navbar() {
               ))}
             </div>
           )}
-          {!isLoading.suggestions &&
+          {!appIsLoading.suggestions &&
             subjectCode.length > 2 &&
             showSuggestions &&
             suggestions.length === 0 && (
@@ -160,7 +170,7 @@ function Navbar() {
             className={styles.navIcon}
           />
           <div className={styles.dropdown}>
-            {isLoading.addBookmark || isLoading.removeBookmark ? (
+            {authIsLoading.addBookmark || authIsLoading.removeBookmark ? (
               <Loader />
             ) : userData.bookmarks.length > 0 ? (
               userData.bookmarks.map((item) => (
@@ -185,7 +195,7 @@ function Navbar() {
                 </div>
               ))
             ) : (
-              <p>No bookmarks available.</p>
+              <p> No bookmarks available.</p>
             )}
           </div>
         </div>
@@ -201,7 +211,7 @@ function Navbar() {
             className={styles.navIcon}
           />
           <div className={styles.dropdown}>
-            {isLoading.addDownload || isLoading.removeDownload ? (
+            {authIsLoading.addDownload || authIsLoading.removeDownload ? (
               <Loader />
             ) : userData.downloads.length > 0 ? (
               userData.downloads.map((item) => (
