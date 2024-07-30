@@ -6,8 +6,11 @@ import AppPage from "./pages/app/AppPage";
 import AuthPage from "./pages/home/AuthPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import MobileLoginPage from "./pages/MobileLoginPage";
+import AuthRoute from "./pages/AuthRoute"; // Import the AuthRoute component
+import { useAuth } from "./contexts/AuthContext";
 
 function App() {
+  const { isAuth } = useAuth();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const navigate = useNavigate();
   const location = useLocation();
@@ -41,7 +44,10 @@ function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/mobile-login" element={<MobileLoginPage />} />
       <Route path="/auth" element={<AuthPage />} />
-      <Route path="/app/*" element={<AppPage />} />
+      <Route
+        path="/app/*"
+        element={<AuthRoute element={<AppPage />} isAuth={isAuth} />} // Use AuthRoute for protected routes
+      />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

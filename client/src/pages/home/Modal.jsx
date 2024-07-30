@@ -93,11 +93,6 @@ function Modal({ isModalOpen, toggleModal }) {
               <Link to={"/auth"}>Sign up</Link>
             </div>
             <div className="button-container">
-              <button type="submit" className="btn">
-                <img src="/img/login.png" alt="login" />
-                Login
-              </button>
-
               <button
                 type="button"
                 className="btn btn-skip"
@@ -105,6 +100,10 @@ function Modal({ isModalOpen, toggleModal }) {
               >
                 <img src="/img/next.png" alt="" />
                 Skip
+              </button>
+              <button type="submit" className="btn">
+                <img src="/img/login.png" alt="login" />
+                Login
               </button>
             </div>
           </form>

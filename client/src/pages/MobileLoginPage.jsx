@@ -32,7 +32,7 @@ function MobileLoginPage() {
   const handleSkip = async () => {
     try {
       await skipAuth();
-      navigate("./app/me"); // Redirect to a free-tier access route
+      navigate("../app/me"); // Redirect to a free-tier access route
     } catch (error) {
       console.error("Error skipping authentication:", error.message);
     }
@@ -85,11 +85,6 @@ function MobileLoginPage() {
                 <Link to={"/auth"}>Sign up</Link>
               </div>
               <div className="button-container">
-                <button type="submit" className="btn">
-                  <img src="/img/login.png" alt="login" />
-                  Login
-                </button>
-
                 <button
                   type="button"
                   className="btn btn-skip"
@@ -97,6 +92,10 @@ function MobileLoginPage() {
                 >
                   <img src="/img/next.png" alt="" />
                   Skip
+                </button>
+                <button type="submit" className="btn">
+                  Login
+                  <img src="/img/login.png" alt="login" />
                 </button>
               </div>
             </form>

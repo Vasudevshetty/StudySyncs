@@ -28,7 +28,7 @@
 .authContainer {
   background: white;
   padding: 2rem;
-  height: 80%;
+  height: 85%;
   border-radius: 8px;
   width: 40%;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -108,6 +108,15 @@
 
 .authForm div button img {
   width: 2.5rem;
+}
+
+.alreadyLogged {
+  font-size: 1.4rem;
+  justify-content: start !important;
+}
+
+.alreadyLogged a{
+  font-weight: 500;
 }
 
 @media (max-width: 700px) {

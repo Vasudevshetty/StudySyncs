@@ -26,6 +26,7 @@ export const AuthProvider = ({ children }) => {
     removeDownload: false,
   });
   const [error, setError] = useState(null);
+  const [notification, setNotification] = useState("");
 
   // Function to fetch user data
   const fetchUserData = async () => {
@@ -57,19 +58,8 @@ export const AuthProvider = ({ children }) => {
         });
       }
     } catch (error) {
-      setIsAuth(false);
       setError(error.message);
-      setUserData({
-        name: "Guest",
-        email: "guest@example.com",
-        photo: "/img/guest.png",
-        coverPhoto: "/img/cover.png",
-        college: "sjce",
-        course: "cse",
-        currentSemester: "4",
-        bookmarks: [],
-        downloads: [],
-      });
+      skipAuth();
     } finally {
       setIsLoading((prev) => ({ ...prev, fetchUser: false }));
     }
@@ -77,6 +67,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     fetchUserData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const login = async (formData) => {
@@ -102,19 +93,8 @@ export const AuthProvider = ({ children }) => {
         throw new Error(result.message);
       }
     } catch (err) {
-      setIsAuth(false);
       setError(err.message);
-      setUserData({
-        name: "Guest",
-        email: "guest@example.com",
-        photo: "/img/guest.png",
-        coverPhoto: "/img/cover.png",
-        college: "sjce",
-        course: "cse",
-        currentSemester: "4",
-        bookmarks: [],
-        downloads: [],
-      });
+      skipAuth();
       throw err;
     } finally {
       setIsLoading((prev) => ({ ...prev, login: false }));
@@ -132,18 +112,7 @@ export const AuthProvider = ({ children }) => {
         }
       );
       if (response.ok) {
-        setIsAuth(false);
-        setUserData({
-          name: "Guest",
-          email: "guest@example.com",
-          photo: "/img/guest.png",
-          coverPhoto: "/img/cover.png",
-          college: "sjce",
-          course: "cse",
-          currentSemester: "4",
-          bookmarks: [],
-          downloads: [],
-        });
+        skipAuth();
       } else {
         throw new Error("Logout failed");
       }
@@ -177,19 +146,8 @@ export const AuthProvider = ({ children }) => {
         throw new Error(result.message);
       }
     } catch (err) {
-      setIsAuth(false);
       setError(err.message);
-      setUserData({
-        name: "Guest",
-        email: "guest@example.com",
-        photo: "/img/guest.png",
-        coverPhoto: "/img/cover.png",
-        college: "sjce",
-        course: "cse",
-        currentSemester: "4",
-        bookmarks: [],
-        downloads: [],
-      });
+      skipAuth();
       throw err;
     } finally {
       setIsLoading((prev) => ({ ...prev, signup: false }));
@@ -232,10 +190,10 @@ export const AuthProvider = ({ children }) => {
           ...prev,
           bookmarks: [...prev.bookmarks, resource],
         }));
-        console.log(data.message);
+        setNotification(data.message);
       } else {
         const data = await response.json();
-        console.log(data.message);
+        setNotification(data.message);
       }
     } catch (error) {
       console.log(error);
@@ -265,10 +223,10 @@ export const AuthProvider = ({ children }) => {
           ...prev,
           bookmarks: prev.bookmarks.filter((item) => item.url !== resource.url),
         }));
-        console.log(data.message);
+        setNotification(data.message);
       } else {
         const data = await response.json();
-        console.log(data.message);
+        setNotification(data.message);
       }
     } catch (error) {
       console.log(error);
@@ -298,10 +256,10 @@ export const AuthProvider = ({ children }) => {
           ...prev,
           downloads: [...prev.downloads, resource],
         }));
-        console.log(data.message);
+        setNotification(data.message);
       } else {
         const data = await response.json();
-        console.log(data.message);
+        setNotification(data.message);
       }
     } catch (error) {
       console.log(error);
@@ -331,10 +289,10 @@ export const AuthProvider = ({ children }) => {
           ...prev,
           downloads: prev.downloads.filter((item) => item.url !== resource.url),
         }));
-        console.log(data.message);
+        setNotification(data.message);
       } else {
         const data = await response.json();
-        console.log(data.message);
+        setNotification(data.message);
       }
     } catch (error) {
       console.log(error);
@@ -358,6 +316,7 @@ export const AuthProvider = ({ children }) => {
         removeBookmark,
         addDownload,
         removeDownload,
+        notification,
       }}
     >
       {children}

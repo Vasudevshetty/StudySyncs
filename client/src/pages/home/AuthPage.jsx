@@ -204,14 +204,17 @@ const AuthPage = () => {
                 required
               />
             </div>
+            <div className={styles.alreadyLogged}>
+              Already have an account? <Link to="/">Login</Link>
+            </div>
             <div>
-              <button type="submit">
-                <img src="/img/signup.png" alt="signup" />
-                Sign Up
-              </button>
               <button type="button" onClick={handleSkip}>
                 <img src="/img/next.png" alt="signup" />
                 Skip
+              </button>
+              <button type="submit">
+                <img src="/img/signup.png" alt="signup" />
+                Sign Up
               </button>
             </div>
           </form>
