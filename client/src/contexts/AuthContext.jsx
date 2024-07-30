@@ -67,7 +67,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     fetchUserData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const login = async (formData) => {
@@ -104,18 +104,20 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     setIsLoading((prev) => ({ ...prev, logout: true }));
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_SERVER_URL}/auth/logout`,
-        {
-          method: "GET",
-          credentials: "include",
+      if (isAuth) {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_SERVER_URL}/auth/logout`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+        if (response.ok) {
+          skipAuth();
+        } else {
+          throw new Error("Logout failed");
         }
-      );
-      if (response.ok) {
-        skipAuth();
-      } else {
-        throw new Error("Logout failed");
-      }
+      } else skipAuth();
     } catch (error) {
       setError(error.message);
     } finally {
