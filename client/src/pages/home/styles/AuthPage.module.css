@@ -11,6 +11,20 @@
   position: relative;
 }
 
+.loginPage {
+  flex-direction: column;
+}
+
+.loginPage h2 {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.loginContainer {
+  height: 55% !important;
+}
+
 .authContainer {
   background: white;
   padding: 2rem;
@@ -105,7 +119,7 @@
     width: 90%;
   }
   .authContainer h1 {
-    font-size: 3rem;
+    font-size: 2rem;
   }
 
   .authForm div {
@@ -117,7 +131,20 @@
     width: 40%;
   }
 
-  .authForm div button img{
+  .authForm div button img {
     width: 2rem;
+  }
+
+  .signupContainer {
+    display: flex;
+    justify-content: start !important;
+    font-size: 1rem;
+    padding: 0rem 1rem;
+  }
+
+  .signupContainer a {
+    color: #000878;
+    font-size: 1rem;
+    font-weight: 500;
   }
 }
