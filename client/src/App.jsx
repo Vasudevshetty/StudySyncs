@@ -1,29 +1,40 @@
+import { useState, useEffect } from "react";
+import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import HomePage from "./pages/home/HomePage";
 import "../public/home.css";
-import { Route, Routes, useNavigate } from "react-router-dom";
 import AppPage from "./pages/app/AppPage";
 import AuthPage from "./pages/home/AuthPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import MobileLoginPage from "./pages/MobileLoginPage";
-import { useEffect } from "react";
 
 function App() {
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768 && location.pathname === "/") {
-        navigate("/mobile-login");
-      }
+      setScreenWidth(window.innerWidth);
     };
 
-    handleResize(); // Check the screen size on initial load
     window.addEventListener("resize", handleResize);
 
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [navigate]);
+  }, []);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      if (screenWidth < 768 && location.pathname === "/") {
+        navigate("/mobile-login");
+      } else if (screenWidth >= 768 && location.pathname === "/mobile-login") {
+        navigate("/");
+      }
+    };
+
+    checkScreenSize(); // Check on initial load and location change
+  }, [screenWidth, location.pathname, navigate]);
 
   return (
     <Routes>
