@@ -5,7 +5,7 @@ import styles from "./home/styles/AuthPage.module.css";
 import Loader from "./app/Loader";
 
 function MobileLoginPage() {
-  const { login, skipAuth, isLoading } = useAuth();
+  const { login, skipAuth, isLoading, isAuth } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -48,53 +48,59 @@ function MobileLoginPage() {
         desktop site in the options to check out. !
       </h2>
       <div className={`${styles.authContainer} ${styles.loginContainer}`}>
-        <h1>Log in</h1>
-        {isLoading.login ? (
+        {isAuth ? (
+          <h3>
+            You are already logged :) | <Link to="/app/me">Get in</Link>
+          </h3>
+        ) : isLoading.login ? (
           <Loader />
         ) : (
-          <form className={styles.authForm} onSubmit={handleLogin}>
-            <div>
-              <label>Email: </label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="user@example.com"
-                required
-              />
-            </div>
-            <div>
-              <label>Password: </label>
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
-            <div className={styles.signupContainer}>
-              <p> New here ! Welcome to studysyncs</p>
-              <Link to={"/auth"}>Sign up</Link>
-            </div>
-            <div className="button-container">
-              <button type="submit" className="btn">
-                <img src="/img/login.png" alt="login" />
-                Login
-              </button>
+          <>
+            <h1>Log in</h1>
+            <form className={styles.authForm} onSubmit={handleLogin}>
+              <div>
+                <label>Email: </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="user@example.com"
+                  required
+                />
+              </div>
+              <div>
+                <label>Password: </label>
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              {errorMessage && <p className="error-message">{errorMessage}</p>}
+              <div className={styles.signupContainer}>
+                <p> New here ! Welcome to studysyncs</p>
+                <Link to={"/auth"}>Sign up</Link>
+              </div>
+              <div className="button-container">
+                <button type="submit" className="btn">
+                  <img src="/img/login.png" alt="login" />
+                  Login
+                </button>
 
-              <button
-                type="button"
-                className="btn btn-skip"
-                onClick={handleSkip}
-              >
-                <img src="/img/next.png" alt="" />
-                Skip
-              </button>
-            </div>
-          </form>
+                <button
+                  type="button"
+                  className="btn btn-skip"
+                  onClick={handleSkip}
+                >
+                  <img src="/img/next.png" alt="" />
+                  Skip
+                </button>
+              </div>
+            </form>
+          </>
         )}
       </div>
     </div>

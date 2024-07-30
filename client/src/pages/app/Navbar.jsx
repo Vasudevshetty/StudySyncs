@@ -23,8 +23,35 @@ function Navbar() {
   const isOnMePage = location.pathname === "/app/me";
 
   const [subjectCode, setSubjectCode] = useState("");
+  const [isDropdownVisible, setIsDropdownVisible] = useState({
+    downloads: false,
+    bookmarks: false,
+  });
   const [showSuggestions, setShowSuggestions] = useState(false);
   const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    let timer;
+
+    // Check if any of the flags are true (i.e., loading state is active)
+    if (authIsLoading.addDownload || authIsLoading.addBookmark) {
+      // Set dropdowns to be visible immediately when loading
+      setIsDropdownVisible({
+        downloads: authIsLoading.addDownload,
+        bookmarks: authIsLoading.addBookmark,
+      });
+    } else {
+      // Set a timer to hide dropdowns after 2 seconds of no loading
+      timer = setTimeout(() => {
+        setIsDropdownVisible({
+          downloads: false,
+          bookmarks: false,
+        });
+      }, 1000); // 1-second delay
+    }
+
+    return () => clearTimeout(timer); // Cleanup timeout if the component unmounts
+  }, [authIsLoading.addDownload, authIsLoading.addBookmark]); // Depend on specific loading states
 
   useEffect(() => {
     if (userData && userData.college) {
@@ -162,14 +189,17 @@ function Navbar() {
         <div
           className={`${styles.navIconContainer} ${
             isOnMePage ? styles.nonHoverable : ""
-          }`}
+          } `}
         >
           <img
             src="/img/bookmark.png"
             alt="bookmark"
             className={styles.navIcon}
           />
-          <div className={styles.dropdown}>
+          <div
+            className={styles.dropdown}
+            style={isDropdownVisible.bookmarks ? { display: "block" } : {}}
+          >
             {authIsLoading.addBookmark || authIsLoading.removeBookmark ? (
               <Loader />
             ) : userData.bookmarks.length > 0 ? (
@@ -210,7 +240,10 @@ function Navbar() {
             alt="download"
             className={styles.navIcon}
           />
-          <div className={styles.dropdown}>
+          <div
+            className={styles.dropdown}
+            style={isDropdownVisible.downloads ? { display: "block" } : {}}
+          >
             {authIsLoading.addDownload || authIsLoading.removeDownload ? (
               <Loader />
             ) : userData.downloads.length > 0 ? (
