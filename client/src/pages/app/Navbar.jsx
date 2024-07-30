@@ -6,9 +6,8 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useAppContext } from "../../contexts/AppContext";
 
 function Navbar() {
-  const { userData, logout } = useAuth();
-  const { fetchSuggestions, suggestions, isSuggestionsLoading } =
-    useAppContext();
+  const { userData, logout, removeBookmark, removeDownload } = useAuth();
+  const { fetchSuggestions, suggestions, isLoading } = useAppContext();
   const navigate = useNavigate();
   const location = useLocation();
   const isOnMePage = location.pathname === "/app/me";
@@ -78,6 +77,14 @@ function Navbar() {
     navigate("/");
   };
 
+  const handleRemoveBookmark = async (resource) => {
+    await removeBookmark(resource);
+  };
+
+  const handleRemoveDownload = async (resource) => {
+    await removeDownload(resource);
+  };
+
   return (
     <nav className={styles.navbar}>
       <div className={styles.navLeftblock}>
@@ -108,7 +115,7 @@ function Navbar() {
               className={styles.navIcon}
             />
           </button>
-          {showSuggestions && isSuggestionsLoading && (
+          {showSuggestions && isLoading.suggestions && (
             <div className={styles.dropdown} ref={dropdownRef}>
               <Loader />
             </div>
@@ -130,7 +137,7 @@ function Navbar() {
               ))}
             </div>
           )}
-          {!isSuggestionsLoading &&
+          {!isLoading.suggestions &&
             subjectCode.length > 2 &&
             showSuggestions &&
             suggestions.length === 0 && (
@@ -153,15 +160,28 @@ function Navbar() {
             className={styles.navIcon}
           />
           <div className={styles.dropdown}>
-            {userData.bookmarks.length > 0 ? (
+            {isLoading.addBookmark || isLoading.removeBookmark ? (
+              <Loader />
+            ) : userData.bookmarks.length > 0 ? (
               userData.bookmarks.map((item) => (
                 <div className={styles.fileDropDown} key={item._id}>
-                  <img
-                    src={`/img/${item.type === "ppt" ? "ppt.png" : "pdf.png"}`}
-                    alt="file"
-                    className={styles.navFileIcon}
-                  />
-                  {item.title}
+                  <div>
+                    <img
+                      src={`/img/${
+                        item.type === "ppt" ? "ppt.png" : "pdf.png"
+                      }`}
+                      alt="file"
+                      className={styles.navFileIcon}
+                    />
+                    {item.title}
+                  </div>
+                  <button onClick={() => handleRemoveBookmark(item)}>
+                    <img
+                      src="/img/delete.png"
+                      alt="delete"
+                      className={styles.navFileIcon}
+                    />
+                  </button>
                 </div>
               ))
             ) : (
@@ -181,15 +201,28 @@ function Navbar() {
             className={styles.navIcon}
           />
           <div className={styles.dropdown}>
-            {userData.downloads.length > 0 ? (
+            {isLoading.addDownload || isLoading.removeDownload ? (
+              <Loader />
+            ) : userData.downloads.length > 0 ? (
               userData.downloads.map((item) => (
                 <div className={styles.fileDropDown} key={item._id}>
-                  <img
-                    src={`/img/${item.type === "ppt" ? "ppt.png" : "pdf.png"}`}
-                    alt="file"
-                    className={styles.navFileIcon}
-                  />
-                  {item.title}
+                  <div>
+                    <img
+                      src={`/img/${
+                        item.type === "ppt" ? "ppt.png" : "pdf.png"
+                      }`}
+                      alt="file"
+                      className={styles.navFileIcon}
+                    />
+                    {item.title}
+                  </div>
+                  <button onClick={() => handleRemoveDownload(item)}>
+                    <img
+                      src="/img/delete.png"
+                      alt="delete"
+                      className={styles.navFileIcon}
+                    />
+                  </button>
                 </div>
               ))
             ) : (

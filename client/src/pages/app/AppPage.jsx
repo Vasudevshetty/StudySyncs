@@ -12,7 +12,7 @@ import { AppProvider } from "../../contexts/AppContext";
 function AppPage() {
   const { userData, isLoading } = useAuth();
 
-  if (isLoading) {
+  if (isLoading.fetchUser) {
     return (
       <div className={styles.app}>
         <Loader />

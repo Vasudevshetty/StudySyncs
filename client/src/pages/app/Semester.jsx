@@ -168,6 +168,24 @@ function SemesterPage() {
 export default SemesterPage;
 
 function File({ file }) {
+  const { addBookmark, addDownload } = useAuth();
+
+  const handleBookmark = () => {
+    addBookmark({
+      title: file.name,
+      url: file.url,
+      type: getFileType(file.name),
+    });
+  };
+
+  const handleDownload = () => {
+    addDownload({
+      title: file.name,
+      url: file.url,
+      type: getFileType(file.name),
+    });
+  };
+
   return (
     <div className={styles.file}>
       <img
@@ -178,14 +196,14 @@ function File({ file }) {
       <div className={styles.fileNameWrapper}>
         <span className={styles.fileName}>{file.name}</span>
       </div>
-      <a
-        target="_blank"
-        href={file.url}
-        download
-        className={styles.downloadLink}
-      >
-        Download
-      </a>
+      <div className={styles.downbook}>
+        <button onClick={handleDownload}>
+          <img src="/img/down-black.png" alt="download" />
+        </button>
+        <button onClick={handleBookmark}>
+          <img src="/img/bookmark-black.png" alt="bookmark" />
+        </button>
+      </div>
     </div>
   );
 }
