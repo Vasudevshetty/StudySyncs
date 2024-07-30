@@ -216,7 +216,7 @@ function Navbar() {
             ) : userData.downloads.length > 0 ? (
               userData.downloads.map((item) => (
                 <div className={styles.fileDropDown} key={item._id}>
-                  <div>
+                  <a target="_blank" download href={item.url}>
                     <img
                       src={`/img/${
                         item.type === "ppt" ? "ppt.png" : "pdf.png"
@@ -225,7 +225,7 @@ function Navbar() {
                       className={styles.navFileIcon}
                     />
                     {item.title}
-                  </div>
+                  </a>
                   <button onClick={() => handleRemoveDownload(item)}>
                     <img
                       src="/img/delete.png"

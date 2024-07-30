@@ -83,21 +83,48 @@
   width: 80%;
 }
 
+.bookmarks p,
+.downloads p {
+  font-size: 2rem;
+  padding: 1rem;
+}
+
 .bookmarkItem,
 .downloadItem {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 1rem;
   margin: 0.8rem;
   font-size: 1.3rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
-  cursor: pointer;
+}
+
+.bookmarkItem div,
+.downloadItem div {
+  width: 80%;
 }
 
 .bookmarkItem:hover,
 .downloadItem:hover {
   background-color: #e0e0e0;
+}
+
+.bookmarkItem button,
+.downloadItem button {
+  border: none;
+  align-items: center;
+  width: 3rem;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  height: 3rem;
+}
+
+.deleteIcon {
+  height: 2rem;
 }
 
 .fileIcon {
@@ -125,6 +152,7 @@
   display: flex;
   align-items: center;
   background-color: var(--color-primary);
+  cursor: pointer;
   border-radius: 3rem;
 }
 

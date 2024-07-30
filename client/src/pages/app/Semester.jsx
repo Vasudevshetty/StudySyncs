@@ -168,22 +168,39 @@ function SemesterPage() {
 export default SemesterPage;
 
 function File({ file }) {
-  const { addBookmark, addDownload } = useAuth();
+  const { addBookmark, removeBookmark, addDownload, userData } = useAuth();
 
-  const handleBookmark = () => {
-    addBookmark({
-      title: file.name,
-      url: file.url,
-      type: getFileType(file.name),
-    });
+  const isBookmarked = userData.bookmarks.some(
+    (bookmark) => bookmark.title === file.name
+  );
+
+  const isDownloaded = userData.downloads.some(
+    (download) => download.title === file.name
+  );
+
+  const handleBookmark = async () => {
+    if (!isBookmarked) {
+      await addBookmark({
+        title: file.name,
+        url: file.url,
+        type: getFileType(file.name),
+      });
+    } else
+      await removeBookmark({
+        title: file.name,
+        url: file.url,
+        type: getFileType(file.name),
+      });
   };
 
-  const handleDownload = () => {
-    addDownload({
-      title: file.name,
-      url: file.url,
-      type: getFileType(file.name),
-    });
+  const handleDownload = async () => {
+    if (!isDownloaded) {
+      await addDownload({
+        title: file.name,
+        url: file.url,
+        type: getFileType(file.name),
+      });
+    }
   };
 
   return (
@@ -197,11 +214,14 @@ function File({ file }) {
         <span className={styles.fileName}>{file.name}</span>
       </div>
       <div className={styles.downbook}>
-        <button onClick={handleDownload}>
-          <img src="/img/down-black.png" alt="download" />
+        <button onClick={handleDownload} disabled={isDownloaded}>
+          <img src="/img/download.png" alt="download" />
         </button>
         <button onClick={handleBookmark}>
-          <img src="/img/bookmark-black.png" alt="bookmark" />
+          <img
+            src={isBookmarked ? "/img/bookmark-fill.png" : "/img/bookmark.png"}
+            alt="bookmark"
+          />
         </button>
       </div>
     </div>

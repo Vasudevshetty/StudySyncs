@@ -2,14 +2,23 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import styles from "./styles/me.module.css";
 import Sidebar from "./Sidebar";
+import Loader from "./Loader";
 
 function Me({ userData }) {
-  const { logout } = useAuth();
+  const { logout, removeBookmark, removeDownload, isLoading } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     await logout();
     navigate("/");
+  };
+
+  const handleRemoveBookmark = async (resource) => {
+    await removeBookmark(resource);
+  };
+
+  const handleRemoveDownload = async (resource) => {
+    await removeDownload(resource);
   };
 
   return (
@@ -39,18 +48,30 @@ function Me({ userData }) {
           {/* Bookmarks Section */}
           <div className={styles.bookmarks}>
             <h2>Bookmarks</h2>
-            {userData.bookmarks.length > 0 ? (
+            {isLoading.removeBookmark ? (
+              <Loader />
+            ) : userData.bookmarks.length > 0 ? (
               <ul>
                 {userData.bookmarks.map((bookmark, index) => (
                   <li key={index} className={styles.bookmarkItem}>
-                    <img
-                      src={`/img/${
-                        bookmark.type === "ppt" ? "ppt.png" : "pdf.png"
-                      }`}
-                      alt="Bookmark"
-                      className={styles.fileIcon}
-                    />
-                    {bookmark.title}
+                    <div>
+                      <img
+                        src={`/img/${
+                          bookmark.type === "ppt" ? "ppt.png" : "pdf.png"
+                        }`}
+                        alt="Bookmark"
+                        className={styles.fileIcon}
+                      />
+                      {bookmark.title}
+                    </div>
+
+                    <button onClick={() => handleRemoveBookmark(bookmark)}>
+                      <img
+                        src="/img/delete.png"
+                        alt="delete"
+                        className={styles.deleteIcon}
+                      />
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -62,18 +83,29 @@ function Me({ userData }) {
           {/* Downloads Section */}
           <div className={styles.downloads}>
             <h2>Downloads</h2>
-            {userData.downloads.length > 0 ? (
+            {isLoading.removeDownload ? (
+              <Loader />
+            ) : userData.downloads.length > 0 ? (
               <ul>
                 {userData.downloads.map((download, index) => (
                   <li key={index} className={styles.downloadItem}>
-                    <img
-                      src={`/img/${
-                        download.type === "ppt" ? "ppt.png" : "pdf.png"
-                      }`}
-                      alt="Download"
-                      className={styles.fileIcon}
-                    />
-                    {download.title}
+                    <a href={download.url} target="_blank" download>
+                      <img
+                        src={`/img/${
+                          download.type === "ppt" ? "ppt.png" : "pdf.png"
+                        }`}
+                        alt="file"
+                        className={styles.fileIcon}
+                      />
+                      {download.title}
+                    </a>
+                    <button onClick={() => handleRemoveDownload(download)}>
+                      <img
+                        src="/img/delete.png"
+                        className={styles.deleteIcon}
+                        alt="delete"
+                      />
+                    </button>
                   </li>
                 ))}
               </ul>

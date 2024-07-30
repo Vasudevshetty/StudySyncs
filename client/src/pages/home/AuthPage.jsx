@@ -112,7 +112,7 @@ const AuthPage = () => {
       </Link>
       <div className={styles.authContainer}>
         <h1>Sign in</h1>
-        {isLoading ? (
+        {isLoading.singup ? (
           <Loader />
         ) : (
           <form className={styles.authForm} onSubmit={handleSubmit}>

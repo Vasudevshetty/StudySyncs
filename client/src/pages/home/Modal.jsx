@@ -5,14 +5,13 @@ import Loader from "../app/Loader";
 import { useAuth } from "../../contexts/AuthContext";
 
 function Modal({ isModalOpen, toggleModal }) {
-  const { login, skipAuth } = useAuth();
+  const { login, skipAuth, isLoading } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
@@ -34,18 +33,13 @@ function Modal({ isModalOpen, toggleModal }) {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
 
     try {
       await login(formData);
       toggleModal(); // Close the modal
-      setIsLoading(false);
       navigate("/app/me"); // Redirect to the Me page
     } catch (error) {
       setErrorMessage(error.message);
-      setIsLoading(false);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -62,7 +56,7 @@ function Modal({ isModalOpen, toggleModal }) {
 
   return (
     <div className={`modal ${!isModalOpen ? "hidden" : ""}`}>
-      {isLoading ? (
+      {isLoading.login ? (
         <>
           <Loader />
         </>
