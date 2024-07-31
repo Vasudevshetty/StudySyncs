@@ -255,3 +255,45 @@ exports.removeDownload = async (req, res) => {
     });
   }
 };
+
+exports.updateProfileImage = async (req, res) => {
+  try {
+    const userId = req.user.id; // Extract user ID from authenticated user
+    const { profileImageUrl } = req.body; // Extract profile image URL from the request body
+
+    if (!profileImageUrl) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Profile image URL is required",
+      });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { profileImage: profileImageUrl },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (!user) {
+      return res.status(404).json({
+        status: "fail",
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        user,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};

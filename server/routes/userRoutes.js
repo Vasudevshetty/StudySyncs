@@ -10,6 +10,8 @@ router.route("/").get(userController.getAllUsers);
 
 router.route("/me").get(authController.getMe, userController.getUser);
 
+router.route("/me/updateProfileImage").patch(userController.updateProfileImage);
+
 // Routes for bookmarks and downloads
 router
   .route("/me/bookmarks")

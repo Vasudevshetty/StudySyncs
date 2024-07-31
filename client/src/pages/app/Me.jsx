@@ -3,6 +3,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import styles from "./styles/me.module.css";
 import Sidebar from "./Sidebar";
 import Loader from "./Loader";
+import ImageUpload from "./ImageUpload";
 
 function Me({ userData }) {
   const { logout, removeBookmark, removeDownload, isLoading } = useAuth();
@@ -28,10 +29,11 @@ function Me({ userData }) {
         <div className={styles.profilePicContainer}>
           <h1>{userData?.name}</h1>
           <img
-            src={userData.photo}
+            src={userData.profileImage}
             alt="Profile"
             className={styles.profilePic}
           />
+          <ImageUpload />
         </div>
         <div className={styles.profileDetails}>
           <p> {userData?.email}</p>

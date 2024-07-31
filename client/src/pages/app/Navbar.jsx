@@ -279,12 +279,16 @@ function Navbar() {
             isOnMePage ? styles.nonHoverable : ""
           }`}
         >
-          <img src={userData.photo} alt="user" className={styles.navUser} />
+          <img
+            src={userData.profileImage}
+            alt="user"
+            className={styles.navUser}
+          />
           <div className={styles.dropdown}>
             <div className={styles.profileData}>
               <div className={styles.profilePic}>
                 <img
-                  src={userData.photo || "/img/guest.png"}
+                  src={userData.profileImage || "/img/guest.png"}
                   alt="user photo"
                 />
               </div>

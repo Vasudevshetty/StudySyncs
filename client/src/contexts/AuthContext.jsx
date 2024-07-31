@@ -1,4 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { storage } from "../../firebaseConfig";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const AuthContext = createContext();
 
@@ -7,8 +9,8 @@ export const AuthProvider = ({ children }) => {
   const [userData, setUserData] = useState({
     bookmarks: [],
     downloads: [],
-    photo: "",
-    coverPhoto: "",
+    profileImage: "",
+    coverprofileImage: "",
     name: "Guest",
     college: "",
     course: "",
@@ -24,11 +26,11 @@ export const AuthProvider = ({ children }) => {
     removeBookmark: false,
     addDownload: false,
     removeDownload: false,
+    uploadProfileImage: false,
   });
   const [error, setError] = useState(null);
   const [notification, setNotification] = useState("");
 
-  // Function to fetch user data
   const fetchUserData = async () => {
     setIsLoading((prev) => ({ ...prev, fetchUser: true }));
     try {
@@ -48,8 +50,8 @@ export const AuthProvider = ({ children }) => {
         setUserData({
           name: "Guest",
           email: "guest@example.com",
-          photo: "/img/guest.png",
-          coverPhoto: "/img/cover.png",
+          profileImage: "/img/guest.png",
+          coverprofileImage: "/img/cover.png",
           college: "sjce",
           course: "cse",
           currentSemester: "4",
@@ -161,8 +163,8 @@ export const AuthProvider = ({ children }) => {
     setUserData({
       name: "Guest",
       email: "guest@example.com",
-      photo: "/img/guest.png",
-      coverPhoto: "/img/cover.png",
+      profileImage: "/img/guest.png",
+      coverprofileImage: "/img/cover.png",
       college: "sjce",
       course: "cse",
       currentSemester: "4",
@@ -303,13 +305,50 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const uploadProfileImage = async (file) => {
+    setIsLoading((prev) => ({ ...prev, uploadProfileImage: true }));
+    try {
+      const fileRef = ref(storage, `profile_images/${file.name}`);
+      await uploadBytes(fileRef, file);
+      const downloadURL = await getDownloadURL(fileRef);
+
+      const response = await fetch(
+        `${
+          import.meta.env.VITE_BACKEND_SERVER_URL
+        }/users/me/updateProfileImage`,
+        {
+          method: "PATCH",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ profileImageUrl: downloadURL }),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setUserData((prev) => ({ ...prev, profileImage: downloadURL }));
+        setNotification(data.message);
+      } else {
+        const data = await response.json();
+        setNotification(data.message);
+      }
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsLoading((prev) => ({ ...prev, uploadProfileImage: false }));
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
         isAuth,
-        userData,
         isLoading,
+        userData,
         error,
+        notification,
         login,
         logout,
         signup,
@@ -318,7 +357,7 @@ export const AuthProvider = ({ children }) => {
         removeBookmark,
         addDownload,
         removeDownload,
-        notification,
+        uploadProfileImage,
       }}
     >
       {children}
@@ -327,4 +366,6 @@ export const AuthProvider = ({ children }) => {
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  return useContext(AuthContext);
+};

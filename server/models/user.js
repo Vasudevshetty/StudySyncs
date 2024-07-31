@@ -36,13 +36,9 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     validate: [validator.isEmail, "Please provide a valid email"],
   },
-  photo: {
+  profileImage: {
     type: String,
     default: "/img/guest.png",
-  },
-  coverPhoto: {
-    type: String,
-    default: "/img/cover.png",
   },
   college: {
     type: String,
