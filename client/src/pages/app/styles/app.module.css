@@ -747,7 +747,7 @@
 }
 
 .profileActions button:hover {
-  background-color: var(--color-primary-darker);
+  background-image: linear-gradient(to right, #4bceee, #414abd);
 }
 
 /* Non-hoverable state styles */

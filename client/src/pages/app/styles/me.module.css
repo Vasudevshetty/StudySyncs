@@ -151,7 +151,7 @@
   color: white;
   display: flex;
   align-items: center;
-  background-color: var(--color-primary);
+  background-image: linear-gradient(to right, #4bceee, #414abd);
   cursor: pointer;
   border-radius: 3rem;
 }
@@ -193,4 +193,33 @@
   .btnContainer button {
     font-size: 1.2rem;
   }
+}
+
+/* Position the profile image wrapper and button */
+.profilePicWrapper {
+  position: relative;
+}
+
+.uploadButtonWrapper {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+}
+
+.uploadButton {
+  color: #fff;
+  border: none;
+  padding: 0.4rem 0.6rem;
+  border-radius: 50%;
+  align-items: center;
+  cursor: pointer;
+  background-image: linear-gradient(to right, #4bceee, #414abd);
+}
+
+.uploadButton:hover {
+  background-color: #0056b3;
+}
+
+.uploadButton:focus {
+  outline: none;
 }

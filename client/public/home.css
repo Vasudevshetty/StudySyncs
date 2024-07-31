@@ -843,3 +843,58 @@ img {
   font-size: 2rem;
   font-weight: 600;
 }
+
+.image-upload {
+  position: absolute;
+  background: white;
+  height: 10rem;
+  width: 15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2rem;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.image-upload p{
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.file-input {
+  position: relative;
+  background-image: linear-gradient(to right, #4bceee, #414abd);
+  height: 55%;
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.file-input input[type="file"] {
+  display: none; /* Hide the file input */
+}
+
+.file-input label {
+  cursor: pointer; /* Make the label clickable */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.file-input img {
+  object-fit: cover; /* Ensure image aspect ratio is maintained */
+}
+
+.image-upload button {
+  color: #fff;
+  border: none;
+  width: 40%;
+  padding: 0.4rem 0.6rem;
+  border-radius: 50%;
+  align-items: center;
+  cursor: pointer;
+  background-image: linear-gradient(to right, #4bceee, #414abd);
+}

@@ -1,12 +1,14 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import styles from "./styles/me.module.css";
 import Sidebar from "./Sidebar";
 import Loader from "./Loader";
-import ImageUpload from "./ImageUpload";
+import ImageUpload from "../ImageUpload";
 
 function Me({ userData }) {
   const { logout, removeBookmark, removeDownload, isLoading } = useAuth();
+  const [showImageUpload, setShowImageUpload] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -28,12 +30,28 @@ function Me({ userData }) {
       <div className={styles.profile}>
         <div className={styles.profilePicContainer}>
           <h1>{userData?.name}</h1>
-          <img
-            src={userData.profileImage}
-            alt="Profile"
-            className={styles.profilePic}
-          />
-          <ImageUpload />
+          <div className={styles.profilePicWrapper}>
+            <div>
+              <img
+                src={userData.profileImage}
+                alt="Profile"
+                className={styles.profilePic}
+              />
+            </div>
+            <div className={styles.uploadButtonWrapper}>
+              <button
+                className={styles.uploadButton}
+                onClick={() =>
+                  setShowImageUpload((showImageUpload) => !showImageUpload)
+                }
+              >
+                <img src="/img/upload.png" alt="upload" />
+              </button>
+              {showImageUpload && (
+                <ImageUpload setShowImageUpload={setShowImageUpload} />
+              )}
+            </div>
+          </div>
         </div>
         <div className={styles.profileDetails}>
           <p> {userData?.email}</p>
