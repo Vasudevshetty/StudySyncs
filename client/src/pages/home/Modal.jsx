@@ -89,8 +89,14 @@ function Modal({ isModalOpen, toggleModal }) {
             />
             {errorMessage && <p className="error-message">{errorMessage}</p>}
             <div className="signup-container">
-              <p> New here ! Welcome to studysyncs</p>
-              <Link to={"/auth"}>Sign up</Link>
+              <div>
+                <p> New here ! Welcome to studysyncs</p>
+                <Link to={"/auth"}>Sign up</Link>
+              </div>
+              <div>
+                <p> Forgot password! need a reset</p>
+                <Link to={"/resetPassword"}>Reset password</Link>
+              </div>
             </div>
             <div className="button-container">
               <button

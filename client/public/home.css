@@ -798,8 +798,16 @@ img {
   display: flex;
   font-size: 1.2rem;
   align-items: center;
+  flex-direction: column;
   padding: 0rem 1rem;
   gap: 1rem;
+}
+
+.signup-container div {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
 }
 
 .signup-container a {
@@ -857,7 +865,7 @@ img {
   padding: 1rem;
 }
 
-.image-upload p{
+.image-upload p {
   font-size: 1.5rem;
   font-weight: 600;
 }
